@@ -1,0 +1,3 @@
+include AUTHORS LICENSE README.rst
+recursive-include tests *
+recursive-exclude * *.pyc *.swp
