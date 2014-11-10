@@ -11,11 +11,11 @@ branches:
 # command to install requirements
 install:
   - python setup.py -q install
-  - pip install nosetests
+  - pip install nose coverage coveralls
 
 # command to run tests, e.g. python setup.py test
 script:
-  - nosetests
+  - nosetests --with-coverage --cover-package=netdiff
 
 after_success:
   coveralls
