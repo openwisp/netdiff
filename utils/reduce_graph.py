@@ -5,15 +5,18 @@ import networkx as nx
 import sys
 import random
 import copy
+import matplotlib.pyplot as plt
 
 
-if len(sys.argv) != 3:
-    print "Usage: ./reduce_graph.py numNodes topoFile"
+
+if len(sys.argv) != 4:
+    print "Usage: ./reduce_graph.py num_nodes (int) topo_file (json) show_topo (0/1)"
     sys.exit(1)
 
 topo_file = sys.argv[2]
 new_size = int(sys.argv[1])
- 
+show_topo = int(sys.argv[3])
+
 def parse_olsr_topo(topo_file):
     graph = nx.MultiGraph()
     js = open(topo_file)
@@ -56,4 +59,8 @@ for link in data["topology"]:
     if (link["lastHopIP"], link["destinationIP"]) not in new_graph.edges():
         newjson["topology"].remove(link)
 
+if show_topo:
+    nx.draw(new_graph)
+    plt.show()
 print json.dumps(newjson, indent=1)
+
