@@ -12,6 +12,20 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 
+def get_install_requires():
+    """
+    parse requirements.txt, ignore links, exclude comments
+    """
+    requirements = []
+    for line in open('requirements.txt').readlines():
+        # skip to next iteration if comment or empty line
+        if line.startswith('#') or line == '' or line.startswith('http') or line.startswith('git'):
+            continue
+        # add line to requirements
+        requirements.append(line)
+    return requirements
+
+
 setup(
     name='netdiff',
     version=get_version(),
@@ -22,9 +36,6 @@ setup(
     license='MIT',
     url='https://github.com/ninuxorg/netdiff',
     packages=find_packages(exclude=['tests', 'tests.*', 'docs', 'docs.*']),
-    install_requires=[
-        'networkx',
-    ],
     zip_safe=False,
     classifiers=[
         'Development Status :: 1 - Planning',
@@ -35,5 +46,6 @@ setup(
         'Programming Language :: Python',
         'Topic :: System :: Networking',
     ],
+    install_requires=get_install_requires(),
     test_suite='nose.collector'
 )
