@@ -19,3 +19,10 @@ script:
 
 after_success:
   coveralls
+
+notifications:
+  email:
+    recipients:
+      - ninux-dev@ml.ninux.org
+    on_success: [always]
+    on_failure: [always]
