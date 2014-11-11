@@ -2,7 +2,7 @@ import json
 import networkx
 
 
-class Olsr1Parser:
+class Olsr1Parser(object):
     def __init__(self, old, new):
         self.old_graph = networkx.MultiGraph()
         self.new_graph = networkx.MultiGraph()
