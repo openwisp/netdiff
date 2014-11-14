@@ -32,6 +32,29 @@ Install via pip::
 
     pip install -e git+git://github.com/ninuxorg/netdiff#egg=netdiff
 
+Usage
+-----
+
+Calculate diff of an OLSR1 Topology::
+
+    from netdiff.olsr1 import Olsr1Parser
+
+    parser = Olsr1Parser(old=topology1, new=topology1)
+    result = parser.diff()
+
+``result`` will be a dictionary with the following structure::
+
+    {
+        "added": []
+        "removed": []
+    }
+
+Use the ``diff_json`` method if you need a JSON output::
+
+    from netdiff.olsr1 import Olsr1Parser
+
+    json_output = Olsr1Parser(old=topology1, new=topology1).diff_json()
+
 Running tests
 -------------
 
