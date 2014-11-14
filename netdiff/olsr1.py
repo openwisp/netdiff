@@ -23,21 +23,6 @@ class Olsr1Parser(object):
                            weight=link["tcEdgeCost"])
         return graph
 
-    def reduce_graph(self, new_size, data = None):
-        if data == None:
-            data = self.new_data
-        g = networkx.MultiGraph()
-        graph = self.parse(g, data)
-        size_diff = len(g) - new_size
-        if size_diff <= 0:
-            print "Your reduced graph is larger than the original"
-            sys.exit(1)
-        for i in range(1000):
-            #Let's do 1000 attempts to find a random subgraph of
-            #the chosen size, else we give up
-            test_graph = graph.copy()
-            new_graph = random.sample(graph.nodes(), size_diff)
-
     def diff(self):
         def difference(old, new):
             diff = old.copy()
