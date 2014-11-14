@@ -3,7 +3,6 @@ import networkx
 import random
 
 
-
 class Olsr1Parser(object):
     def __init__(self, old, new):
         self.old_graph = networkx.MultiGraph()
@@ -14,7 +13,7 @@ class Olsr1Parser(object):
         if new:
             self.parse(graph=self.new_graph, data=new)
             self.new_data = new
-    
+
     def parse(self, graph, data):
         if type(data) is not dict:
             data = json.loads(data)
@@ -34,20 +33,21 @@ class Olsr1Parser(object):
             print "Your reduced graph is larger than the original"
             sys.exit(1)
         for i in range(1000):
-            #Let's do 1000 attempts to find a random subgraph of 
+            #Let's do 1000 attempts to find a random subgraph of
             #the chosen size, else we give up
             test_graph = graph.copy()
             new_graph = random.sample(graph.nodes(), size_diff)
 
-
-
-
-
-
-
-
     def diff(self):
+        def difference(old, new):
+            diff = old.copy()
+            diff.remove_edges_from(n for n in old.edges() if n in new.edges())
+            return diff
+
+
         return {
-            "added": networkx.difference(self.new_graph, self.old_graph),
-            "removed": networkx.difference(self.old_graph, self.new_graph)
+            "added": difference(old = self.new_graph,
+                                new = self.old_graph),
+            "removed": difference(old = self.old_graph,
+                                new = self.new_graph)
         }
