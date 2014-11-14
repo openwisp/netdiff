@@ -1,0 +1,28 @@
+{
+    "topology": [
+        {
+            "destinationIP": "10.150.0.2",
+            "lastHopIP": "10.150.0.3",
+            "linkQuality": 0.195,
+            "neighborLinkQuality": 0.184,
+            "tcEdgeCost": 28334,
+            "validityTime": 284572
+        },
+        {
+            "destinationIP": "10.150.0.3",
+            "lastHopIP": "10.150.0.4",
+            "linkQuality": 1.0,
+            "neighborLinkQuality": 1.0,
+            "tcEdgeCost": 1024,
+            "validityTime": 284572
+        },
+        {
+            "destinationIP": "10.150.0.4",
+            "lastHopIP": "10.150.0.5",
+            "linkQuality": 1.0,
+            "neighborLinkQuality": 1.0,
+            "tcEdgeCost": 1024,
+            "validityTime": 284572
+        }
+    ]
+}
