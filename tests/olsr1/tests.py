@@ -1,5 +1,6 @@
 import os
 import unittest
+import json
 from netdiff.olsr1 import Olsr1Parser
 
 
@@ -12,7 +13,7 @@ topology1 = open('{0}/topology1.json'.format(CURRENT_DIR)).read()
 
 class TestOlsr1Parser(unittest.TestCase):
 
-    def test_nochanges(self):
+    def test_no_changes(self):
         parser = Olsr1Parser(old=topology1, new=topology1)
         result = parser.diff()
         self.assertTrue(type(result) is dict)
@@ -21,3 +22,11 @@ class TestOlsr1Parser(unittest.TestCase):
         # ensure there are no differences
         self.assertEqual(len(result['added']), 0)
         self.assertEqual(len(result['removed']), 0)
+
+    def test_diff_json(self):
+        parser = Olsr1Parser(old=topology1, new=topology1)
+        result = parser.diff_json(sort_keys=True, indent=4)
+        # ensure str
+        self.assertTrue(type(result) is str)
+        # ensure is json decodable
+        self.assertTrue(type(json.loads(result)) is dict)

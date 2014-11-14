@@ -17,12 +17,18 @@ class Olsr1Parser(object):
 
     def diff(self):
         """
-        Returns dictionary representing a netdiff
+        Returns netdiff in a python dictionary
         """
         return {
             "added": self._make_diff(self.new_graph, self.old_graph),
             "removed": self._make_diff(self.old_graph, self.new_graph)
         }
+
+    def diff_json(self, **kwargs):
+        """
+        Returns netdiff in a JSON string
+        """
+        return json.dumps(self.diff(), **kwargs)
 
     # --- private methods --- #
 
