@@ -1,7 +1,5 @@
 import os
 import unittest
-import random
-import networkx as nx
 from netdiff.olsr1 import Olsr1Parser
 
 
@@ -18,5 +16,8 @@ class TestOlsr1Parser(unittest.TestCase):
         parser = Olsr1Parser(old=topology1, new=topology1)
         result = parser.diff()
         self.assertTrue(type(result) is dict)
-        # TODO:
-        # ensure added and removed have 0 changes
+        self.assertTrue(type(result['added']) is list)
+        self.assertTrue(type(result['removed']) is list)
+        # ensure there are no differences
+        self.assertEqual(len(result['added']), 0)
+        self.assertEqual(len(result['removed']), 0)
