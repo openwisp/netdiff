@@ -49,7 +49,7 @@ def reduce_graph(new_size, graph):
     return None
 
 
-graph, data  = parse_olsr_topo(topo_file)
+graph, data = parse_olsr_topo(topo_file)
 new_graph = reduce_graph(new_size, graph)
 
 if new_graph == None:
@@ -69,4 +69,5 @@ if show_topo:
     nx.draw(new_graph)
     plt.show()
 
-print json.dumps(newjson, indent=1)
+with open("output.json", "w") as f:
+    f.write(json.dumps(newjson, indent=1))
