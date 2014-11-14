@@ -1,38 +1,64 @@
 import json
 import networkx
-import random
 
 
 class Olsr1Parser(object):
-    def __init__(self, old, new):
-        self.old_graph = networkx.MultiGraph()
-        self.new_graph = networkx.MultiGraph()
-        if old:
-            self.parse(graph=self.old_graph, data=old)
-            self.old_data = old
-        if new:
-            self.parse(graph=self.new_graph, data=new)
-            self.new_data = new
+    """ OLSR v1 Topology Parser """
 
-    def parse(self, graph, data):
-        if type(data) is not dict:
-            data = json.loads(data)
-        for link in data["topology"]:
+    def __init__(self, old, new):
+        """
+        Initializes a new Olsr1Parser
+
+        :param str old: a JSON or dict representing the old OLSR1 topology
+        :param str new: a JSON or dict representing the new OLSR1 topology
+        """
+        self.old_graph = self._parse(old)
+        self.new_graph = self._parse(new)
+
+    def diff(self):
+        """
+        Returns dictionary representing a netdiff
+        """
+        return {
+            "added": self._make_diff(self.new_graph, self.old_graph),
+            "removed": self._make_diff(self.old_graph, self.new_graph)
+        }
+
+    # --- private methods --- #
+
+    def _parse(self, topology):
+        """
+        Converts a topology in a NetworkX MultiGraph object.
+
+        :param str topology: The OLSR1 topology to be converted (JSON or dict)
+        :return: the NetworkX MultiGraph object
+        """
+        # if data is not a python dict it must be a json string
+        if type(topology) is not dict:
+            topology = json.loads(topology)
+        # initialize graph
+        graph = networkx.MultiGraph()
+        # loop over topology section and create networkx graph
+        for link in topology["topology"]:
             graph.add_edge(link["lastHopIP"],
                            link["destinationIP"],
                            weight=link["tcEdgeCost"])
         return graph
 
-    def diff(self):
-        def difference(old, new):
-            diff = old.copy()
-            diff.remove_edges_from(n for n in old.edges() if n in new.edges())
-            return diff
-
-
-        return {
-            "added": difference(old = self.new_graph,
-                                new = self.old_graph),
-            "removed": difference(old = self.old_graph,
-                                new = self.new_graph)
-        }
+    def _make_diff(self, old, new):
+        """
+        calculates differences between topologies 'old' and 'new'
+        returns a list of links
+        """
+        # make a copy of old topology to avoid tampering with it
+        diff = old.copy()
+        not_different = []
+        # loop over all links
+        for edge in old.edges():
+            # if link is also in new topology add it to the list
+            if edge in new.edges():
+                not_different.append(edge)
+        # keep only differences
+        diff.remove_edges_from(not_different)
+        # return list of links
+        return diff.edges()
