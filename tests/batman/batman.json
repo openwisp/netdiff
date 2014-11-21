@@ -1,0 +1,89 @@
+{
+  "source_version" : "2014.3.0",
+  "algorithm" : 4,
+  "vis" : [
+    { "primary" : "a0:f3:c1:96:94:06",
+      "neighbors" : [
+         { "router" : "a0:f3:c1:96:94:06",
+           "neighbor" : "90:f6:52:f2:8c:2d",
+           "metric" : "1.000" }
+      ],
+      "clients" : [
+        "86:a6:e8:ff:fd:6c",
+        "64:76:ba:7e:06:44",
+        "68:72:51:05:79:10",
+        "86:a6:e8:ff:fd:6c",
+        "a0:f3:c1:96:94:05"
+      ]
+    },
+    { "primary" : "a0:f3:c1:ac:6c:44",
+      "neighbors" : [
+         { "router" : "a0:f3:c1:ac:6c:44",
+           "neighbor" : "10:fe:ed:37:3a:39",
+           "metric" : "1.000" }
+      ],
+      "clients" : [
+        "a0:f3:c1:ac:6c:4c",
+        "dc:9f:db:f1:d7:a9",
+        "46:1f:b2:8b:c2:a1",
+        "46:1f:b2:8b:c2:a1"
+      ]
+    },
+    { "primary" : "90:f6:52:f2:8c:2c",
+      "secondary" : [ "90:f6:52:f2:8c:2b","90:f6:52:f2:8c:2d"
+       ],
+      "neighbors" : [
+         { "router" : "90:f6:52:f2:8c:2c",
+           "neighbor" : "00:05:1c:06:35:8e",
+           "metric" : "1.000" },
+         { "router" : "90:f6:52:f2:8c:2b",
+           "neighbor" : "10:fe:ed:37:3a:39",
+           "metric" : "1.000" },
+         { "router" : "90:f6:52:f2:8c:2d",
+           "neighbor" : "a0:f3:c1:96:94:06",
+           "metric" : "1.000" }
+      ],
+      "clients" : [
+        "ee:74:50:85:fd:67",
+        "dc:9f:db:f1:d8:aa",
+        "68:72:51:05:7c:86",
+        "90:f6:52:f2:8c:2a",
+        "ee:74:50:85:fd:67",
+        "24:a4:3c:6d:fd:81"
+      ]
+    },
+    { "primary" : "00:05:1c:06:35:8e",
+      "neighbors" : [
+         { "router" : "00:05:1c:06:35:8e",
+           "neighbor" : "90:f6:52:f2:8c:2c",
+           "metric" : "1.000" }
+      ],
+      "clients" : [
+        "00:ff:aa:00:00:01",
+        "00:18:7d:0b:b3:31",
+        "52:fe:31:1d:aa:4e",
+        "24:a4:3c:47:53:9a",
+        "dc:9f:db:0b:af:b9",
+        "52:fe:31:1d:aa:4e",
+        "dc:9f:db:f1:d8:a7"
+      ]
+    },
+    { "primary" : "10:fe:ed:37:3a:39",
+      "neighbors" : [
+         { "router" : "10:fe:ed:37:3a:39",
+           "neighbor" : "90:f6:52:f2:8c:2b",
+           "metric" : "1.000" },
+         { "router" : "10:fe:ed:37:3a:39",
+           "neighbor" : "a0:f3:c1:ac:6c:44",
+           "metric" : "1.016" }
+      ],
+      "clients" : [
+        "10:fe:ed:37:3a:38",
+        "24:a4:3c:6d:fd:ce",
+        "a6:86:18:b1:00:7b",
+        "a6:86:18:b1:00:7b"
+      ]
+    }
+  ]
+}
+
