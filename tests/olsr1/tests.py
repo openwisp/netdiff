@@ -33,7 +33,7 @@ class TestOlsr1Parser(unittest.TestCase):
         # ensure is json decodable
         self.assertTrue(type(json.loads(result)) is dict)
 
-    def test_added_1_node(self):
+    def test_added_1_link(self):
         parser = Olsr1Parser(old=links2, new=links3)
         result = parser.diff()
         # ensure there are no differences
@@ -42,7 +42,7 @@ class TestOlsr1Parser(unittest.TestCase):
         # ensure 1 link added
         self.assertEqual(result['added'][0], ('10.150.0.5', '10.150.0.4'))
 
-    def test_removed_1_node(self):
+    def test_removed_1_link(self):
         parser = Olsr1Parser(old=links3, new=links2)
         result = parser.diff()
         self.assertTrue(type(result) is dict)
