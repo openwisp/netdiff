@@ -1,5 +1,4 @@
 import json
-import networkx
 
 
 class Parser(object):
@@ -32,6 +31,9 @@ class Parser(object):
 
     # --- private methods --- #
 
+    def _parse(self):
+        raise NotImplementedError()
+
     def _make_diff(self, old, new):
         """
         calculates differences between topologies 'old' and 'new'
@@ -44,7 +46,8 @@ class Parser(object):
         for oedge in old.edges():
             # if link is also in new topology add it to the list
             for nedge in new.edges():
-                if ((oedge[0] == nedge[0]) and (oedge[1] == nedge[1])) or ((oedge[1] == nedge[0]) and (oedge[0] == nedge[1])):
+                if (oedge[0] == nedge[0] and oedge[1] == nedge[1]) or (
+                    oedge[1] == nedge[0] and oedge[0] == nedge[1]):
                     not_different.append(oedge)
         # keep only differences
         diff.remove_edges_from(not_different)

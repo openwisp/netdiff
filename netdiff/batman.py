@@ -1,5 +1,6 @@
 import json
 import networkx
+
 from netdiff.nxparser import Parser
 
 
@@ -38,10 +39,10 @@ class BatmanParser(Parser):
         agn = self._get_ag_node_list(data['vis'])
         # loop over topology section and create networkx graph
         for node in data["vis"]:
-                for neigh in node["neighbors"]:
-                    p_neigh = self._get_primary(neigh['neighbor'], agn)
-                    if not graph.has_edge(node['primary'], p_neigh):
-                        graph.add_edge(node['primary'],
-                                       p_neigh,
-                                       weight=neigh['metric'])
+            for neigh in node["neighbors"]:
+                p_neigh = self._get_primary(neigh['neighbor'], agn)
+                if not graph.has_edge(node['primary'], p_neigh):
+                    graph.add_edge(node['primary'],
+                                   p_neigh,
+                                   weight=neigh['metric'])
         return graph
