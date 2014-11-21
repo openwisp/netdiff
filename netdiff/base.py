@@ -45,17 +45,17 @@ class BaseParser(object):
         diff = old.copy()
         not_different = []
         # loop over all links
-        for oedge in old.edges():
+        for old_edge in old.edges():
             # if link is also in new topology add it to the list
-            for nedge in new.edges():
-                if (oedge[0] in nedge and oedge[1] in nedge):
+            for new_edge in new.edges():
+                if (old_edge[0] in new_edge and old_edge[1] in new_edge):
                     if(not cost):
-                        not_different.append(oedge)
+                        not_different.append(old_edge)
                     else:
-                        # we check if the old link metric is inside of the
-                        # tolerance window
-                        if(nedge[3]/cost <= oedge[3] <= nedge[3]*cost):
-                            not_different.append(oedge)
+                        # check if the old link metric is inside of the
+                        # tolerance windows
+                        if(new_edge[3]/cost <= old_edge[3] <= new_edge[3]*cost):
+                            not_different.append(old_edge)
         # keep only differences
         diff.remove_edges_from(not_different)
         # return list of links
