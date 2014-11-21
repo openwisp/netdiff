@@ -1,7 +1,8 @@
 import os
-import unittest
 import json
+
 from netdiff.olsr1 import Olsr1Parser
+from netdiff.tests import TestCase
 
 
 __all__ = ['TestOlsr1Parser']
@@ -13,7 +14,7 @@ links3 = open('{0}/3links.json'.format(CURRENT_DIR)).read()
 links5 = open('{0}/5links.json'.format(CURRENT_DIR)).read()
 
 
-class TestOlsr1Parser(unittest.TestCase):
+class TestOlsr1Parser(TestCase):
 
     def test_no_changes(self):
         parser = Olsr1Parser(old=links2, new=links2)
@@ -40,7 +41,8 @@ class TestOlsr1Parser(unittest.TestCase):
         self.assertEqual(len(result['added']), 1)
         self.assertEqual(len(result['removed']), 0)
         # ensure 1 link added
-        self.assertEqual(result['added'][0], ('10.150.0.5', '10.150.0.4'))
+        self.assertIn('10.150.0.5', result['added'][0])
+        self.assertIn('10.150.0.4', result['added'][0])
 
     def test_removed_1_link(self):
         parser = Olsr1Parser(old=links3, new=links2)
@@ -52,7 +54,8 @@ class TestOlsr1Parser(unittest.TestCase):
         self.assertEqual(len(result['added']), 0)
         self.assertEqual(len(result['removed']), 1)
         # ensure 1 link removed
-        self.assertEqual(result['removed'][0], ('10.150.0.5', '10.150.0.4'))
+        self.assertIn('10.150.0.5', result['removed'][0])
+        self.assertIn('10.150.0.4', result['removed'][0])
 
     def test_simple_diff(self):
         parser = Olsr1Parser(old=links3, new=links5)
@@ -60,12 +63,17 @@ class TestOlsr1Parser(unittest.TestCase):
         # ensure there are no differences
         self.assertEqual(len(result['added']), 3)
         self.assertEqual(len(result['removed']), 1)
+
         # ensure 3 links added
-        self.assertEqual(result['added'], [
-            ('10.150.0.3', '10.150.0.7'),
-            ('10.150.0.3', '10.150.0.6'),
-            ('10.150.0.7', '10.150.0.6'),
-        ])
-        self.assertEqual(result['removed'], [
-            ('10.150.0.5', '10.150.0.4'),
-        ])
+        self._test_expected_links(
+            links=result['added'],
+            expected_links = [
+                ('10.150.0.3', '10.150.0.7'),
+                ('10.150.0.3', '10.150.0.6'),
+                ('10.150.0.7', '10.150.0.6'),
+            ]
+        )
+        self._test_expected_links(
+            links=result['removed'],
+            expected_links = [('10.150.0.5', '10.150.0.4')]
+        )

@@ -1,7 +1,8 @@
 import os
-import unittest
 import json
+
 from netdiff.batman import BatmanParser
+from netdiff.tests import TestCase
 
 
 __all__ = ['TestBatmanParser']
@@ -12,7 +13,7 @@ iulinet = open('{0}/batman.json'.format(CURRENT_DIR)).read()
 iulinet2 = open('{0}/batman-1+1.json'.format(CURRENT_DIR)).read()
 
 
-class TestBatmanParser(unittest.TestCase):
+class TestBatmanParser(TestCase):
 
     def test_added_removed_1_node(self):
         parser = BatmanParser(old=iulinet, new=iulinet2)
@@ -23,8 +24,19 @@ class TestBatmanParser(unittest.TestCase):
         # ensure there are no differences
         self.assertEqual(len(result['added']), 1)
         self.assertEqual(len(result['removed']), 1)
-        self.assertEqual(result['added'][0], ('a0:f3:c1:96:94:10', '90:f6:52:f2:8c:2c'))
-        self.assertEqual(result['removed'][0], ('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c'))
+
+        self._test_expected_links(
+            links=result['added'],
+            expected_links = [
+                ('a0:f3:c1:96:94:10', '90:f6:52:f2:8c:2c')
+            ]
+        )
+        self._test_expected_links(
+            links=result['removed'],
+            expected_links = [
+                ('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c')
+            ]
+        )
 
     def test_no_changes(self):
         parser = BatmanParser(old=iulinet, new=iulinet)
