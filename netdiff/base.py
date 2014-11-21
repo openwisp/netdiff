@@ -19,8 +19,8 @@ class BaseParser(object):
         Returns netdiff in a python dictionary
         """
         return {
-            "added": self._make_diff(self.new_graph, self.old_graph),
-            "removed": self._make_diff(self.old_graph, self.new_graph)
+            "added": self._make_diff(self.new_graph, self.old_graph, False),
+            "removed": self._make_diff(self.old_graph, self.new_graph, False)
         }
 
     def diff_json(self, **kwargs):
@@ -34,9 +34,11 @@ class BaseParser(object):
     def _parse(self):
         raise NotImplementedError()
 
-    def _make_diff(self, old, new):
+    def _make_diff(self, old, new, cost):
         """
         calculates differences between topologies 'old' and 'new'
+        if cost is False: No Metric is used to make the diff.
+        otherwise, we use cost as a tolerance factor.
         returns a list of links
         """
         # make a copy of old topology to avoid tampering with it
@@ -46,9 +48,14 @@ class BaseParser(object):
         for oedge in old.edges():
             # if link is also in new topology add it to the list
             for nedge in new.edges():
-                if (oedge[0] == nedge[0] and oedge[1] == nedge[1]) or (
-                    oedge[1] == nedge[0] and oedge[0] == nedge[1]):
-                    not_different.append(oedge)
+                if (oedge[0] in nedge and oedge[1] in nedge):
+                    if(not cost):
+                        not_different.append(oedge)
+                    else:
+                        # we check if the old link metric is inside of the
+                        # tolerance window
+                        if(nedge[3]/cost <= oedge[3] <= nedge[3]*cost):
+                            not_different.append(oedge)
         # keep only differences
         diff.remove_edges_from(not_different)
         # return list of links

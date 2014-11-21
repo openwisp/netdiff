@@ -7,6 +7,8 @@ from netdiff.base import BaseParser
 class BatmanParser(BaseParser):
     """ Batman Topology Parser """
     def _get_primary(self, mac, collection):
+        # Use the ag_node structure to return the main mac address associated to
+        # a secondary mac, if none return itself.
         for node in collection:
             for interface in node:
                 if mac == interface:
@@ -14,6 +16,7 @@ class BatmanParser(BaseParser):
         return 0
 
     def _get_ag_node_list(self, data):
+        # Create a structure of main and secondary mac address.
         agn = []
         for node in data:
             agi = []
@@ -28,7 +31,7 @@ class BatmanParser(BaseParser):
         """
         Converts a topology in a NetworkX MultiGraph object.
 
-        :param str topology: The OLSR1 topology to be converted (JSON or dict)
+        :param str topology: The Batman topology to be converted (JSON or dict)
         :return: the NetworkX MultiGraph object
         """
         # if data is not a python dict it must be a json string
