@@ -1,7 +1,7 @@
 import json
 
 
-class Parser(object):
+class BaseParser(object):
     """ Generic Topology Parser """
 
     def __init__(self, old, new):

@@ -1,9 +1,10 @@
 import json
 import networkx
-from netdiff.nxparser import Parser
+
+from netdiff.base import BaseParser
 
 
-class Olsr1Parser(Parser):
+class Olsr1Parser(BaseParser):
     """ OLSR v1 Topology Parser """
     def _parse(self, topology):
         """

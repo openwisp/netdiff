@@ -1,10 +1,10 @@
 import json
 import networkx
 
-from netdiff.nxparser import Parser
+from netdiff.base import BaseParser
 
 
-class BatmanParser(Parser):
+class BatmanParser(BaseParser):
     """ Batman Topology Parser """
     def _get_primary(self, mac, collection):
         for node in collection:
