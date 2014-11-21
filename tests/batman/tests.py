@@ -27,13 +27,13 @@ class TestBatmanParser(TestCase):
 
         self._test_expected_links(
             links=result['added'],
-            expected_links = [
+            expected_links=[
                 ('a0:f3:c1:96:94:10', '90:f6:52:f2:8c:2c')
             ]
         )
         self._test_expected_links(
             links=result['removed'],
-            expected_links = [
+            expected_links=[
                 ('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c')
             ]
         )

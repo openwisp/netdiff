@@ -12,6 +12,7 @@ CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/2links.json'.format(CURRENT_DIR)).read()
 links3 = open('{0}/3links.json'.format(CURRENT_DIR)).read()
 links5 = open('{0}/5links.json'.format(CURRENT_DIR)).read()
+links3metric = open('{0}/3links_metric.json'.format(CURRENT_DIR)).read()
 
 
 class TestOlsr1Parser(TestCase):
@@ -67,7 +68,7 @@ class TestOlsr1Parser(TestCase):
         # ensure 3 links added
         self._test_expected_links(
             links=result['added'],
-            expected_links = [
+            expected_links=[
                 ('10.150.0.3', '10.150.0.7'),
                 ('10.150.0.3', '10.150.0.6'),
                 ('10.150.0.7', '10.150.0.6'),
@@ -75,5 +76,20 @@ class TestOlsr1Parser(TestCase):
         )
         self._test_expected_links(
             links=result['removed'],
-            expected_links = [('10.150.0.5', '10.150.0.4')]
+            expected_links=[('10.150.0.5', '10.150.0.4')]
         )
+
+    def test_diff_metric(self):
+        parser = Olsr1Parser(old=links3, new=links3metric)
+        result = parser.diff(cost=1)
+        # The metric has changed so we have -1 and +1
+        self.assertEqual(len(result['added']), 1)
+        self.assertEqual(len(result['removed']), 1)
+
+    def test_diff_metric_threshold(self):
+        parser = Olsr1Parser(old=links3, new=links3metric)
+        result = parser.diff(cost=2)
+        # The metric has changed but is inside of the threshold (2)
+        # no changes
+        self.assertEqual(len(result['added']), 0)
+        self.assertEqual(len(result['removed']), 0)
