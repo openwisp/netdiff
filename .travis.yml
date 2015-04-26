@@ -11,7 +11,7 @@ branches:
 # command to install requirements
 install:
   - python setup.py -q install
-  - pip install nose coverage coveralls
+  - pip install -r requirements-test.txt
 
 # command to run tests, e.g. python setup.py test
 script:

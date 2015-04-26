@@ -58,14 +58,14 @@ Use the ``diff_json`` method if you need a JSON output::
 Running tests
 -------------
 
-Install nose::
-
-    pip install nose
-
-Clone repo::
+Clone / fork repo::
 
     git clone git://github.com/ninuxorg/netdiff
     cd diff/
+
+Install test requirements::
+
+    pip install -r requirements-test.txt
 
 Run tests with::
 
