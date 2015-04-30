@@ -35,25 +35,21 @@ Install via pip::
 Usage
 -----
 
-Calculate diff of an OLSR1 Topology::
+Calculate diff of an OLSR 0.6.x topology::
 
-    from netdiff.olsr1 import Olsr1Parser
+    from netdiff import OlsrParser
+    from netdiff import diff
 
-    parser = Olsr1Parser(old=topology1, new=topology1)
-    result = parser.diff()
+    stored = OlsrParser('./stored-olsr.json')
+    latest = OlsrParser('http://127.0.0.1:2006')
+    diff(stored, latest)
 
-``result`` will be a dictionary with the following structure::
+The output will be a dictionary with the following structure::
 
     {
         "added": []
         "removed": []
     }
-
-Use the ``diff_json`` method if you need a JSON output::
-
-    from netdiff.olsr1 import Olsr1Parser
-
-    json_output = Olsr1Parser(old=topology1, new=topology1).diff_json()
 
 Running tests
 -------------

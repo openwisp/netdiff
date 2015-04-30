@@ -1,11 +1,15 @@
-import json
 import networkx
 
-from netdiff.base import BaseParser
+from .base import BaseParser
+from ..exceptions import NetParserException
 
 
 class BatmanParser(BaseParser):
-    """ Batman Topology Parser """
+    """ batman-adv parser """
+    protocol = 'batman-adv'
+    version = '2015.0'
+    metric = 'TQ'
+
     def _get_primary(self, mac, collection):
         # Use the ag_node structure to return the main mac address associated to
         # a secondary mac, if none return itself.
@@ -27,18 +31,16 @@ class BatmanParser(BaseParser):
             ag_nodes.append(ag_interfaces)
         return ag_nodes
 
-    def _parse(self, data):
+    def parse(self, data):
         """
         Converts a topology in a NetworkX Graph object.
-
-        :param str topology: The Batman topology to be converted (JSON or dict)
-        :return: the NetworkX Graph object
         """
-        # if data is not a python dict it must be a json string
-        if type(data) is not dict:
-            data = json.loads(data)
         # initialize graph and list of aggregated nodes
         graph = networkx.Graph()
+        if 'source_version' in data:
+            self.version = data['source_version']
+        if 'vis' not in data:
+            raise NetParserException('Parse error, "vis" key not found')
         ag_nodes = self._get_ag_node_list(data['vis'])
         # loop over topology section and create networkx graph
         for node in data["vis"]:
@@ -48,4 +50,4 @@ class BatmanParser(BaseParser):
                     graph.add_edge(node['primary'],
                                    p_neigh,
                                    weight=neigh['metric'])
-        return graph
+        self.graph = graph

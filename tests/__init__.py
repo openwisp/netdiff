@@ -1,2 +1,3 @@
-from .olsr1 import TestOlsr1Parser
-from .batman import TestBatmanParser
+from .base import TestBaseParser  # noqa
+from .olsr import TestOlsrParser  # noqa
+from .batman import TestBatmanParser  # noqa
