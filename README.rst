@@ -28,14 +28,18 @@ Python library that calculates a diff of a network topology.
 Install
 -------
 
-Install via pip::
+Install via pip:
+
+.. code-block:: shell
 
     pip install -e git+git://github.com/ninuxorg/netdiff#egg=netdiff
 
 Usage
 -----
 
-Calculate diff of an OLSR 0.6.x topology::
+Calculate diff of an OLSR 0.6.x topology:
+
+.. code-block:: python
 
     from netdiff import OlsrParser
     from netdiff import diff
@@ -44,7 +48,9 @@ Calculate diff of an OLSR 0.6.x topology::
     latest = OlsrParser('http://127.0.0.1:2006')
     diff(stored, latest)
 
-The output will be a dictionary with the following structure::
+The output will be a dictionary with the following structure:
+
+.. code-block:: python
 
     {
         "added": []
@@ -54,20 +60,28 @@ The output will be a dictionary with the following structure::
 Running tests
 -------------
 
-Clone / fork repo::
+Clone / fork repo:
+
+.. code-block:: shell
 
     git clone git://github.com/ninuxorg/netdiff
     cd diff/
 
-Install test requirements::
+Install test requirements:
+
+.. code-block:: shell
 
     pip install -r requirements-test.txt
 
-Run tests with::
+Run tests with:
+
+.. code-block:: shell
 
     nosetests
 
-See test coverage with::
+See test coverage with:
+
+.. code-block:: shell
 
     nosetests --with-coverage --cover-package=netdiff
 
