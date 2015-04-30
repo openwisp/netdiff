@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from netdiff import get_version
 from netdiff.parsers.base import BaseParser
 from netdiff.exceptions import NetParserException
 
@@ -10,6 +11,9 @@ __all__ = ['TestBaseParser']
 
 class TestBaseParser(unittest.TestCase):
     """ BaseParser tests """
+
+    def test_version(self):
+        get_version()
 
     def test_parse_file(self):
         dir = os.path.dirname(os.path.realpath(__file__))

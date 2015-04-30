@@ -77,13 +77,19 @@ Run tests with:
 
 .. code-block:: shell
 
+    ./runtests.py
+
+Alternatively, you can use the ``nose`` command (which has a ton of available options):
+
+.. code-block:: shell
+
     nosetests
 
 See test coverage with:
 
 .. code-block:: shell
 
-    nosetests --with-coverage --cover-package=netdiff
+    coverage run --source=netdiff runtests.py && coverage report
 
 Contribute
 ----------
