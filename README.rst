@@ -23,7 +23,11 @@ netdiff
 
 ------------
 
-Python library that calculates a diff of a network topology.
+Netdiff is an experimental Python library that provides utilities for parsing network topologies
+of open source dynamic routing protocols and calculating changes in these topologies.
+
+It was developed to abstract the differences between the different JSON structures of the
+open source dynamic routing protocols (like **OLSR** and **batman-advanced**).
 
 Install
 -------
@@ -34,8 +38,8 @@ Install via pip:
 
     pip install -e git+git://github.com/ninuxorg/netdiff#egg=netdiff
 
-Usage
------
+Basic Usage Example
+-------------------
 
 Calculate diff of an OLSR 0.6.x topology:
 
