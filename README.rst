@@ -61,6 +61,14 @@ The output will be a dictionary with the following structure:
         "removed": []
     }
 
+Parsers
+-------
+
+Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
+which is in charge of converting a python data structure into ``networkx.Graph`` object.
+
+Parsers have a ``json`` method which returns ``NetJSON``.
+
 Running tests
 -------------
 
