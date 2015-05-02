@@ -76,6 +76,60 @@ The output will be a dictionary with the following structure:
         "removed": []
     }
 
+NetJSON output
+--------------
+
+Netdiff parsers can return a valid `NetJSON <https://github.com/interop-dev/json-for-networks>`__
+``NetworkGraph`` object:
+
+.. code-block:: python
+
+    from netdiff import OlsrParser
+
+    olsr = OlsrParser('http://127.0.0.1:2006')
+
+    # will return a dict
+    olsr.json(dict=True)
+
+    # will return a JSON formatted string
+    print(olsr.json(indent=4))
+
+Output:
+
+.. code-block:: javascript
+
+    {
+        "type": "NetworkGraph",
+        "protocol": "OLSR",
+        "version": "0.6.6",
+        "revision": "5031a799fcbe17f61d57e387bc3806de",
+        "metric": "ETX",
+        "nodes": [
+            {
+                "id": "10.150.0.3"
+            },
+            {
+                "id": "10.150.0.2"
+            },
+            {
+                "id": "10.150.0.4"
+            }
+        ],
+        "links": [
+            {
+                "source": "10.150.0.3",
+                "target": "10.150.0.2",
+                "weight": 28334
+            },
+            {
+                "source": "10.150.0.3",
+                "target": "10.150.0.4",
+                "weight": 1024
+            }
+        ]
+    }
+
+
 Parsers
 -------
 
