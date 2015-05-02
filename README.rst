@@ -29,10 +29,25 @@ of open source dynamic routing protocols and calculating changes in these topolo
 It was developed to abstract the differences between the different JSON structures of the
 open source dynamic routing protocols (like **OLSR** and **batman-advanced**).
 
-Install
--------
+Install stable version from pypi
+--------------------------------
 
-Install via pip:
+Install from pypi:
+
+.. code-block:: shell
+
+    pip install netdiff
+
+Install development version
+---------------------------
+
+Install tarball:
+
+.. code-block:: shell
+
+    pip install https://github.com/ninuxorg/netdiff/tarball/master
+
+Alternatively you can install via pip using git:
 
 .. code-block:: shell
 
