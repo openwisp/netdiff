@@ -24,7 +24,7 @@ class OlsrParser(BaseParser):
                 dest = link["destinationIP"]
                 cost = link["tcEdgeCost"]
             except KeyError as e:
-                raise NetParserException('Parse error, "%s" key not found' % e.message)
+                raise NetParserException('Parse error, "%s" key not found' % e)
             # add link to Graph
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph

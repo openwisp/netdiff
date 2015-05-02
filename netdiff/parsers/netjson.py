@@ -34,6 +34,6 @@ class NetJsonParser(BaseParser):
                 dest = link["target"]
                 cost = link["weight"]
             except KeyError as e:
-                raise NetParserException('Parse error, "%s" key not found' % e.message)
+                raise NetParserException('Parse error, "%s" key not found' % e)
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph
