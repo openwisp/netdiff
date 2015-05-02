@@ -24,9 +24,12 @@ class TestOlsrParser(TestCase):
         self.assertIsInstance(p.graph, networkx.Graph)
 
     def test_init(self):
-        p = OlsrParser(links2, version='0.6.3', metric='ETC')
+        p = OlsrParser(links3, version='0.6.3', metric='ETC')
         self.assertEqual(p.version, '0.6.3')
         self.assertEqual(p.metric, 'ETC')
+        self.assertEqual(p.revision, None)
+        p = OlsrParser(links3, version='0.6.3', revision='a', metric='ETC')
+        self.assertEqual(p.revision, 'a')
 
     def test_parse_exception(self):
         with self.assertRaises(NetParserException):
@@ -42,7 +45,8 @@ class TestOlsrParser(TestCase):
         self.assertIsInstance(data, dict)
         self.assertEqual(data['type'], 'NetworkGraph')
         self.assertEqual(data['protocol'], 'OLSR')
-        self.assertEqual(data['version'], '0.6')
+        self.assertEqual(data['version'], '0.6.6')
+        self.assertEqual(data['revision'], '5031a799fcbe17f61d57e387bc3806de')
         self.assertEqual(data['metric'], 'ETX')
         self.assertIsInstance(data['nodes'], list)
         self.assertIsInstance(data['links'], list)
@@ -56,9 +60,11 @@ class TestOlsrParser(TestCase):
         self.assertIn('NetworkGraph', data)
         self.assertIn('protocol', data)
         self.assertIn('version', data)
+        self.assertIn('revision', data)
         self.assertIn('metric', data)
         self.assertIn('OLSR', data)
-        self.assertIn('0.6', data)
+        self.assertIn('0.6.6', data)
+        self.assertIn('5031a799fcbe17f61d57e387bc3806de', data)
         self.assertIn('ETX', data)
         self.assertIn('links', data)
         self.assertIn('nodes', data)

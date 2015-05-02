@@ -23,6 +23,7 @@ class NetJsonParser(BaseParser):
         # store metadata
         self.protocol = data['protocol']
         self.version = data['version']
+        self.revision = data.get('revision')  # optional
         self.metric = data['metric']
         # add nodes
         for node in data['nodes']:

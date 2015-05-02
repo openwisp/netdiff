@@ -15,16 +15,22 @@ class BaseParser(object):
     """
     protocol = None
     version = None
+    revision = None
     metric = None
 
-    def __init__(self, data, version=None, metric=None):
+    def __init__(self, data, version=None, revision=None, metric=None):
         """
         Initializes a new Parser
 
-        :param str data: JSON, dict, path to file or HTTP URL of topology
+        :param data: JSON, dict, path to file or HTTP URL of topology
+        :param version: routing protocol version
+        :param revision: routing protocol revision
+        :param metric: routing protocol metric
         """
         if version:
             self.version = version
+        if revision:
+            self.revision = revision
         if metric:
             self.metric = metric
         self.original_data = self._to_python(data)
@@ -94,6 +100,7 @@ class BaseParser(object):
             ('type', 'NetworkGraph'),
             ('protocol', self.protocol),
             ('version', self.version),
+            ('revision', self.revision),
             ('metric', self.metric),
             ('nodes', nodes),
             ('links', links)

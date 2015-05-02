@@ -28,3 +28,11 @@ class OlsrParser(BaseParser):
             # add link to Graph
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph
+        # determine version and revision
+        if 'config' in data:
+            version_info = data['config']['olsrdVersion'].replace(' ', '').split('-')
+            self.version = version_info[1]
+            # try to get only the git hash
+            if 'hash_' in version_info[-1]:
+                version_info[-1] = version_info[-1].split('hash_')[-1]
+            self.revision = version_info[-1]

@@ -1,7 +1,8 @@
 {
     "type": "NetworkGraph",
     "protocol": "OLSR",
-    "version": "0.6.3", 
+    "version": "0.6.6",
+    "revision": "5031a799fcbe17f61d57e387bc3806de",
     "metric": "ETX",
     "nodes": [
         {

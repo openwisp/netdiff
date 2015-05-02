@@ -11,16 +11,16 @@
         {
             "destinationIP": "10.150.0.3",
             "lastHopIP": "10.150.0.4",
-            "linkQuality": 1.0,
-            "neighborLinkQuality": 1.0,
+            "linkQuality": 1,
+            "neighborLinkQuality": 1,
             "tcEdgeCost": 1024,
             "validityTime": 284572
         },
         {
             "destinationIP": "10.150.0.4",
             "lastHopIP": "10.150.0.5",
-            "linkQuality": 1.0,
-            "neighborLinkQuality": 1.0,
+            "linkQuality": 1,
+            "neighborLinkQuality": 1,
             "tcEdgeCost": 1024,
             "validityTime": 284572
         }

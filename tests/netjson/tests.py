@@ -21,7 +21,8 @@ class TestNetJsonParser(TestCase):
     def test_parse(self):
         p = NetJsonParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
-        self.assertEqual(p.version, '0.6.3')
+        self.assertEqual(p.version, '0.6.6')
+        self.assertEqual(p.revision, '5031a799fcbe17f61d57e387bc3806de')
         self.assertEqual(p.metric, 'ETX')
 
     def test_parse_exception(self):
@@ -74,7 +75,8 @@ class TestNetJsonParser(TestCase):
         self.assertIsInstance(data, dict)
         self.assertEqual(data['type'], 'NetworkGraph')
         self.assertEqual(data['protocol'], 'OLSR')
-        self.assertEqual(data['version'], '0.6.3')
+        self.assertEqual(data['version'], '0.6.6')
+        self.assertEqual(data['revision'], '5031a799fcbe17f61d57e387bc3806de')
         self.assertEqual(data['metric'], 'ETX')
         self.assertIsInstance(data['nodes'], list)
         self.assertIsInstance(data['links'], list)
@@ -88,9 +90,11 @@ class TestNetJsonParser(TestCase):
         self.assertIn('NetworkGraph', data)
         self.assertIn('protocol', data)
         self.assertIn('version', data)
+        self.assertIn('revision', data)
         self.assertIn('metric', data)
         self.assertIn('OLSR', data)
-        self.assertIn('0.6.3', data)
+        self.assertIn('0.6.6', data)
+        self.assertIn('5031a799fcbe17f61d57e387bc3806de', data)
         self.assertIn('ETX', data)
         self.assertIn('links', data)
         self.assertIn('nodes', data)
