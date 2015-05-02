@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.1 [unreleased]
+Version 0.1 [02-05-2015]
 ------------------------
 
 - Added ``OlsrParser``
