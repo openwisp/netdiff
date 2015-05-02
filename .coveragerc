@@ -1,6 +1,5 @@
 [run]
 omit =
     /tests
-    /scripts
     /*/__init__.py
     /setup.py

@@ -23,57 +23,85 @@ netdiff
 
 ------------
 
-Python library that calculates a diff of a network topology.
+Netdiff is an experimental Python library that provides utilities for parsing network topologies
+of open source dynamic routing protocols and calculating changes in these topologies.
+
+It was developed to abstract the differences between the different JSON structures of the
+open source dynamic routing protocols (like **OLSR** and **batman-advanced**).
 
 Install
 -------
 
-Install via pip::
+Install via pip:
+
+.. code-block:: shell
 
     pip install -e git+git://github.com/ninuxorg/netdiff#egg=netdiff
 
-Usage
------
+Basic Usage Example
+-------------------
 
-Calculate diff of an OLSR1 Topology::
+Calculate diff of an OLSR 0.6.x topology:
 
-    from netdiff.olsr1 import Olsr1Parser
+.. code-block:: python
 
-    parser = Olsr1Parser(old=topology1, new=topology1)
-    result = parser.diff()
+    from netdiff import OlsrParser
+    from netdiff import diff
 
-``result`` will be a dictionary with the following structure::
+    stored = OlsrParser('./stored-olsr.json')
+    latest = OlsrParser('http://127.0.0.1:2006')
+    diff(stored, latest)
+
+The output will be a dictionary with the following structure:
+
+.. code-block:: python
 
     {
         "added": []
         "removed": []
     }
 
-Use the ``diff_json`` method if you need a JSON output::
+Parsers
+-------
 
-    from netdiff.olsr1 import Olsr1Parser
+Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
+which is in charge of converting a python data structure into ``networkx.Graph`` object.
 
-    json_output = Olsr1Parser(old=topology1, new=topology1).diff_json()
+Parsers have a ``json`` method which returns ``NetJSON``.
 
 Running tests
 -------------
 
-Clone / fork repo::
+Clone / fork repo:
+
+.. code-block:: shell
 
     git clone git://github.com/ninuxorg/netdiff
     cd diff/
 
-Install test requirements::
+Install test requirements:
+
+.. code-block:: shell
 
     pip install -r requirements-test.txt
 
-Run tests with::
+Run tests with:
+
+.. code-block:: shell
+
+    ./runtests.py
+
+Alternatively, you can use the ``nose`` command (which has a ton of available options):
+
+.. code-block:: shell
 
     nosetests
 
-See test coverage with::
+See test coverage with:
 
-    nosetests --with-coverage --cover-package=netdiff
+.. code-block:: shell
+
+    coverage run --source=netdiff runtests.py && coverage report
 
 Contribute
 ----------
