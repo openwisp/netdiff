@@ -54,7 +54,7 @@ class BaseParser(object):
                 data = open(data).read()
             # if it looks like a URL
             elif data.startswith('http'):
-                data = requests.get(data, verify=False).content
+                data = requests.get(data, verify=False).content.decode()
             # assuming is JSON
             try:
                 return json.loads(data)
