@@ -1,10 +1,10 @@
 import sys
 from setuptools import setup, find_packages
-from netdiff import get_version
+from netdiff.version import get_version
 
 
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist upload")
+    os.system("python setup.py sdist bdist_wheel -s upload")
     args = {'version': get_version()}
     print("You probably want to also tag the version now:")
     print("  git tag -a %(version)s -m 'version %(version)s'" % args)
@@ -22,7 +22,7 @@ def get_install_requires():
         if line.startswith('#') or line == '' or line.startswith('http') or line.startswith('git'):
             continue
         # add line to requirements
-        requirements.append(line)
+        requirements.append(line.replace('\n', ''))
     return requirements
 
 
