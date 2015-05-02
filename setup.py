@@ -1,6 +1,14 @@
 import sys
 from setuptools import setup, find_packages
-from netdiff.version import get_version
+
+# avoid networkx ImportError
+sys.path.insert(0, 'netdiff')
+from info import get_version
+sys.path.remove('netdiff')
+
+
+if sys.argv[-1] == 'setup.py':
+    print("To install, run 'python setup.py install'\n")
 
 
 if sys.argv[-1] == 'publish':
