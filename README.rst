@@ -53,6 +53,14 @@ Alternatively you can install via pip using git:
 
     pip install -e git+git://github.com/ninuxorg/netdiff#egg=netdiff
 
+If you want to contribute, install your cloned fork:
+
+.. code-block:: shell
+
+    git clone git@github.com:<your_fork>/netdiff.git
+    cd netdiff
+    python setup.py develop
+
 Basic Usage Example
 -------------------
 
@@ -176,7 +184,7 @@ Contribute
 ----------
 
 1. Join the `ninux-dev mailing list`_
-2. Fork this repo
+2. Fork this repo and install it
 3. Follow `PEP8, Style Guide for Python Code`_
 4. Write code
 5. Write tests for your code
