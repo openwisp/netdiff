@@ -149,12 +149,13 @@ Parsers have a ``json`` method which returns ``NetJSON``.
 Running tests
 -------------
 
-Clone / fork repo:
+Install your forked repo:
 
 .. code-block:: shell
 
-    git clone git://github.com/ninuxorg/netdiff
+    git clone git://github.com/<your_fork>/netdiff
     cd diff/
+    python setup.py develop
 
 Install test requirements:
 
