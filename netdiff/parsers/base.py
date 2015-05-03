@@ -1,13 +1,13 @@
 import six
 import json
 import requests
+import telnetlib
+from collections import OrderedDict
+
 try:
     import urlparse
 except ImportError:
     import urllib.parse as urlparse
-import telnetlib
-
-from collections import OrderedDict
 
 from ..exceptions import NetParserException, NetJsonException
 
