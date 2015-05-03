@@ -1,7 +1,10 @@
 import six
 import json
 import requests
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    import urllib.parse as urlparse
 import telnetlib
 
 from collections import OrderedDict
@@ -63,8 +66,8 @@ class BaseParser(object):
                 telnet_host = up.hostname
                 telnet_port = up.port
                 tn = telnetlib.Telnet(telnet_host, telnet_port)
-                tn.write("\r\n")
-                data = tn.read_all()
+                tn.write(("\r\n").encode('ascii'))
+                data = tn.read_all().decode('ascii')
                 tn.close()
 
             # assuming is JSON
