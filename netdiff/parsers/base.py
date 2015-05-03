@@ -1,6 +1,8 @@
 import six
 import json
 import requests
+import urlparse
+import telnetlib
 
 from collections import OrderedDict
 
@@ -44,6 +46,7 @@ class BaseParser(object):
         Input data might be:
             * a path which points to a JSON file
             * a URL which points to a JSON file
+              (supported schemas: http, https, telnet)
             * a JSON formatted string
             * a dict representing a JSON structure
         """
@@ -55,6 +58,15 @@ class BaseParser(object):
             # if it looks like a URL
             elif data.startswith('http'):
                 data = requests.get(data, verify=False).content.decode()
+            elif data.startswith('telnet'):
+                up = urlparse.urlparse(data)
+                telnet_host = up.hostname
+                telnet_port = up.port
+                tn = telnetlib.Telnet(telnet_host, telnet_port)
+                tn.write("\r\n")
+                data = tn.read_all()
+                tn.close()
+
             # assuming is JSON
             try:
                 return json.loads(data)
