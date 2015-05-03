@@ -84,6 +84,43 @@ The output will be a dictionary with the following structure:
         "removed": []
     }
 
+Parsers
+-------
+
+Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
+which is in charge of converting a python data structure into ``networkx.Graph`` object.
+
+Parsers also have a ``json`` method which returns valid `NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`__.
+
+The available parsers are:
+
+* ``netdiff.OlsrParser``: parser for the OLSR 0.6.x jsoninfo plugin
+* ``netdiff.BatmanParser``: parser for the batman-advanced alfred tool
+* ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/json-for-networks#network-graph>`__.
+
+Parsers must be initialized with a string which can represent one of the following:
+
+* path to JSON file
+* HTTP url to JSON file
+* telnet url to JSON file
+* JSON formatted string
+* python dictionary representing a JSON structure
+
+Local file example:
+
+.. code-block:: python
+
+    from netdiff import BatmanParser
+    BatmanParser('./my-stored-topology.json')
+
+HTTP example:
+
+.. code-block:: python
+
+    from netdiff import NetJsonParser
+    url = 'https://raw.githubusercontent.com/interop-dev/json-for-networks/master/examples/network-graph.json'
+    NetJsonParser(url)
+
 NetJSON output
 --------------
 
@@ -136,15 +173,6 @@ Output:
             }
         ]
     }
-
-
-Parsers
--------
-
-Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
-which is in charge of converting a python data structure into ``networkx.Graph`` object.
-
-Parsers have a ``json`` method which returns ``NetJSON``.
 
 Running tests
 -------------
