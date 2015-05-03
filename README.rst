@@ -72,7 +72,7 @@ Calculate diff of an OLSR 0.6.x topology:
     from netdiff import diff
 
     stored = OlsrParser('./stored-olsr.json')
-    latest = OlsrParser('http://127.0.0.1:2006')
+    latest = OlsrParser('telnet://127.0.0.1:9090')
     diff(stored, latest)
 
 The output will be a dictionary with the following structure:
@@ -94,7 +94,7 @@ Netdiff parsers can return a valid `NetJSON <https://github.com/interop-dev/json
 
     from netdiff import OlsrParser
 
-    olsr = OlsrParser('http://127.0.0.1:2006')
+    olsr = OlsrParser('telnet://127.0.0.1:9090')
 
     # will return a dict
     olsr.json(dict=True)
