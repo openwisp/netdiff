@@ -58,9 +58,10 @@ class BaseParser(object):
             # if it looks like a file path
             if True in [data.startswith('./'), data.startswith('../'), data.startswith('/')]:
                 data = open(data).read()
-            # if it looks like a URL
+            # if it looks like a HTTP URL
             elif data.startswith('http'):
                 data = requests.get(data, verify=False).content.decode()
+            # if it looks like a telnet URL
             elif data.startswith('telnet'):
                 up = urlparse.urlparse(data)
                 telnet_host = up.hostname
@@ -69,7 +70,6 @@ class BaseParser(object):
                 tn.write(("\r\n").encode('ascii'))
                 data = tn.read_all().decode('ascii')
                 tn.close()
-
             # assuming is JSON
             try:
                 return json.loads(data)
