@@ -57,8 +57,8 @@ class TopologyParser(object):
         def parse(self):
             "parse the txtinfo plugin output and make two lists: a link list and an alias (MID) list"
             # parse Topology info
-            print ("Parsing Topology Information ...")
             if len(self.topologylines) < 1:
+                # TODO: raise an exception here
                 print("WARNING: no topology information in %s :( " % self.topology_url)
                 return
 
@@ -77,13 +77,13 @@ class TopologyParser(object):
                     break
 
             if linkstablefound:
-                print("Links table found.")
+                # print("Links table found.")
                 i += 2 # skip the heading line
                 line = self.topologylines[i]
                 while not line.isspace():
                     try:
                             ipaddr1, ipaddr2, hyst, lq, nlq, etx = line.split()
-                            print("Link: %s --[%s]--> %s" % (ipaddr1, etx, ipaddr2))
+                            # print("Link: %s --[%s]--> %s" % (ipaddr1, etx, ipaddr2))
                             self.linklist.append((ipaddr1, ipaddr2, float(etx)))
                             self.linklist.append({
                                 "localIP": ipaddr1,
@@ -94,7 +94,7 @@ class TopologyParser(object):
                                 "linkCost": 1536 # made up TODO: understand
                             })
                     except ValueError:
-                            print ("wrong line or INFINITE ETX: %s" % line)
+                            # print ("wrong line or INFINITE ETX: %s" % line)
                             pass
                     i+=1
                     if i < len(self.topologylines):
@@ -115,13 +115,13 @@ class TopologyParser(object):
                     break
 
             if topologytablefound:
-                print("Topology table found.")
+                # print("Topology table found.")
                 i += 2 # skip the heading line
                 line = self.topologylines[i]
                 while not line.isspace():
                     try:
                             ipaddr1, ipaddr2, lq, nlq, etx = line.split()
-                            print("Link: %s --[%s]--> %s" % (ipaddr1, etx, ipaddr2))
+                            # print("Link: %s --[%s]--> %s" % (ipaddr1, etx, ipaddr2))
                             self.topolist.append({
                                 "destinationIP": ipaddr1,
                                 "lastHopIP": ipaddr2,
@@ -132,7 +132,7 @@ class TopologyParser(object):
                             })
 
                     except ValueError:
-                            print ("wrong line or INFINITE ETX: %s" % line)
+                            # print ("wrong line or INFINITE ETX: %s" % line)
                             pass
                     i+=1
                     if i < len(self.topologylines):
@@ -142,7 +142,7 @@ class TopologyParser(object):
 
             j = i + 1
             # parse HNA info
-            print ("Parsing HNA Information...")
+            # print ("Parsing HNA Information...")
             while i < len(self.topologylines) and line.find('Table: HNA') == -1:
                 line = self.topologylines[i]
                 i += 1
@@ -153,7 +153,7 @@ class TopologyParser(object):
                 while not line.isspace() and i < len(self.topologylines):
                     try:
                             hna, announcer = line.split()
-                            print("HNA: %s by %s" % (hna, announcer))
+                            # print("HNA: %s by %s" % (hna, announcer))
                             self.hnalist.append({
                                 "destination": hna.split('/')[0],
                                 "genmask": hna.split('/')[1],
@@ -172,7 +172,7 @@ class TopologyParser(object):
 
 
             # parse MID info
-            print ("Parsing MID Information...")
+            # print ("Parsing MID Information...")
             while i < len(self.topologylines) and line.find('Table: MID') == -1:
                 line = self.topologylines[i]
                 i += 1
@@ -186,7 +186,7 @@ class TopologyParser(object):
                 try:
                         ipaddr, aliases = line.split()
                         for alias in aliases.split(';'):
-                            print("MID: %s == %s" % (ipaddr, alias))
+                            # print("MID: %s == %s" % (ipaddr, alias))
                             self.aliasmanager.addalias(ipaddr, alias)
                 except ValueError:
                         pass
