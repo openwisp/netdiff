@@ -10,6 +10,7 @@ except ImportError:
     import urllib.parse as urlparse
 
 from ..exceptions import NetParserException, NetJsonException
+from ..olsr_txtinfo import TopologyParser
 
 
 class BaseParser(object):
@@ -74,7 +75,12 @@ class BaseParser(object):
             try:
                 return json.loads(data)
             except ValueError:
-                raise NetParserException('Could not decode JSON data')
+                # perhaps we have a txtinfo format?
+                try:
+                    tp = TopologyParser(data)
+                    return tp.toDict()
+                except (ValueError, AttributeError):
+                    raise NetParserException('Could not decode data')
         elif isinstance(data, dict):
             return data
         else:
