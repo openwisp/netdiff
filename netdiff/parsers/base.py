@@ -49,20 +49,21 @@ class BaseParser(object):
         Input data might be:
             * a path which points to a JSON file
             * a URL which points to a JSON file
-              (supported schemas: http, https, telnet)
+              (supported schemes: http, https, telnet)
             * a JSON formatted string
             * a dict representing a JSON structure
         """
         # string
         if isinstance(data, six.string_types):
+            up = urlparse.urlparse(data)
             # if it looks like a file path
             if True in [data.startswith('./'), data.startswith('../'), data.startswith('/')]:
                 data = open(data).read()
             # if it looks like a HTTP URL
-            elif data.startswith('http'):
+            elif up.scheme in ['http', 'https']:
                 data = requests.get(data, verify=False).content.decode()
             # if it looks like a telnet URL
-            elif data.startswith('telnet'):
+            elif up.scheme == 'telnet':
                 up = urlparse.urlparse(data)
                 telnet_host = up.hostname
                 telnet_port = up.port
