@@ -79,7 +79,7 @@ class BaseParser(object):
                 try:
                     tp = TopologyParser(data)
                     return tp.toDict()
-                except (ValueError, AttributeError):
+                except (ValueError, AttributeError, IndexError):
                     raise NetParserException('Could not decode data')
         elif isinstance(data, dict):
             return data
