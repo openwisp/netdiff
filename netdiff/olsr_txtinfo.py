@@ -1,8 +1,6 @@
 """
-Convert output from the olsrd txtinfo plug-in into JSON
+Convert output from the olsrd txtinfo plug-in into a dict
 """
-
-import json
 
 class AliasManager(object):
         "a MID is an IP alias in OLSR terminology. This class manages all IP addresses"
@@ -35,8 +33,8 @@ class AliasManager(object):
                     self.aliasdict.update({ip: newid})
                     return newid
         def getAliasesFromIP(self, ipaddr):
-            id = self.getIdFromIP(ipaddr)
-            r = [ip for ip in self.aliasdict.keys() if self.aliasdict[ip] == id]
+            iid = self.getIdFromIP(ipaddr)
+            r = [ip for ip in self.aliasdict.keys() if self.aliasdict[ip] == iid]
             if not ipaddr in r:
                 r.append(ipaddr)
             return r
