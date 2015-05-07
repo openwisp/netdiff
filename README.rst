@@ -18,7 +18,7 @@ netdiff
 .. image:: https://badge.fury.io/py/netdiff.png
    :target: http://badge.fury.io/py/netdiff
 
-.. image:: https://pypip.in/d/netdiff/badge.png
+.. image:: https://img.shields.io/pypi/dm/netdiff.svg
    :target: https://pypi.python.org/pypi/netdiff
 
 ------------
