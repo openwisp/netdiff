@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.2 [unreleased]
+Version 0.2 [08-05-2015]
 ------------------------
 
 - `#12 <https://github.com/ninuxorg/netdiff/pull/12>`_: Added support for telnet urls in ``BaseParser``
