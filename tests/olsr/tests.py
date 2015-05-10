@@ -84,7 +84,7 @@ class TestOlsrParser(TestCase):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
         result = diff(old, new)
-        # ensure there are no differences
+        # ensure there are differences
         self.assertEqual(len(result['added']), 1)
         self.assertEqual(len(result['removed']), 0)
         # ensure 1 link added
@@ -98,7 +98,7 @@ class TestOlsrParser(TestCase):
         self.assertTrue(type(result) is dict)
         self.assertTrue(type(result['added']) is list)
         self.assertTrue(type(result['removed']) is list)
-        # ensure there are no differences
+        # ensure there are differences
         self.assertEqual(len(result['added']), 0)
         self.assertEqual(len(result['removed']), 1)
         # ensure 1 link removed
@@ -109,7 +109,7 @@ class TestOlsrParser(TestCase):
         old = OlsrParser(links3)
         new = OlsrParser(links5)
         result = diff(old, new)
-        # ensure there are no differences
+        # ensure there are differences
         self.assertEqual(len(result['added']), 3)
         self.assertEqual(len(result['removed']), 1)
         # ensure 3 links added
