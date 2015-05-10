@@ -1,5 +1,6 @@
 import six
 import json
+import os
 import requests
 import telnetlib
 from collections import OrderedDict
@@ -57,7 +58,7 @@ class BaseParser(object):
         if isinstance(data, six.string_types):
             up = urlparse.urlparse(data)
             # if it looks like a file path
-            if True in [data.startswith('./'), data.startswith('../'), data.startswith('/')]:
+            if os.path.isfile(data):
                 data = open(data).read()
             # if it looks like a HTTP URL
             elif up.scheme in ['http', 'https']:
