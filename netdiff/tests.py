@@ -9,7 +9,7 @@ class TestCase(unittest.TestCase):
     def _test_expected_links(self, links, expected_links):
         """
         Ensures the contents of links is the same of expected_links,
-        indipendently from the ordering
+        independently from the ordering
         links and expected_links should be list of tuples.
         """
         found = 0

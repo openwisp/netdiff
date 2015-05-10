@@ -1,5 +1,6 @@
 import six
 import json
+import os
 import requests
 import telnetlib
 from collections import OrderedDict
@@ -9,7 +10,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import NetParserException, NetJsonException
+from ..exceptions import NetParserException, NetParserJsonException, NetJsonException
 
 
 class BaseParser(object):
@@ -57,7 +58,7 @@ class BaseParser(object):
         if isinstance(data, six.string_types):
             up = urlparse.urlparse(data)
             # if it looks like a file path
-            if True in [data.startswith('./'), data.startswith('../'), data.startswith('/')]:
+            if os.path.isfile(data):
                 data = open(data).read()
             # if it looks like a HTTP URL
             elif up.scheme in ['http', 'https']:
@@ -75,7 +76,7 @@ class BaseParser(object):
             try:
                 return json.loads(data)
             except ValueError:
-                raise NetParserException('Could not decode JSON data')
+                raise NetParserJsonException('Could not decode JSON data')
         elif isinstance(data, dict):
             return data
         else:
@@ -101,7 +102,7 @@ class BaseParser(object):
             raise NetJsonException('protocol cannot be None')
         if self.version is None:
             raise NetJsonException('version cannot be None')
-        if self.metric is None:
+        if self.metric is None and self.protocol != 'static':
             raise NetJsonException('metric cannot be None')
         # prepare lists
         nodes = [{'id': node} for node in graph.nodes()]

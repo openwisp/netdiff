@@ -202,6 +202,9 @@ Alternatively, you can use the ``nose`` command (which has a ton of available op
 .. code-block:: shell
 
     nosetests
+    nosetests tests.olsr
+    nosetests tests.olsr:TestOlsrParser
+    nosetests tests.olsr:TestOlsrParser.test_parse
 
 See test coverage with:
 
