@@ -102,7 +102,7 @@ class BaseParser(object):
             raise NetJsonException('protocol cannot be None')
         if self.version is None:
             raise NetJsonException('version cannot be None')
-        if self.metric is None:
+        if self.metric is None and self.protocol != 'static':
             raise NetJsonException('metric cannot be None')
         # prepare lists
         nodes = [{'id': node} for node in graph.nodes()]
