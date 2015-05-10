@@ -9,7 +9,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import NetParserException, NetJsonException
+from ..exceptions import NetParserException, NetParserJsonException, NetJsonException
 
 
 class BaseParser(object):
@@ -75,7 +75,7 @@ class BaseParser(object):
             try:
                 return json.loads(data)
             except ValueError:
-                raise NetParserException('Could not decode JSON data')
+                raise NetParserJsonException('Could not decode JSON data')
         elif isinstance(data, dict):
             return data
         else:
