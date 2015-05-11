@@ -1,0 +1,82 @@
+[
+  {
+    "name": "P9SFAlmogavers237-56ac",
+    "links": [
+      {
+        "name": "P9SFBadajoz93-6e99",
+        "rxRate": 91,
+        "txRate": 0
+      },
+      {
+        "name": "P9SFBilbao102-7df9",
+        "rxRate": 97,
+        "txRate": 40
+      },
+      {
+        "name": "P9SFCastanys31-1663",
+        "rxRate": 100,
+        "txRate": 87
+      }
+    ]
+  },
+  {
+      "name": "P9SFBadajoz93-6e99",
+      "links": [
+        {
+          "name": "P9SFAlmogavers237-56ac",
+          "rxRate": 95,
+          "txRate": 1
+        }
+      ]
+  },
+  {
+      "name": "P9SFBilbao102-7df9",
+      "links": [
+        {
+          "name": "P9SFAlmogavers237-56ac",
+          "rxRate": 81,
+          "txRate": 95
+        }
+      ]
+  },
+  {
+      "name": "P9SFCastanys31-1663",
+      "links": [
+        {
+          "name": "P9SFAlmogavers237-56ac",
+          "rxRate": 100,
+          "txRate": 97
+        },
+        {
+          "name": "P9SFCiutatGranada73-68f5",
+          "rxRate": 100,
+          "txRate": 97
+        }
+      ]
+  },
+  {
+      "name": "P9SFCiutatGranada73-68f5",
+      "links": [
+        {
+          "name": "P9SFDrTruetaa183-b713",
+          "rxRate": 93,
+          "txRate": 59
+        },
+        {
+          "name": "PP9SFCastanys31-1663",
+          "rxRate": 93,
+          "txRate": 59
+        }
+      ]
+  },
+  {
+    "name": "P9SFDrTruetaa183-b713",
+    "links": [
+      {
+        "name": "P9SFCiutatGranada73-68f5",
+        "rxRate": 93,
+        "txRate": 59
+      }
+    ]
+  }
+]
