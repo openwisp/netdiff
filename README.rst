@@ -94,11 +94,11 @@ Parsers also have a ``json`` method which returns valid `NetJSON output <https:/
 
 The available parsers are:
 
-* ``netdiff.BatmanParser``: parser for the batman-advanced alfred tool
-* ``netdiff.Bmx6Parser``: parser for BMX6
-* ``netdiff.CnmlParser``: parser for `CNML <http://cnml.info/`__  0.1
+* ``netdiff.OlsrParser``: parser for the `olsrd jsoninfo plugin <http://www.olsr.org/?q=jsoninfo_plugin>`__
+* ``netdiff.BatmanParser``: parser for the `batman-advanced alfred tool <http://www.open-mesh.org/projects/open-mesh/wiki/Alfred>`__
+* ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`__
+* ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`__
 * ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/json-for-networks#network-graph>`__.
-* ``netdiff.OlsrParser``: parser for the OLSR 0.6.x jsoninfo plugin
 
 Parsers must be initialized with a string which can represent one of the following:
 
