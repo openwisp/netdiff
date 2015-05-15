@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.3 [unreleased]
+Version 0.3 [15-05-2015]
 ------------------------
 
 - `#18 <https://github.com/ninuxorg/netdiff/pull/18>`_: added CNML parser
