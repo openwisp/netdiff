@@ -25,6 +25,8 @@ class OlsrParser(BaseParser):
                 cost = link["tcEdgeCost"]
             except KeyError as e:
                 raise NetParserException('Parse error, "%s" key not found' % e)
+            # original olsrd cost (jsoninfo multiplies by 1024)
+            cost = float(cost / 1024)
             # add link to Graph
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph

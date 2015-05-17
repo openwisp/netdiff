@@ -125,3 +125,9 @@ class TestOlsrParser(TestCase):
             links=result['removed'],
             expected_links=[('10.150.0.5', '10.150.0.4')]
         )
+
+    def test_weight(self):
+        parser = OlsrParser(links2)
+        graph = parser.json(dict=True)
+        self.assertEqual(str(graph['links'][0]['weight'])[0:3], '27.')
+        self.assertEqual(graph['links'][1]['weight'], 1.0)
