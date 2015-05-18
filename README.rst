@@ -166,12 +166,12 @@ Output:
             {
                 "source": "10.150.0.3",
                 "target": "10.150.0.2",
-                "weight": 28334
+                "weight": 2.4
             },
             {
                 "source": "10.150.0.3",
                 "target": "10.150.0.4",
-                "weight": 1024
+                "weight": 1.0
             }
         ]
     }
