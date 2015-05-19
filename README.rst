@@ -184,7 +184,7 @@ Install your forked repo:
 .. code-block:: shell
 
     git clone git://github.com/<your_fork>/netdiff
-    cd diff/
+    cd netdiff/
     python setup.py develop
 
 Install test requirements:
