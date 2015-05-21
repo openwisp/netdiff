@@ -11,6 +11,7 @@ except ImportError:
     import urllib.parse as urlparse
 
 from ..exceptions import NetParserException, NetParserJsonException, NetJsonException
+from ..utils import diff
 
 
 class BaseParser(object):
@@ -43,6 +44,9 @@ class BaseParser(object):
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
             self.parse(self.original_data)
+
+    def __sub__(self, other):
+        return diff(other, self)
 
     def _to_python(self, data):
         """

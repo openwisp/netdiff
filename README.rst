@@ -84,6 +84,17 @@ The output will be a dictionary with the following structure:
         "removed": []
     }
 
+In alternative, you can use the subtraction operator:
+
+.. code-block:: python
+
+    from netdiff import OlsrParser
+    from netdiff import diff
+
+    stored = OlsrParser('./stored-olsr.json')
+    latest = OlsrParser('telnet://127.0.0.1:9090')
+    latest - stored
+
 Parsers
 -------
 
