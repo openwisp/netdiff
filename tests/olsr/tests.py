@@ -91,6 +91,17 @@ class TestOlsrParser(TestCase):
         self.assertIn('10.150.0.5', result['added'][0])
         self.assertIn('10.150.0.4', result['added'][0])
 
+    def test_added_1_link_sub(self):
+        old = OlsrParser(links2)
+        new = OlsrParser(links3)
+        result = new - old
+        # ensure there are differences
+        self.assertEqual(len(result['added']), 1)
+        self.assertEqual(len(result['removed']), 0)
+        # ensure 1 link added
+        self.assertIn('10.150.0.5', result['added'][0])
+        self.assertIn('10.150.0.4', result['added'][0])
+
     def test_removed_1_link(self):
         old = OlsrParser(links3)
         new = OlsrParser(links2)
