@@ -140,5 +140,7 @@ class TestOlsrParser(TestCase):
     def test_weight(self):
         parser = OlsrParser(links2)
         graph = parser.json(dict=True)
-        self.assertEqual(str(graph['links'][0]['weight'])[0:3], '27.')
-        self.assertEqual(graph['links'][1]['weight'], 1.0)
+        a = str(graph['links'][0]['weight'])[0:3]
+        b = str(graph['links'][1]['weight'])[0:3]
+        self.assertIn('27.', [a, b])
+        self.assertIn('1.0', [a, b])
