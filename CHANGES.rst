@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.3.1 [22-05-2015]
+--------------------------
+
+- `c91e4e <https://github.com/ninuxorg/netdiff/commit/c91e4e48917c6503fc490e725da1574cb5c549fe>`_: corrected weight in ``OlsrParser``
+- `#22 <https://github.com/ninuxorg/netdiff/pull/22>`_: added subtraction operator as a shortcut to diff function
+- `be9f476 <https://github.com/ninuxorg/netdiff/commit/be9f476>`_: corrected ``MANIFEST.in`` to fix egg builds
+
 Version 0.3 [15-05-2015]
 ------------------------
 
