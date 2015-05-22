@@ -215,9 +215,10 @@ Alternatively, you can use the ``nose`` command (which has a ton of available op
 .. code-block:: shell
 
     nosetests
-    nosetests tests.olsr
-    nosetests tests.olsr:TestOlsrParser
-    nosetests tests.olsr:TestOlsrParser.test_parse
+    nosetests tests.olsr  # run only olsr related tests
+    nosetests tests/olsr  # variant form of the previous command
+    nosetests tests.olsr.tests:TestOlsrParser  # variant form of the previous command
+    nosetests tests.olsr.tests:TestOlsrParser.test_parse  # run specific test
 
 See test coverage with:
 
