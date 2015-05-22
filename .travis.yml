@@ -10,15 +10,12 @@ branches:
 
 # command to install requirements
 install:
-  - python setup.py -q install
+  - python setup.py -q develop
   - pip install -r requirements-test.txt
 
 # command to run tests, e.g. python setup.py test
 script:
   - nosetests --with-coverage --cover-package=netdiff
-  # ensure package installation works both with wheel and egg
-  - pip uninstall -y netdiff && pip install --no-use-wheel netdiff
-  - pip uninstall -y netdiff && pip install netdiff
 
 after_success:
   coveralls
