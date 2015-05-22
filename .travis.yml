@@ -16,6 +16,7 @@ install:
 # command to run tests, e.g. python setup.py test
 script:
   - nosetests --with-coverage --cover-package=netdiff
+  - pip uninstall netdiff && pip install --no-use-wheel netdiff && pip install netdiff
 
 after_success:
   coveralls
