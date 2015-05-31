@@ -4,7 +4,7 @@ import networkx
 
 from netdiff import NetJsonParser
 from netdiff import diff
-from netdiff.exceptions import NetParserException
+from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
 
 
@@ -26,11 +26,11 @@ class TestNetJsonParser(TestCase):
         self.assertEqual(p.metric, 'ETX')
 
     def test_parse_exception(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             NetJsonParser('{ "test": "test" }')
 
     def test_parse_exception2(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             NetJsonParser({
                 "type": "WRONG",
                 "protocol": "OLSR",
@@ -39,7 +39,7 @@ class TestNetJsonParser(TestCase):
             })
 
     def test_parse_exception3(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             NetJsonParser({
                 "type": "NetworkGraph",
                 "protocol": "OLSR",
@@ -48,7 +48,7 @@ class TestNetJsonParser(TestCase):
             })
 
     def test_parse_exception4(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             NetJsonParser({
                 "type": "NetworkGraph",
                 "protocol": "OLSR",

@@ -2,13 +2,13 @@ class NetdiffException(Exception):
     pass
 
 
-class NetParserException(NetdiffException):
+class ParserError(NetdiffException):
     pass
 
 
-class NetParserJsonException(NetdiffException):
+class ParserJsonError(NetdiffException):
     pass
 
 
-class NetJsonException(NetdiffException):
+class NetJsonError(NetdiffException):
     pass

@@ -3,7 +3,7 @@ import unittest
 
 from netdiff import get_version
 from netdiff.parsers.base import BaseParser
-from netdiff.exceptions import NetParserException, NetParserJsonException
+from netdiff.exceptions import ParserError, ParserJsonError
 
 
 __all__ = ['TestBaseParser']
@@ -20,7 +20,7 @@ class TestBaseParser(unittest.TestCase):
         path = '{0}/../static/olsr-2-links.json'.format(dir)
         p = BaseParser(path)
         self.assertIsInstance(p.original_data, dict)
-        with self.assertRaises(NetParserJsonException):
+        with self.assertRaises(ParserJsonError):
             BaseParser('../wrong.json')
 
     def test_parse_http(self):
@@ -39,11 +39,11 @@ class TestBaseParser(unittest.TestCase):
         self.assertIsInstance(p.original_data, dict)
 
     def test_parse_json_exception(self):
-        with self.assertRaises(NetParserJsonException):
+        with self.assertRaises(ParserJsonError):
             BaseParser('wrong [] ; .')
 
     def test_parse_exception(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             BaseParser(8)
 
     def test_parse_not_implemented(self):

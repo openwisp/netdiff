@@ -9,7 +9,7 @@ except ImportError:
     import urllib.parse as urlparse
 
 from .base import BaseParser
-from ..exceptions import NetParserException
+from ..exceptions import ParserError
 
 
 class CnmlParser(BaseParser):
@@ -25,11 +25,11 @@ class CnmlParser(BaseParser):
             if os.path.isfile(data) or up.scheme in ['http', 'https']:
                 return libcnml.CNMLParser(data)
             else:
-                raise NetParserException('Could not decode CNML data')
+                raise ParserError('Could not decode CNML data')
         elif isinstance(data, libcnml.CNMLParser):
             return data
         else:
-            raise NetParserException('Could not find valid data to parse')
+            raise ParserError('Could not find valid data to parse')
 
     def parse(self, data):
         """

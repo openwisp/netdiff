@@ -1,7 +1,7 @@
 import networkx
 
 from .base import BaseParser
-from ..exceptions import NetParserException
+from ..exceptions import ParserError
 
 
 class BatmanParser(BaseParser):
@@ -40,7 +40,7 @@ class BatmanParser(BaseParser):
         if 'source_version' in data:
             self.version = data['source_version']
         if 'vis' not in data:
-            raise NetParserException('Parse error, "vis" key not found')
+            raise ParserError('Parse error, "vis" key not found')
         ag_nodes = self._get_ag_node_list(data['vis'])
         # loop over topology section and create networkx graph
         for node in data["vis"]:

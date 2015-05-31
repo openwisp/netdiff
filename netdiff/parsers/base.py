@@ -10,7 +10,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import NetParserException, NetParserJsonException, NetJsonException
+from ..exceptions import ParserError, ParserJsonError, NetJsonError
 from ..utils import diff
 
 
@@ -80,11 +80,11 @@ class BaseParser(object):
             try:
                 return json.loads(data)
             except ValueError:
-                raise NetParserJsonException('Could not decode JSON data')
+                raise ParserJsonError('Could not decode JSON data')
         elif isinstance(data, dict):
             return data
         else:
-            raise NetParserException('Could not find valid data to parse')
+            raise ParserError('Could not find valid data to parse')
 
     def parse(self, data):
         """
@@ -103,11 +103,11 @@ class BaseParser(object):
             raise NotImplementedError()
         # netjson formatting check
         if self.protocol is None:
-            raise NetJsonException('protocol cannot be None')
+            raise NetJsonError('protocol cannot be None')
         if self.version is None:
-            raise NetJsonException('version cannot be None')
+            raise NetJsonError('version cannot be None')
         if self.metric is None and self.protocol != 'static':
-            raise NetJsonException('metric cannot be None')
+            raise NetJsonError('metric cannot be None')
         # prepare lists
         nodes = [{'id': node} for node in graph.nodes()]
         links = []

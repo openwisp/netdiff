@@ -5,7 +5,7 @@ import networkx
 from netdiff import BatmanParser
 from netdiff import diff
 from netdiff.tests import TestCase
-from netdiff.exceptions import NetParserException
+from netdiff.exceptions import ParserError
 
 
 __all__ = ['TestBatmanParser']
@@ -23,11 +23,11 @@ class TestBatmanParser(TestCase):
         self.assertIsInstance(p.graph, networkx.Graph)
 
     def test_parse_exception(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             BatmanParser('{ "test": "test" }')
 
     def test_parse_exception2(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             BatmanParser('{ "topology": [{ "a": "a" }] }')
 
     def test_json_dict(self):

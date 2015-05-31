@@ -1,7 +1,7 @@
 import networkx
 
 from .base import BaseParser
-from ..exceptions import NetParserException
+from ..exceptions import ParserError
 
 
 class OlsrParser(BaseParser):
@@ -16,7 +16,7 @@ class OlsrParser(BaseParser):
         """
         graph = networkx.Graph()
         if 'topology' not in data:
-            raise NetParserException('Parse error, "topology" key not found')
+            raise ParserError('Parse error, "topology" key not found')
         # loop over topology section and create networkx graph
         for link in data["topology"]:
             try:
@@ -24,7 +24,7 @@ class OlsrParser(BaseParser):
                 dest = link["destinationIP"]
                 cost = link["tcEdgeCost"]
             except KeyError as e:
-                raise NetParserException('Parse error, "%s" key not found' % e)
+                raise ParserError('Parse error, "%s" key not found' % e)
             # original olsrd cost (jsoninfo multiplies by 1024)
             cost = float(cost / 1024)
             # add link to Graph

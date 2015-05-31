@@ -4,7 +4,7 @@ import networkx
 
 from netdiff import CnmlParser
 from netdiff import diff
-from netdiff.exceptions import NetParserException
+from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
 
 
@@ -24,11 +24,11 @@ class TestCnmlParser(TestCase):
         self.assertIsInstance(p.graph, networkx.Graph)
 
     def test_parse_exception(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             CnmlParser('{ "test": "test" }')
 
     def test_parse_exception2(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             CnmlParser('telnet://127.0.0.1:9090')
 
     def test_json_dict(self):

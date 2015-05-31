@@ -5,7 +5,7 @@ import networkx
 from netdiff import Bmx6Parser
 from netdiff import diff
 from netdiff.tests import TestCase
-from netdiff.exceptions import NetParserException
+from netdiff.exceptions import ParserError
 
 
 __all__ = ['TestBmx6Parser']
@@ -23,7 +23,7 @@ class TestBmx6Parser(TestCase):
         self.assertIsInstance(p.graph, networkx.Graph)
 
     def test_parse_exception(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             Bmx6Parser('[{ "test": "test" }]')
 
     def test_json_dict(self):

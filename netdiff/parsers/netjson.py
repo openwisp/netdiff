@@ -1,7 +1,7 @@
 import networkx
 
 from .base import BaseParser
-from ..exceptions import NetParserException
+from ..exceptions import ParserError
 
 
 class NetJsonParser(BaseParser):
@@ -14,12 +14,12 @@ class NetJsonParser(BaseParser):
         graph = networkx.Graph()
         # ensure is NetJSON NetworkGraph object
         if 'type' not in data or data['type'] != 'NetworkGraph':
-            raise NetParserException('Parse error, not a NetworkGraph object')
+            raise ParserError('Parse error, not a NetworkGraph object')
         # ensure required keys are present
         required_keys = ['protocol', 'version', 'metric', 'nodes', 'links']
         for key in required_keys:
             if key not in data:
-                raise NetParserException('Parse error, "{0}" key not found'.format(key))
+                raise ParserError('Parse error, "{0}" key not found'.format(key))
         # store metadata
         self.protocol = data['protocol']
         self.version = data['version']
@@ -34,6 +34,6 @@ class NetJsonParser(BaseParser):
                 dest = link["target"]
                 cost = link["weight"]
             except KeyError as e:
-                raise NetParserException('Parse error, "%s" key not found' % e)
+                raise ParserError('Parse error, "%s" key not found' % e)
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph

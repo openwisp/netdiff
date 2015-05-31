@@ -1,7 +1,7 @@
 import networkx
 
 from .base import BaseParser
-from ..exceptions import NetParserException
+from ..exceptions import ParserError
 
 
 class Bmx6Parser(BaseParser):
@@ -18,7 +18,7 @@ class Bmx6Parser(BaseParser):
         graph = networkx.Graph()
         if len(data) != 0:
             if "links" not in data[0]:
-                raise NetParserException('Parse error, "links" key not found')
+                raise ParserError('Parse error, "links" key not found')
         # loop over topology section and create networkx graph
         # this topology don't have weight, so we set it as 1
         for node in data:

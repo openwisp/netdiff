@@ -4,7 +4,7 @@ import networkx
 
 from netdiff import OlsrParser
 from netdiff import diff
-from netdiff.exceptions import NetParserException
+from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
 
 
@@ -32,11 +32,11 @@ class TestOlsrParser(TestCase):
         self.assertEqual(p.revision, 'a')
 
     def test_parse_exception(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             OlsrParser('{ "test": "test" }')
 
     def test_parse_exception2(self):
-        with self.assertRaises(NetParserException):
+        with self.assertRaises(ParserError):
             OlsrParser('{ "topology": [{ "a": "a" }] }')
 
     def test_json_dict(self):
