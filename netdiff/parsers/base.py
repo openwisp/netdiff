@@ -63,28 +63,16 @@ class BaseParser(object):
         """
         # string
         if isinstance(data, six.string_types):
-            up = urlparse.urlparse(data)
+            url = urlparse.urlparse(data)
             # if it's a regular file path
             if os.path.isfile(data):
-                data = open(data).read()
+                data = self._get_file(data)
             # if it looks like a HTTP URL
-            elif up.scheme in ['http', 'https']:
-                try:
-                    response = requests.get(data, verify=False, timeout=self.timeout)
-                except Exception as e:
-                    raise TopologyRetrievalError(e)
-                if response.status_code != 200:
-                    raise TopologyRetrievalError('Expecting HTTP 200 ok, got {0}'.format(response.status_code))
-                data = response.content.decode()
+            elif url.scheme in ['http', 'https']:
+                data = self._get_http(url)
             # if it looks like a telnet URL
-            elif up.scheme == 'telnet':
-                try:
-                    tn = telnetlib.Telnet(up.hostname, up.port, timeout=self.timeout)
-                except Exception as e:
-                    raise TopologyRetrievalError(e)
-                tn.write(("\r\n").encode('ascii'))
-                data = tn.read_all().decode('ascii')
-                tn.close()
+            elif url.scheme == 'telnet':
+                data = self._get_telnet(url)
             # assuming is JSON
             try:
                 return json.loads(data)
@@ -94,6 +82,27 @@ class BaseParser(object):
             return data
         else:
             raise ParserError('Could not find valid data to parse')
+
+    def _get_file(self, path):
+        return open(path).read()
+
+    def _get_http(self, url):
+        try:
+            response = requests.get(url.geturl(), verify=False, timeout=self.timeout)
+        except Exception as e:
+            raise TopologyRetrievalError(e)
+        if response.status_code != 200:
+            raise TopologyRetrievalError('Expecting HTTP 200 ok, got {0}'.format(response.status_code))
+        return response.content.decode()
+
+    def _get_telnet(self, url):
+        try:
+            tn = telnetlib.Telnet(url.hostname, url.port, timeout=self.timeout)
+        except Exception as e:
+            raise TopologyRetrievalError(e)
+        tn.write(("\r\n").encode('ascii'))
+        data = tn.read_all().decode('ascii')
+        tn.close()
 
     def parse(self, data):
         """
