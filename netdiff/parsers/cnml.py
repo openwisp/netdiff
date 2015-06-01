@@ -18,7 +18,7 @@ class CnmlParser(BaseParser):
     version = '0.1'
     metric = None
 
-    def _to_python(self, data):
+    def to_python(self, data):
         if isinstance(data, six.string_types):
             up = urlparse.urlparse(data)
             # if it looks like a file path

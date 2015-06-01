@@ -45,7 +45,7 @@ class BaseParser(object):
             self.metric = metric
         self.timeout = timeout
         self.verify = verify
-        self.original_data = self._to_python(data)
+        self.original_data = self.to_python(data)
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
             self.parse(self.original_data)
@@ -53,9 +53,9 @@ class BaseParser(object):
     def __sub__(self, other):
         return diff(other, self)
 
-    def _to_python(self, data):
+    def to_python(self, data):
         """
-        Private method which parses the input data and converts it into a Python data structure
+        Parses the input data and converts it into a Python data structure
         Input data might be:
             * a path which points to a JSON file
             * a URL which points to a JSON file
