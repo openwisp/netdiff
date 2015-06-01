@@ -63,29 +63,38 @@ class BaseParser(object):
             * a JSON formatted string
             * a dict representing a JSON structure
         """
-        if isinstance(data, six.string_types):
-            url = urlparse.urlparse(data)
-            # if it's a regular file path
-            if os.path.isfile(data):
+        if isinstance(data, dict):
+            return data
+        elif isinstance(data, six.string_types):
+            # if it looks like URL
+            if '://' in data:
+                url = urlparse.urlparse(data)
+                if url.scheme in ['http', 'https']:
+                    data = self._get_http(url)
+                if url.scheme == 'telnet':
+                    data = self._get_telnet(url)
+            # if it looks like a path
+            elif True in [data.startswith('./'),
+                          data.startswith('../'),
+                          data.startswith('/'),
+                          data.startswith('.\\'),
+                          data.startswith('..\\'),
+                          data.startswith('\\'),
+                          data[1:3].startswith(':\\')]:
                 data = self._get_file(data)
-            # if it looks like a HTTP URL
-            elif url.scheme in ['http', 'https']:
-                data = self._get_http(url)
-            # if it looks like a telnet URL
-            elif url.scheme == 'telnet':
-                data = self._get_telnet(url)
             # assuming is JSON
             try:
                 return json.loads(data)
             except ValueError:
                 raise ParserJsonError('Could not decode JSON data')
-        elif isinstance(data, dict):
-            return data
         else:
             raise ParserError('Could not find valid data to parse')
 
     def _get_file(self, path):
-        return open(path).read()
+        try:
+            return open(path).read()
+        except Exception as e:
+            raise TopologyRetrievalError(e)
 
     def _get_http(self, url):
         try:

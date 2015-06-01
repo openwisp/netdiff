@@ -179,3 +179,7 @@ class TestNetJsonParser(TestCase):
     def test_topology_retrieval_error_telnet(self):
         with self.assertRaises(TopologyRetrievalError):
             NetJsonParser('telnet://github.com/netdiff/404', timeout=1)
+
+    def test_topology_retrieval_error_file(self):
+        with self.assertRaises(TopologyRetrievalError):
+            NetJsonParser('./tests/static/wrong.json')

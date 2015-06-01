@@ -3,7 +3,7 @@ import unittest
 
 from netdiff import get_version
 from netdiff.parsers.base import BaseParser
-from netdiff.exceptions import ParserError, ParserJsonError
+from netdiff.exceptions import ParserError, ParserJsonError, TopologyRetrievalError
 
 
 __all__ = ['TestBaseParser']
@@ -20,7 +20,7 @@ class TestBaseParser(unittest.TestCase):
         path = '{0}/../static/olsr-2-links.json'.format(dir)
         p = BaseParser(path)
         self.assertIsInstance(p.original_data, dict)
-        with self.assertRaises(ParserJsonError):
+        with self.assertRaises(TopologyRetrievalError):
             BaseParser('../wrong.json')
 
     def test_parse_http(self):
