@@ -12,3 +12,7 @@ class ParserJsonError(NetdiffException):
 
 class NetJsonError(NetdiffException):
     pass
+
+
+class TopologyRetrievalError(NetdiffException):
+    pass
