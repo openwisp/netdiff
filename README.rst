@@ -95,6 +95,19 @@ In alternative, you can use the subtraction operator:
     latest = OlsrParser('telnet://127.0.0.1:9090')
     latest - stored
 
+Initialization arguments
+------------------------
+
+**data**: the only required argument, different inputs are accepted:
+
+* string representing the topology
+* python `dict` (or subclass of `dict`) representing the topology
+* string representing a HTTP URL where the data resides
+* string representing a telnet URL where the data resides
+* string representing a file path where the data resides
+
+**timeout**: timeout in seconds for HTTP or telnet requests.
+
 Parsers
 -------
 

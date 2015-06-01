@@ -25,7 +25,8 @@ class BaseParser(object):
     revision = None
     metric = None
 
-    def __init__(self, data, version=None, revision=None, metric=None):
+    def __init__(self, data, version=None, revision=None, metric=None,
+                 timeout=None):
         """
         Initializes a new Parser
 
@@ -33,6 +34,7 @@ class BaseParser(object):
         :param version: routing protocol version
         :param revision: routing protocol revision
         :param metric: routing protocol metric
+        :param timeout: timeout in seconds for HTTP or telnet requests
         """
         if version:
             self.version = version
@@ -40,6 +42,7 @@ class BaseParser(object):
             self.revision = revision
         if metric:
             self.metric = metric
+        self.timeout = timeout
         self.original_data = self._to_python(data)
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
@@ -67,7 +70,7 @@ class BaseParser(object):
             # if it looks like a HTTP URL
             elif up.scheme in ['http', 'https']:
                 try:
-                    response = requests.get(data, verify=False)
+                    response = requests.get(data, verify=False, timeout=self.timeout)
                 except Exception as e:
                     raise TopologyRetrievalError(e)
                 if response.status_code != 200:
@@ -75,10 +78,8 @@ class BaseParser(object):
                 data = response.content.decode()
             # if it looks like a telnet URL
             elif up.scheme == 'telnet':
-                up = urlparse.urlparse(data)
-                telnet_host = up.hostname
-                telnet_port = up.port
-                tn = telnetlib.Telnet(telnet_host, telnet_port)
+                url = urlparse.urlparse(data)
+                tn = telnetlib.Telnet(url.hostname, url.port, timeout=self.timeout)
                 tn.write(("\r\n").encode('ascii'))
                 data = tn.read_all().decode('ascii')
                 tn.close()
