@@ -25,6 +25,35 @@ class TestNetJsonParser(TestCase):
         self.assertEqual(p.revision, '5031a799fcbe17f61d57e387bc3806de')
         self.assertEqual(p.metric, 'ETX')
 
+    def test_parse_string_graph(self):
+        data = """{
+    "type": "NetworkGraph",
+    "protocol": "OLSR",
+    "version": "0.6.6",
+    "revision": "5031a799fcbe17f61d57e387bc3806de",
+    "metric": "ETX",
+    "nodes": [
+        {
+            "id": "10.150.0.3"
+        },
+        {
+            "id": "10.150.0.2"
+        }
+    ],
+    "links": [
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.2",
+            "weight": 28334
+        }
+    ]
+}"""
+        p = NetJsonParser(data)
+        self.assertEqual(len(p.graph.nodes()), 2)
+        self.assertIn('10.150.0.3', p.graph.nodes())
+        self.assertIn('10.150.0.2', p.graph.nodes())
+        self.assertEqual(len(p.graph.edges()), 1)
+
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
             NetJsonParser('{ "test": "test" }')
