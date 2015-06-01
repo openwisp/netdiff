@@ -4,7 +4,7 @@ import networkx
 
 from netdiff import NetJsonParser
 from netdiff import diff
-from netdiff.exceptions import ParserError
+from netdiff.exceptions import ParserError, TopologyRetrievalError
 from netdiff.tests import TestCase
 
 
@@ -134,3 +134,15 @@ class TestNetJsonParser(TestCase):
         # ensure 1 link removed
         self.assertIn('10.150.0.5', result['removed'][0])
         self.assertIn('10.150.0.4', result['removed'][0])
+
+    def test_topology_retrieval_error_http_404(self):
+        with self.assertRaises(TopologyRetrievalError):
+            NetJsonParser('https://github.com/netdiff/404')
+
+    def test_topology_retrieval_error_http_wrong_domain(self):
+        with self.assertRaises(TopologyRetrievalError):
+            NetJsonParser('https://github.com/netdiff/404')
+
+    def test_topology_retrieval_error_http_wrong_domain(self):
+        with self.assertRaises(TopologyRetrievalError):
+            NetJsonParser('https://wrongunexsitingdomain.jeg')

@@ -10,7 +10,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import ParserError, ParserJsonError, NetJsonError
+from ..exceptions import ParserError, ParserJsonError, NetJsonError, TopologyRetrievalError
 from ..utils import diff
 
 
@@ -61,12 +61,18 @@ class BaseParser(object):
         # string
         if isinstance(data, six.string_types):
             up = urlparse.urlparse(data)
-            # if it looks like a file path
+            # if it's a regular file path
             if os.path.isfile(data):
                 data = open(data).read()
             # if it looks like a HTTP URL
             elif up.scheme in ['http', 'https']:
-                data = requests.get(data, verify=False).content.decode()
+                try:
+                    response = requests.get(data, verify=False)
+                except Exception as e:
+                    raise TopologyRetrievalError(e)
+                if response.status_code != 200:
+                    raise TopologyRetrievalError('Expecting HTTP 200 ok, got {0}'.format(response.status_code))
+                data = response.content.decode()
             # if it looks like a telnet URL
             elif up.scheme == 'telnet':
                 up = urlparse.urlparse(data)
