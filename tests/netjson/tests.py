@@ -146,3 +146,7 @@ class TestNetJsonParser(TestCase):
     def test_topology_retrieval_error_http_wrong_domain(self):
         with self.assertRaises(TopologyRetrievalError):
             NetJsonParser('https://wrongunexsitingdomain.jeg')
+
+    def test_topology_retrieval_error_telnet(self):
+        with self.assertRaises(TopologyRetrievalError):
+            NetJsonParser('telnet://github.com/netdiff/404', timeout=1)

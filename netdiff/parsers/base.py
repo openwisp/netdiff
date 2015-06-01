@@ -79,7 +79,10 @@ class BaseParser(object):
             # if it looks like a telnet URL
             elif up.scheme == 'telnet':
                 url = urlparse.urlparse(data)
-                tn = telnetlib.Telnet(url.hostname, url.port, timeout=self.timeout)
+                try:
+                    tn = telnetlib.Telnet(url.hostname, url.port, timeout=self.timeout)
+                except Exception as e:
+                    raise TopologyRetrievalError(e)
                 tn.write(("\r\n").encode('ascii'))
                 data = tn.read_all().decode('ascii')
                 tn.close()
