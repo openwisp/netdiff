@@ -106,7 +106,9 @@ Initialization arguments
 * string representing a telnet URL where the data resides
 * string representing a file path where the data resides
 
-**timeout**: timeout in seconds for HTTP or telnet requests.
+**timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to None
+
+**verify**: boolean indicating to the `request library whether to do SSL certificate verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`__
 
 Parsers
 -------

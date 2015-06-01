@@ -26,7 +26,7 @@ class BaseParser(object):
     metric = None
 
     def __init__(self, data, version=None, revision=None, metric=None,
-                 timeout=None):
+                 timeout=None, verify=True):
         """
         Initializes a new Parser
 
@@ -35,6 +35,7 @@ class BaseParser(object):
         :param revision: routing protocol revision
         :param metric: routing protocol metric
         :param timeout: timeout in seconds for HTTP or telnet requests
+        :param verify: boolean (valid for HTTPS requests only)
         """
         if version:
             self.version = version
@@ -43,6 +44,7 @@ class BaseParser(object):
         if metric:
             self.metric = metric
         self.timeout = timeout
+        self.verify = verify
         self.original_data = self._to_python(data)
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
@@ -61,7 +63,6 @@ class BaseParser(object):
             * a JSON formatted string
             * a dict representing a JSON structure
         """
-        # string
         if isinstance(data, six.string_types):
             url = urlparse.urlparse(data)
             # if it's a regular file path
@@ -88,7 +89,7 @@ class BaseParser(object):
 
     def _get_http(self, url):
         try:
-            response = requests.get(url.geturl(), verify=False, timeout=self.timeout)
+            response = requests.get(url.geturl(), verify=self.verify, timeout=self.timeout)
         except Exception as e:
             raise TopologyRetrievalError(e)
         if response.status_code != 200:
