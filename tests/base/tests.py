@@ -3,7 +3,7 @@ import unittest
 
 from netdiff import get_version
 from netdiff.parsers.base import BaseParser
-from netdiff.exceptions import ParserError, ParserJsonError, TopologyRetrievalError
+from netdiff.exceptions import ParserError, ConversionException, TopologyRetrievalError
 
 
 __all__ = ['TestBaseParser']
@@ -38,12 +38,12 @@ class TestBaseParser(unittest.TestCase):
         p = BaseParser({})
         self.assertIsInstance(p.original_data, dict)
 
-    def test_parse_json_exception(self):
-        with self.assertRaises(ParserJsonError):
+    def test_parse_conversion_exception(self):
+        with self.assertRaises(ConversionException):
             BaseParser('wrong [] ; .')
 
-    def test_parse_exception(self):
-        with self.assertRaises(ParserError):
+    def test_parse_error(self):
+        with self.assertRaises(ConversionException):
             BaseParser(8)
 
     def test_parse_not_implemented(self):

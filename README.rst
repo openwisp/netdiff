@@ -124,7 +124,7 @@ The available parsers are:
 * ``netdiff.BatmanParser``: parser for the `batman-advanced alfred tool <http://www.open-mesh.org/projects/open-mesh/wiki/Alfred>`__
 * ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`__
 * ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`__
-* ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/json-for-networks#network-graph>`__.
+* ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/netjson#network-graph>`__.
 
 Parsers must be initialized with a string which can represent one of the following:
 
@@ -146,13 +146,13 @@ HTTP example:
 .. code-block:: python
 
     from netdiff import NetJsonParser
-    url = 'https://raw.githubusercontent.com/interop-dev/json-for-networks/master/examples/network-graph.json'
+    url = 'https://raw.githubusercontent.com/interop-dev/netjson/master/examples/network-graph.json'
     NetJsonParser(url)
 
 NetJSON output
 --------------
 
-Netdiff parsers can return a valid `NetJSON <https://github.com/interop-dev/json-for-networks>`__
+Netdiff parsers can return a valid `NetJSON <https://github.com/interop-dev/netjson>`__
 ``NetworkGraph`` object:
 
 .. code-block:: python
@@ -201,6 +201,43 @@ Output:
             }
         ]
     }
+
+Exceptions
+----------
+
+All the exceptions are subclasses of ``netdiff.exceptions.NetdiffException``.
+
+ConversionException
+~~~~~~~~~~~~~~~~~~~
+
+``netdiff.exceptions.ConversionException``
+
+Raised when netdiff can't recognize the format passed to the parser.
+
+Not necessarily an error, should be caught and managed in order to support additional formats.
+
+ParserError
+~~~~~~~~~~~
+
+``netdiff.exceptions.ParserError``
+
+Raised when the format is recognized but the data is invalid.
+
+NetJsonError
+~~~~~~~~~~~~
+
+``netdiff.exceptions.NetJsonError``
+
+Raised when the ``json`` method of ``netdiff.parsers.BaseParser`` does not have enough data
+to be compliant with the `NetJSON NetworkGraph <https://github.com/interop-dev/netjson#network-graph>`__ specification.
+
+TopologyRetrievalError
+~~~~~~~~~~~~~~~~~~~~~~
+
+``netdiff.exceptions.TopologyRetrievalError``
+
+Raised when it is not possible to retrieve the topology data
+(eg: the URL might be temporary unreachable).
 
 Running tests
 -------------

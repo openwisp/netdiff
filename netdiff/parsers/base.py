@@ -10,7 +10,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import ParserError, ParserJsonError, NetJsonError, TopologyRetrievalError
+from ..exceptions import ParserError, ConversionException, NetJsonError, TopologyRetrievalError
 from ..utils import diff
 
 
@@ -63,16 +63,32 @@ class BaseParser(object):
             * a JSON formatted string
             * a dict representing a JSON structure
         """
+        data = self._retrieve_data(data)
         if isinstance(data, dict):
             return data
         elif isinstance(data, six.string_types):
+            # assuming is JSON
+            try:
+                return json.loads(data)
+            except ValueError:
+                raise ConversionException('Could not recognize format')
+        else:
+            raise ConversionException('Could not recognize format')
+
+    def _retrieve_data(self, data):
+        """
+        if recognizes a URL or a path
+        tries to retrieve and returns data
+        otherwise will return data as is
+        """
+        if isinstance(data, six.string_types):
             # if it looks like URL
             if '://' in data:
                 url = urlparse.urlparse(data)
                 if url.scheme in ['http', 'https']:
-                    data = self._get_http(url)
+                    return self._get_http(url)
                 if url.scheme == 'telnet':
-                    data = self._get_telnet(url)
+                    return self._get_telnet(url)
             # if it looks like a path
             elif True in [data.startswith('./'),
                           data.startswith('../'),
@@ -81,14 +97,8 @@ class BaseParser(object):
                           data.startswith('..\\'),
                           data.startswith('\\'),
                           data[1:3].startswith(':\\')]:
-                data = self._get_file(data)
-            # assuming is JSON
-            try:
-                return json.loads(data)
-            except ValueError:
-                raise ParserJsonError('Could not decode JSON data')
-        else:
-            raise ParserError('Could not find valid data to parse')
+                return self._get_file(data)
+        return data
 
     def _get_file(self, path):
         try:
