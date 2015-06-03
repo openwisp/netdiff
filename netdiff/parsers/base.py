@@ -1,6 +1,5 @@
 import six
 import json
-import os
 import requests
 import telnetlib
 from collections import OrderedDict
@@ -10,7 +9,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import ParserError, ConversionException, NetJsonError, TopologyRetrievalError
+from ..exceptions import ConversionException, NetJsonError, TopologyRetrievalError
 from ..utils import diff
 
 
@@ -26,7 +25,7 @@ class BaseParser(object):
     metric = None
 
     def __init__(self, data, version=None, revision=None, metric=None,
-                 timeout=None, verify=True):
+                 timeout=None, verify=True):  # noqa
         """
         Initializes a new Parser
 
@@ -123,6 +122,7 @@ class BaseParser(object):
         tn.write(("\r\n").encode('ascii'))
         data = tn.read_all().decode('ascii')
         tn.close()
+        return data
 
     def parse(self, data):
         """
