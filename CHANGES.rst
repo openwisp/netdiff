@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.3.2 [03-06-2015]
+--------------------------
+
+- `#26 <https://github.com/ninuxorg/netdiff/issues/26>`_: renamed exceptions with "NetParser" prefix
+- `#25 <https://github.com/ninuxorg/netdiff/issues/25>`_: raise Exception if topology file/URL not reachable
+- `53e02cc <https://github.com/ninuxorg/netdiff/commit/53e02cc>`_: flagged ``to_python`` of ``BaseParser`` as public
+- `48d2927 <https://github.com/ninuxorg/netdiff/commit/48d2927>`_: refactored exceptions, added explaination in README
+
 Version 0.3.1 [22-05-2015]
 --------------------------
 
