@@ -29,6 +29,13 @@ of open source dynamic routing protocols and calculating changes in these topolo
 It was developed to abstract the differences between the different JSON structures of the
 open source dynamic routing protocols (like **OLSR** and **batman-advanced**).
 
+It's currently also used in `Nodeshot <https://github.com/ninuxorg/nodeshot>`__
+to update the network links that are shown on the map.
+
+If you are a developer of another community network node-db project and you want
+to use netdiff to update the topology stored in your database, please
+`get in touch <http://ml.ninux.org/mailman/listinfo/ninux-dev>`__!
+
 Install stable version from pypi
 --------------------------------
 
