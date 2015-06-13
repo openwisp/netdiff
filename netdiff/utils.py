@@ -81,9 +81,9 @@ def _make_diff(old, new):
     diff_edges = old.copy()
     not_different = []
     # keep only new links in the graph
-    for old_edge in old.edges(data=True):
+    for old_edge in old.edges():
         # if link is also in new topology add it to the list
-        for new_edge in new.edges(data=True):
+        for new_edge in new.edges():
             if old_edge[0] in new_edge and old_edge[1] in new_edge:
                 not_different.append(old_edge)
     diff_edges.remove_edges_from(not_different)
