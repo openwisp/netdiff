@@ -74,25 +74,17 @@ class TestOlsrParser(TestCase):
         new = OlsrParser(links2)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']['links']) is list)
-        self.assertTrue(type(result['removed']['links']) is list)
-        self.assertTrue(type(result['added']['nodes']) is list)
-        self.assertTrue(type(result['removed']['nodes']) is list)
-        # ensure there are no differences
-        self.assertEqual(len(result['added']['links']), 0)
-        self.assertEqual(len(result['removed']['links']), 0)
-        self.assertEqual(len(result['added']['nodes']), 0)
-        self.assertEqual(len(result['removed']['nodes']), 0)
+        self.assertIsNone(result['added'])
+        self.assertIsNone(result['removed'])
 
     def test_added_1_link(self):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
         result = diff(old, new)
+        self.assertIsNone(result['removed'])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
-        self.assertEqual(len(result['removed']['links']), 0)
         self.assertEqual(len(result['added']['nodes']), 1)
-        self.assertEqual(len(result['removed']['nodes']), 0)
         # ensure correct link added
         self.assertIn('10.150.0.5', result['added']['links'][0].values())
         self.assertIn('10.150.0.4', result['added']['links'][0].values())
@@ -103,9 +95,10 @@ class TestOlsrParser(TestCase):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
         result = new - old
+        self.assertIsNone(result['removed'])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
-        self.assertEqual(len(result['removed']['links']), 0)
+        self.assertEqual(len(result['added']['nodes']), 1)
         # ensure correct link added
         self.assertIn('10.150.0.5', result['added']['links'][0].values())
         self.assertIn('10.150.0.4', result['added']['links'][0].values())
@@ -116,13 +109,11 @@ class TestOlsrParser(TestCase):
         old = OlsrParser(links3)
         new = OlsrParser(links2)
         result = diff(old, new)
+        self.assertIsNone(result['added'])
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']['links']) is list)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are differences
-        self.assertEqual(len(result['added']['links']), 0)
         self.assertEqual(len(result['removed']['links']), 1)
-        self.assertEqual(len(result['added']['nodes']), 0)
         self.assertEqual(len(result['removed']['nodes']), 1)
         # ensure correct link removed
         self.assertIn('10.150.0.5', result['removed']['links'][0].values())
@@ -166,16 +157,22 @@ class TestOlsrParser(TestCase):
         self.assertIn('1.0', [a, b])
 
     def test_diff_format(self):
-        old = OlsrParser(links2)
-        new = OlsrParser(links2)
+        old = OlsrParser(links3)
+        new = OlsrParser(links5)
         result = diff(old, new)
-        for data in result.values():
-            self.assertEqual(data['type'], 'NetworkGraph')
-            self.assertEqual(data['protocol'], 'OLSR')
-            self.assertEqual(data['version'], '0.6.6')
-            self.assertEqual(data['revision'], '5031a799fcbe17f61d57e387bc3806de')
-            self.assertEqual(data['metric'], 'ETX')
-            self.assertIsInstance(data['nodes'], list)
-            self.assertIsInstance(data['links'], list)
-            self.assertEqual(len(data['nodes']), 0)
-            self.assertEqual(len(data['links']), 0)
+        data = result['added']
+        self.assertEqual(data['type'], 'NetworkGraph')
+        self.assertEqual(data['protocol'], 'OLSR')
+        self.assertEqual(data['version'], '0.6.6')
+        self.assertEqual(data['revision'], '5031a799fcbe17f61d57e387bc3806de')
+        self.assertEqual(data['metric'], 'ETX')
+        self.assertIsInstance(data['nodes'], list)
+        self.assertIsInstance(data['links'], list)
+        data = result['removed']
+        self.assertEqual(data['type'], 'NetworkGraph')
+        self.assertEqual(data['protocol'], 'OLSR')
+        self.assertEqual(data['version'], '0.6.6')
+        self.assertEqual(data['revision'], '5031a799fcbe17f61d57e387bc3806de')
+        self.assertEqual(data['metric'], 'ETX')
+        self.assertIsInstance(data['nodes'], list)
+        self.assertIsInstance(data['links'], list)

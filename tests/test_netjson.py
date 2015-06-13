@@ -133,25 +133,17 @@ class TestNetJsonParser(TestCase):
         new = NetJsonParser(links2)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']['links']) is list)
-        self.assertTrue(type(result['removed']['links']) is list)
-        self.assertTrue(type(result['added']['nodes']) is list)
-        self.assertTrue(type(result['removed']['nodes']) is list)
-        # ensure there are no differences
-        self.assertEqual(len(result['added']['links']), 0)
-        self.assertEqual(len(result['removed']['links']), 0)
-        self.assertEqual(len(result['added']['nodes']), 0)
-        self.assertEqual(len(result['removed']['nodes']), 0)
+        self.assertIsNone(result['added'])
+        self.assertIsNone(result['removed'])
 
     def test_added_1_link(self):
         old = NetJsonParser(links2)
         new = NetJsonParser(links3)
         result = diff(old, new)
+        self.assertIsNone(result['removed'])
         # ensure there are no differences
         self.assertEqual(len(result['added']['links']), 1)
-        self.assertEqual(len(result['removed']['links']), 0)
         self.assertEqual(len(result['added']['nodes']), 1)
-        self.assertEqual(len(result['removed']['nodes']), 0)
         # ensure correct link added
         self.assertIn('10.150.0.5', result['added']['links'][0].values())
         self.assertIn('10.150.0.4', result['added']['links'][0].values())
@@ -162,15 +154,12 @@ class TestNetJsonParser(TestCase):
         old = NetJsonParser(links3)
         new = NetJsonParser(links2)
         result = diff(old, new)
+        self.assertIsNone(result['added'])
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']['links']) is list)
         self.assertTrue(type(result['removed']['links']) is list)
-        self.assertTrue(type(result['added']['nodes']) is list)
         self.assertTrue(type(result['removed']['nodes']) is list)
         # ensure differences
-        self.assertEqual(len(result['added']['links']), 0)
         self.assertEqual(len(result['removed']['links']), 1)
-        self.assertEqual(len(result['added']['nodes']), 0)
         self.assertEqual(len(result['removed']['nodes']), 1)
         # ensure 1 link removed
         self.assertIn('10.150.0.5', result['removed']['links'][0].values())

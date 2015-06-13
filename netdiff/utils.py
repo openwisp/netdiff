@@ -49,15 +49,25 @@ def diff(old, new):
     # calculate differences
     added_nodes, added_edges = _make_diff(new.graph, old.graph)
     removed_nodes, removed_edges = _make_diff(old.graph, new.graph)
+    # create netjson objects
+    # or assign None if no changes
+    if added_nodes.nodes() and added_edges.edges():
+        added = netjson_networkgraph(protocol, version, revision, metric,
+                                     added_nodes.nodes(),
+                                     added_edges.edges(data=True),
+                                     dict=True)
+    else:
+        added = None
+    if removed_nodes.nodes() and removed_edges.edges():
+        removed = netjson_networkgraph(protocol, version, revision, metric,
+                                       removed_nodes.nodes(),
+                                       removed_edges.edges(data=True),
+                                       dict=True)
+    else:
+        removed = None
     return {
-        "added": netjson_networkgraph(protocol, version, revision, metric,
-                                      added_nodes.nodes(),
-                                      added_edges.edges(data=True),
-                                      dict=True),
-        "removed": netjson_networkgraph(protocol, version, revision, metric,
-                                        removed_nodes.nodes(),
-                                        removed_edges.edges(data=True),
-                                        dict=True)
+        "added": added,
+        "removed": removed
     }
 
 
