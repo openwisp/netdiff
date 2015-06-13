@@ -133,36 +133,50 @@ class TestNetJsonParser(TestCase):
         new = NetJsonParser(links2)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']) is list)
-        self.assertTrue(type(result['removed']) is list)
+        self.assertTrue(type(result['added']['links']) is list)
+        self.assertTrue(type(result['removed']['links']) is list)
+        self.assertTrue(type(result['added']['nodes']) is list)
+        self.assertTrue(type(result['removed']['nodes']) is list)
         # ensure there are no differences
-        self.assertEqual(len(result['added']), 0)
-        self.assertEqual(len(result['removed']), 0)
+        self.assertEqual(len(result['added']['links']), 0)
+        self.assertEqual(len(result['removed']['links']), 0)
+        self.assertEqual(len(result['added']['nodes']), 0)
+        self.assertEqual(len(result['removed']['nodes']), 0)
 
     def test_added_1_link(self):
         old = NetJsonParser(links2)
         new = NetJsonParser(links3)
         result = diff(old, new)
         # ensure there are no differences
-        self.assertEqual(len(result['added']), 1)
-        self.assertEqual(len(result['removed']), 0)
-        # ensure 1 link added
-        self.assertIn('10.150.0.5', result['added'][0])
-        self.assertIn('10.150.0.4', result['added'][0])
+        self.assertEqual(len(result['added']['links']), 1)
+        self.assertEqual(len(result['removed']['links']), 0)
+        self.assertEqual(len(result['added']['nodes']), 1)
+        self.assertEqual(len(result['removed']['nodes']), 0)
+        # ensure correct link added
+        self.assertIn('10.150.0.5', result['added']['links'][0].values())
+        self.assertIn('10.150.0.4', result['added']['links'][0].values())
+        # ensure correct node added
+        self.assertIn('10.150.0.5', result['added']['nodes'][0].values())
 
     def test_removed_1_link(self):
         old = NetJsonParser(links3)
         new = NetJsonParser(links2)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']) is list)
-        self.assertTrue(type(result['removed']) is list)
-        # ensure there are no differences
-        self.assertEqual(len(result['added']), 0)
-        self.assertEqual(len(result['removed']), 1)
+        self.assertTrue(type(result['added']['links']) is list)
+        self.assertTrue(type(result['removed']['links']) is list)
+        self.assertTrue(type(result['added']['nodes']) is list)
+        self.assertTrue(type(result['removed']['nodes']) is list)
+        # ensure differences
+        self.assertEqual(len(result['added']['links']), 0)
+        self.assertEqual(len(result['removed']['links']), 1)
+        self.assertEqual(len(result['added']['nodes']), 0)
+        self.assertEqual(len(result['removed']['nodes']), 1)
         # ensure 1 link removed
-        self.assertIn('10.150.0.5', result['removed'][0])
-        self.assertIn('10.150.0.4', result['removed'][0])
+        self.assertIn('10.150.0.5', result['removed']['links'][0].values())
+        self.assertIn('10.150.0.4', result['removed']['links'][0].values())
+        # ensure correct node added
+        self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
     def test_topology_retrieval_error_http_404(self):
         with self.assertRaises(TopologyRetrievalError):

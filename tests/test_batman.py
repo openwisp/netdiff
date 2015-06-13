@@ -62,19 +62,19 @@ class TestBatmanParser(TestCase):
         new = BatmanParser(iulinet2)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']) is list)
-        self.assertTrue(type(result['removed']) is list)
+        self.assertTrue(type(result['added']['links']) is list)
+        self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are no differences
-        self.assertEqual(len(result['added']), 1)
-        self.assertEqual(len(result['removed']), 1)
+        self.assertEqual(len(result['added']['links']), 1)
+        self.assertEqual(len(result['removed']['links']), 1)
         self._test_expected_links(
-            links=result['added'],
+            graph=result['added'],
             expected_links=[
                 ('a0:f3:c1:96:94:10', '90:f6:52:f2:8c:2c')
             ]
         )
         self._test_expected_links(
-            links=result['removed'],
+            graph=result['removed'],
             expected_links=[
                 ('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c')
             ]
@@ -85,8 +85,8 @@ class TestBatmanParser(TestCase):
         new = BatmanParser(iulinet)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']) is list)
-        self.assertTrue(type(result['removed']) is list)
+        self.assertTrue(type(result['added']['links']) is list)
+        self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are no differences
-        self.assertEqual(len(result['added']), 0)
-        self.assertEqual(len(result['removed']), 0)
+        self.assertEqual(len(result['added']['links']), 0)
+        self.assertEqual(len(result['removed']['links']), 0)

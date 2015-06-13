@@ -15,7 +15,7 @@ from ..exceptions import ParserError
 class CnmlParser(BaseParser):
     """ CNML 0.1 parser """
     protocol = 'static'
-    version = '0.1'
+    version = None
     metric = None
 
     def to_python(self, data):

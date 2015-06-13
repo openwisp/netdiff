@@ -58,19 +58,19 @@ class TestBmx6Parser(TestCase):
         new = Bmx6Parser(topo2)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']) is list)
-        self.assertTrue(type(result['removed']) is list)
+        self.assertTrue(type(result['added']['links']) is list)
+        self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are no differences
-        self.assertEqual(len(result['added']), 1)
-        self.assertEqual(len(result['removed']), 1)
+        self.assertEqual(len(result['added']['links']), 1)
+        self.assertEqual(len(result['removed']['links']), 1)
         self._test_expected_links(
-            links=result['added'],
+            graph=result['added'],
             expected_links=[
                 ('P9SFCiutatGranada73-68f5', 'P9SFDrTruetaa183-b715')
             ]
         )
         self._test_expected_links(
-            links=result['removed'],
+            graph=result['removed'],
             expected_links=[
                 ('P9SFCiutatGranada73-68f5', 'P9SFDrTruetaa183-b713')
             ]
@@ -81,8 +81,8 @@ class TestBmx6Parser(TestCase):
         new = Bmx6Parser(topo)
         result = diff(old, new)
         self.assertTrue(type(result) is dict)
-        self.assertTrue(type(result['added']) is list)
-        self.assertTrue(type(result['removed']) is list)
+        self.assertTrue(type(result['added']['links']) is list)
+        self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are no differences
-        self.assertEqual(len(result['added']), 0)
-        self.assertEqual(len(result['removed']), 0)
+        self.assertEqual(len(result['added']['links']), 0)
+        self.assertEqual(len(result['removed']['links']), 0)

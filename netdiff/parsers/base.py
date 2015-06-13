@@ -2,15 +2,14 @@ import six
 import json
 import requests
 import telnetlib
-from collections import OrderedDict
 
 try:
     import urlparse
 except ImportError:
     import urllib.parse as urlparse
 
-from ..exceptions import ConversionException, NetJsonError, TopologyRetrievalError
-from ..utils import diff
+from ..exceptions import ConversionException, TopologyRetrievalError
+from ..utils import netjson_networkgraph, diff
 
 
 class BaseParser(object):
@@ -131,7 +130,7 @@ class BaseParser(object):
         """
         raise NotImplementedError()
 
-    def json(self, dict=False, **args):
+    def json(self, dict=False, **kwargs):
         """
         Outputs NetJSON format
         """
@@ -139,31 +138,11 @@ class BaseParser(object):
             graph = self.graph
         except AttributeError:
             raise NotImplementedError()
-        # netjson formatting check
-        if self.protocol is None:
-            raise NetJsonError('protocol cannot be None')
-        if self.version is None:
-            raise NetJsonError('version cannot be None')
-        if self.metric is None and self.protocol != 'static':
-            raise NetJsonError('metric cannot be None')
-        # prepare lists
-        nodes = [{'id': node} for node in graph.nodes()]
-        links = []
-        for link in graph.edges(data=True):
-            links.append(OrderedDict((
-                ('source', link[0]),
-                ('target', link[1]),
-                ('weight', link[2]['weight'])
-            )))
-        data = OrderedDict((
-            ('type', 'NetworkGraph'),
-            ('protocol', self.protocol),
-            ('version', self.version),
-            ('revision', self.revision),
-            ('metric', self.metric),
-            ('nodes', nodes),
-            ('links', links)
-        ))
-        if dict:
-            return data
-        return json.dumps(data, **args)
+        return netjson_networkgraph(self.protocol,
+                                    self.version,
+                                    self.revision,
+                                    self.metric,
+                                    graph.nodes(),
+                                    graph.edges(data=True),
+                                    dict,
+                                    **kwargs)
