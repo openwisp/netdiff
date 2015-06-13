@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.4 [unreleased]
+------------------------
+
+- `#21 <https://github.com/ninuxorg/netdiff/issues/21>`_: made ``diff`` output consistent with NetJSON ``NetworkGraph``
+- `#24 <https://github.com/ninuxorg/netdiff/issues/24>`_: add "changed" section to ``diff`` to show changes in weight
+
 Version 0.3.2 [03-06-2015]
 --------------------------
 
