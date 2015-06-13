@@ -47,9 +47,10 @@ def diff(old, new):
     revision = new.revision
     metric = new.metric
     # calculate differences
-    added_nodes, added_edges = _make_diff(new.graph, old.graph)
-    removed_nodes, removed_edges = _make_diff(old.graph, new.graph)
-    changed_edges = _find_changed(old.graph, new.graph)
+    in_both = _find_unchanged(old.graph, new.graph)
+    added_nodes, added_edges = _make_diff(old.graph, new.graph, in_both)
+    removed_nodes, removed_edges = _make_diff(new.graph, old.graph, in_both)
+    changed_edges = _find_changed(old.graph, new.graph, in_both)
     # create netjson objects
     # or assign None if no changes
     if added_nodes.nodes() and added_edges.edges():
@@ -80,50 +81,50 @@ def diff(old, new):
     }
 
 
-def _make_diff(old, new):
+def _make_diff(old, new, both):
     """
     calculates differences between topologies 'old' and 'new'
     returns a tuple with two network graph objects
     the first graph contains the added nodes, the secnod contains the added links
     """
     # make a copy of old topology to avoid tampering with it
-    diff_edges = old.copy()
-    not_different = []
-    old_edges = [set(edge) for edge in old.edges()]
-    new_edges = [set(edge) for edge in new.edges()]
-    # keep only new links in the graph
-    for old_edge in old_edges:
-        if old_edge in new_edges:
-            not_different.append(tuple(old_edge))
+    diff_edges = new.copy()
+    not_different = [tuple(edge) for edge in both]
     diff_edges.remove_edges_from(not_different)
     # repeat operation with nodes
-    diff_nodes = old.copy()
+    diff_nodes = new.copy()
     not_different = []
-    for old_node in old.nodes():
-        if old_node in new.nodes():
-            not_different.append(old_node)
+    for new_node in new.nodes():
+        if new_node in old.nodes():
+            not_different.append(new_node)
     diff_nodes.remove_nodes_from(not_different)
     # return tuple with modified graphs
     # one for nodes and one for links
     return diff_nodes, diff_edges
 
 
-def _find_changed(old, new):
+def _find_unchanged(old, new):
     """
-    find changes in link weight
+    returns edges that are in both old and new
     """
-    # find edges that are in both old and new
-    both = []
+    edges = []
     old_edges = [set(edge) for edge in old.edges()]
     new_edges = [set(edge) for edge in new.edges()]
     for old_edge in old_edges:
         if old_edge in new_edges:
-            both.append(tuple(old_edge))
+            edges.append(set(old_edge))
+    return edges
+
+
+def _find_changed(old, new, both):
+    """
+    returns links that have changed weight
+    """
     # create two sets of old and new edges including weight
     old_edges = []
     for edge in old.edges(data=True):
         # skip links that are not in both
-        if tuple((edge[0], edge[1])) not in both:
+        if set((edge[0], edge[1])) not in both:
             continue
         dict_edge = {
             'source': edge[0],
@@ -136,7 +137,7 @@ def _find_changed(old, new):
     new_edges = []
     for edge in new.edges(data=True):
         # skip links that are not in both
-        if tuple((edge[0], edge[1])) not in both:
+        if set((edge[0], edge[1])) not in both:
             continue
         dict_edge = {
             'source': edge[0],
