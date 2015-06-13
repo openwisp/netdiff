@@ -78,44 +78,113 @@ Calculate diff of an OLSR 0.6.x topology:
     from netdiff import OlsrParser
     from netdiff import diff
 
-    stored = OlsrParser('./stored-olsr.json')
-    latest = OlsrParser('telnet://127.0.0.1:9090')
-    diff(stored, latest)
+    old = OlsrParser('./stored-olsr.json')
+    new = OlsrParser('telnet://127.0.0.1:9090')
+    diff(old, new)
 
-The output will be a dictionary with the following structure:
-
-.. code-block:: python
-
-    {
-        "added": []
-        "removed": []
-    }
-
-In alternative, you can use the subtraction operator:
+In alternative, you may also use the subtraction operator:
 
 .. code-block:: python
 
     from netdiff import OlsrParser
     from netdiff import diff
 
-    stored = OlsrParser('./stored-olsr.json')
-    latest = OlsrParser('telnet://127.0.0.1:9090')
-    latest - stored
+    old = OlsrParser('./stored-olsr.json')
+    new = OlsrParser('telnet://127.0.0.1:9090')
+    old - new
 
-Initialization arguments
-------------------------
+The output will be an ordered dictionary with three keys:
 
-**data**: the only required argument, different inputs are accepted:
+* added
+* removed
+* changed
 
-* string representing the topology
-* python `dict` (or subclass of `dict`) representing the topology
-* string representing a HTTP URL where the data resides
-* string representing a telnet URL where the data resides
-* string representing a file path where the data resides
+Each key will contain a dict compatible with the `NetJSON NetworkGraph format <https://github.com/interop-dev/netjson#network-graph>`__
+representing respectively:
 
-**timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to None
+* the nodes and links that have been added to the topology
+* the nodes and links that have been removed from the topology
+* links that are present in both topologies but their weight changed
 
-**verify**: boolean indicating to the `request library whether to do SSL certificate verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`__
+If no changes are present, keys will contain ``None``.
+
+So if between ``old`` and ``new`` there are no changes, the result will be:
+
+.. code-block:: python
+
+    {
+        "added": None
+        "removed": None,
+        "changed": None
+    }
+
+While if there are changes, the result will look like:
+
+.. code-block:: python
+
+    {
+        "added": {
+            "type": "NetworkGraph",
+            "protocol": "OLSR",
+            "version": "0.6.6",
+            "revision": "5031a799fcbe17f61d57e387bc3806de",
+            "metric": "ETX",
+            "nodes": [
+                {
+                    "id": "10.150.0.7"
+                },
+                {
+                    "id": "10.150.0.6"
+                }
+            ],
+            "links": [
+                {
+                    "source": "10.150.0.3",
+                    "target": "10.150.0.7",
+                    "weight": 1.50390625
+                },
+                {
+                    "source": "10.150.0.3",
+                    "target": "10.150.0.6",
+                    "weight": 1.0
+                }
+            ]
+        },
+        "removed": {
+            "type": "NetworkGraph",
+            "protocol": "OLSR",
+            "version": "0.6.6",
+            "revision": "5031a799fcbe17f61d57e387bc3806de",
+            "metric": "ETX",
+            "nodes": [
+                {
+                    "id": "10.150.0.8"
+                }
+            ],
+            "links": [
+                {
+                    "source": "10.150.0.7",
+                    "target": "10.150.0.8",
+                    "weight": 1.0
+                }
+            ]
+        },
+        "changed": {
+            "type": "NetworkGraph",
+            "protocol": "OLSR",
+            "version": "0.6.6",
+            "revision": "5031a799fcbe17f61d57e387bc3806de",
+            "metric": "ETX",
+            "nodes": [],
+            "links": [
+                {
+                    "source": "10.150.0.3",
+                    "target": "10.150.0.2",
+                    "weight": 1.0
+                }
+            ]
+        }
+    }
 
 Parsers
 -------
@@ -133,13 +202,23 @@ The available parsers are:
 * ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`__
 * ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/netjson#network-graph>`__.
 
-Parsers must be initialized with a string which can represent one of the following:
+Initialization arguments
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-* path to JSON file
-* HTTP url to JSON file
-* telnet url to JSON file
-* JSON formatted string
-* python dictionary representing a JSON structure
+**data**: the only required argument, different inputs are accepted:
+
+* JSON formatted string representing the topology
+* python `dict` (or subclass of `dict`) representing the topology
+* string representing a HTTP URL where the data resides
+* string representing a telnet URL where the data resides
+* string representing a file path where the data resides
+
+**timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to None
+
+**verify**: boolean indicating to the `request library whether to do SSL certificate verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`__
+
+Initialization examples
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Local file example:
 
@@ -155,6 +234,20 @@ HTTP example:
     from netdiff import NetJsonParser
     url = 'https://raw.githubusercontent.com/interop-dev/netjson/master/examples/network-graph.json'
     NetJsonParser(url)
+
+Telnet example with ``timeout``:
+
+.. code-block:: python
+
+    from netdiff import OlsrParser
+    OlsrParser('telnet://127.0.1:8080', timeout=5)
+
+HTTPS example with self-signed SSL certificate using ``verify=False``:
+
+.. code-block:: python
+
+    from netdiff import NetJsonParser
+    OlsrParser('https://myserver.mydomain.com/topology.json', verify=False)
 
 NetJSON output
 --------------
@@ -285,8 +378,8 @@ See test coverage with:
 
     coverage run --source=netdiff runtests.py && coverage report
 
-Contribute
-----------
+Contributing
+------------
 
 1. Join the `ninux-dev mailing list`_
 2. Fork this repo and install it
