@@ -13,6 +13,7 @@ __all__ = ['TestOlsrParser']
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = '{0}/static/olsr-2-links.json'.format(CURRENT_DIR)
+links2_cost = '{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)
 links3 = '{0}/static/olsr-3-links.json'.format(CURRENT_DIR)
 links5 = '{0}/static/olsr-5-links.json'.format(CURRENT_DIR)
 
@@ -76,12 +77,14 @@ class TestOlsrParser(TestCase):
         self.assertTrue(type(result) is dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
+        self.assertIsNone(result['changed'])
 
     def test_added_1_link(self):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
         result = diff(old, new)
         self.assertIsNone(result['removed'])
+        self.assertIsNone(result['changed'])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
         self.assertEqual(len(result['added']['nodes']), 1)
@@ -96,6 +99,7 @@ class TestOlsrParser(TestCase):
         new = OlsrParser(links3)
         result = new - old
         self.assertIsNone(result['removed'])
+        self.assertIsNone(result['changed'])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
         self.assertEqual(len(result['added']['nodes']), 1)
@@ -110,6 +114,7 @@ class TestOlsrParser(TestCase):
         new = OlsrParser(links2)
         result = diff(old, new)
         self.assertIsNone(result['added'])
+        self.assertIsNone(result['changed'])
         self.assertTrue(type(result) is dict)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are differences
@@ -125,6 +130,7 @@ class TestOlsrParser(TestCase):
         old = OlsrParser(links3)
         new = OlsrParser(links5)
         result = diff(old, new)
+        self.assertIsNone(result['changed'])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 3)
         self.assertEqual(len(result['removed']['links']), 1)
@@ -176,3 +182,18 @@ class TestOlsrParser(TestCase):
         self.assertEqual(data['metric'], 'ETX')
         self.assertIsInstance(data['nodes'], list)
         self.assertIsInstance(data['links'], list)
+
+    def test_cost_changes(self):
+        old = OlsrParser(links2)
+        new = OlsrParser(links2_cost)
+        result = diff(old, new)
+        self.assertIsNone(result['added'])
+        self.assertIsNone(result['removed'])
+        self.assertIsInstance(result['changed'], dict)
+        self.assertEqual(len(result['changed']['nodes']), 0)
+        links = result['changed']['links']
+        self.assertTrue(type(links) is list)
+        self.assertEqual(len(links), 2)
+        # ensure results are correct
+        self.assertTrue(1.302734375 in (links[0]['weight'], links[1]['weight']))
+        self.assertTrue(1.0234375 in (links[0]['weight'], links[1]['weight']))

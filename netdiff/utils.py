@@ -49,6 +49,7 @@ def diff(old, new):
     # calculate differences
     added_nodes, added_edges = _make_diff(new.graph, old.graph)
     removed_nodes, removed_edges = _make_diff(old.graph, new.graph)
+    changed_edges = _find_changed(old.graph, new.graph)
     # create netjson objects
     # or assign None if no changes
     if added_nodes.nodes() and added_edges.edges():
@@ -65,9 +66,17 @@ def diff(old, new):
                                        dict=True)
     else:
         removed = None
+    if changed_edges:
+        changed = netjson_networkgraph(protocol, version, revision, metric,
+                                       [],
+                                       changed_edges,
+                                       dict=True)
+    else:
+        changed = None
     return {
         "added": added,
-        "removed": removed
+        "removed": removed,
+        "changed": changed
     }
 
 
@@ -97,3 +106,50 @@ def _make_diff(old, new):
     # return tuple with modified graphs
     # one for nodes and one for links
     return diff_nodes, diff_edges
+
+
+def _find_changed(old, new):
+    """
+    find changes in link weight
+    """
+    # find edges that are in both old and new
+    both = []
+    old_edges = [set(edge) for edge in old.edges()]
+    new_edges = [set(edge) for edge in new.edges()]
+    for old_edge in old_edges:
+        if old_edge in new_edges:
+            both.append(tuple(old_edge))
+    # create two sets of old and new edges including weight
+    old_edges = []
+    for edge in old.edges(data=True):
+        # skip links that are not in both
+        if tuple((edge[0], edge[1])) not in both:
+            continue
+        dict_edge = {
+            'source': edge[0],
+            'target': edge[1],
+            'weight': edge[2]['weight']
+        }
+        # let's convert doct to a hashable form
+        hashable = tuple(sorted(dict_edge.items()))
+        old_edges.append(set(hashable))
+    new_edges = []
+    for edge in new.edges(data=True):
+        # skip links that are not in both
+        if tuple((edge[0], edge[1])) not in both:
+            continue
+        dict_edge = {
+            'source': edge[0],
+            'target': edge[1],
+            'weight': edge[2]['weight']
+        }
+        # let's convert doct to a hashable form
+        hashable = tuple(sorted(dict_edge.items()))
+        new_edges.append(set(hashable))
+    # find out which edge changed
+    changed = []
+    for new_edge in new_edges:
+        if new_edge not in old_edges:
+            d = dict(tuple(new_edge))
+            changed.append((d['source'], d['target'], {'weight': d['weight']}))
+    return changed
