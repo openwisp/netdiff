@@ -120,37 +120,32 @@ def _find_changed(old, new, both):
     """
     returns links that have changed weight
     """
-    # create two sets of old and new edges including weight
+    # create two list of sets of old and new edges including weight
     old_edges = []
     for edge in old.edges(data=True):
         # skip links that are not in both
         if set((edge[0], edge[1])) not in both:
             continue
-        dict_edge = {
-            'source': edge[0],
-            'target': edge[1],
-            'weight': edge[2]['weight']
-        }
-        # let's convert doct to a hashable form
-        hashable = tuple(sorted(dict_edge.items()))
-        old_edges.append(set(hashable))
+        # let's convert weight dict to a hashable form
+        hashable = tuple(sorted(edge[2].items()))
+        old_edges.append(set((edge[0], edge[1], hashable)))
     new_edges = []
     for edge in new.edges(data=True):
         # skip links that are not in both
         if set((edge[0], edge[1])) not in both:
             continue
-        dict_edge = {
-            'source': edge[0],
-            'target': edge[1],
-            'weight': edge[2]['weight']
-        }
-        # let's convert doct to a hashable form
-        hashable = tuple(sorted(dict_edge.items()))
-        new_edges.append(set(hashable))
+        # let's convert weight dict to a hashable form
+        hashable = tuple(sorted(edge[2].items()))
+        new_edges.append(set((edge[0], edge[1], hashable)))
     # find out which edge changed
     changed = []
     for new_edge in new_edges:
         if new_edge not in old_edges:
-            d = dict(tuple(new_edge))
-            changed.append((d['source'], d['target'], {'weight': d['weight']}))
+            # new_edge is a set, convert it to list
+            new_edge = list(new_edge)
+            for item in new_edge:
+                if isinstance(item, tuple):
+                    weight = dict(item)
+                    new_edge.remove(item)
+            changed.append((new_edge[0], new_edge[1], weight))
     return changed
