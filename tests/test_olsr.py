@@ -157,10 +157,10 @@ class TestOlsrParser(TestCase):
     def test_weight(self):
         parser = OlsrParser(links2)
         graph = parser.json(dict=True)
-        a = str(graph['links'][0]['weight'])[0:3]
-        b = str(graph['links'][1]['weight'])[0:3]
-        self.assertIn('27.', [a, b])
-        self.assertIn('1.0', [a, b])
+        a = graph['links'][0]['weight']
+        b = graph['links'][1]['weight']
+        self.assertIn(27.669921875, [a, b])
+        self.assertIn(1.0, [a, b])
 
     def test_diff_format(self):
         old = OlsrParser(links3)
