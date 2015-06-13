@@ -61,7 +61,7 @@ class TestBatmanParser(TestCase):
         old = BatmanParser(iulinet)
         new = BatmanParser(iulinet2)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertTrue(type(result['added']['links']) is list)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are no differences
@@ -84,6 +84,6 @@ class TestBatmanParser(TestCase):
         old = BatmanParser(iulinet)
         new = BatmanParser(iulinet)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])

@@ -132,7 +132,7 @@ class TestNetJsonParser(TestCase):
         old = NetJsonParser(links2)
         new = NetJsonParser(links2)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
 
@@ -155,7 +155,7 @@ class TestNetJsonParser(TestCase):
         new = NetJsonParser(links2)
         result = diff(old, new)
         self.assertIsNone(result['added'])
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertTrue(type(result['removed']['links']) is list)
         self.assertTrue(type(result['removed']['nodes']) is list)
         # ensure differences

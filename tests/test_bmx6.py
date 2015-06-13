@@ -57,7 +57,7 @@ class TestBmx6Parser(TestCase):
         old = Bmx6Parser(topo)
         new = Bmx6Parser(topo2)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertTrue(type(result['added']['links']) is list)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are no differences
@@ -80,6 +80,6 @@ class TestBmx6Parser(TestCase):
         old = Bmx6Parser(topo)
         new = Bmx6Parser(topo)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])

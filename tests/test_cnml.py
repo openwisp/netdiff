@@ -62,7 +62,7 @@ class TestCnmlParser(TestCase):
         old = CnmlParser(cnml1)
         new = CnmlParser(cnml1)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
 
@@ -81,7 +81,7 @@ class TestCnmlParser(TestCase):
         old = CnmlParser(cnml2)
         new = CnmlParser(cnml1)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are differences

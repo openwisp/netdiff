@@ -75,7 +75,7 @@ class TestOlsrParser(TestCase):
         old = OlsrParser(links2)
         new = OlsrParser(links2)
         result = diff(old, new)
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
         self.assertIsNone(result['changed'])
@@ -116,7 +116,7 @@ class TestOlsrParser(TestCase):
         result = diff(old, new)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['changed'])
-        self.assertTrue(type(result) is dict)
+        self.assertIsInstance(result, dict)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are differences
         self.assertEqual(len(result['removed']['links']), 1)
