@@ -41,11 +41,11 @@ def diff(old, new):
                                        dict=True)
     else:
         changed = None
-    return {
-        "added": added,
-        "removed": removed,
-        "changed": changed
-    }
+    return OrderedDict((
+        ('added', added),
+        ('removed', removed),
+        ('changed', changed)
+    ))
 
 
 def _make_diff(old, new, both):
