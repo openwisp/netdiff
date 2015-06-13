@@ -4,39 +4,6 @@ from collections import OrderedDict
 from .exceptions import NetJsonError
 
 
-def netjson_networkgraph(protocol, version, revision, metric,
-                         nodes, links,
-                         dict=False, **kwargs):
-    # netjson formatting check
-    if protocol is None:
-        raise NetJsonError('protocol cannot be None')
-    if version is None and protocol != 'static':
-        raise NetJsonError('version cannot be None except when protocol is "static"')
-    if metric is None and protocol != 'static':
-        raise NetJsonError('metric cannot be None except when protocol is "static"')
-    # prepare lists
-    node_list = [{'id': node} for node in nodes]
-    link_list = []
-    for link in links:
-        link_list.append(OrderedDict((
-            ('source', link[0]),
-            ('target', link[1]),
-            ('weight', link[2]['weight'])
-        )))
-    data = OrderedDict((
-        ('type', 'NetworkGraph'),
-        ('protocol', protocol),
-        ('version', version),
-        ('revision', revision),
-        ('metric', metric),
-        ('nodes', node_list),
-        ('links', link_list)
-    ))
-    if dict:
-        return data
-    return json.dumps(data, **kwargs)
-
-
 def diff(old, new):
     """
     Returns differences of two network topologies old and new
@@ -54,21 +21,21 @@ def diff(old, new):
     # create netjson objects
     # or assign None if no changes
     if added_nodes.nodes() and added_edges.edges():
-        added = netjson_networkgraph(protocol, version, revision, metric,
+        added = _netjson_networkgraph(protocol, version, revision, metric,
                                      added_nodes.nodes(),
                                      added_edges.edges(data=True),
                                      dict=True)
     else:
         added = None
     if removed_nodes.nodes() and removed_edges.edges():
-        removed = netjson_networkgraph(protocol, version, revision, metric,
+        removed = _netjson_networkgraph(protocol, version, revision, metric,
                                        removed_nodes.nodes(),
                                        removed_edges.edges(data=True),
                                        dict=True)
     else:
         removed = None
     if changed_edges:
-        changed = netjson_networkgraph(protocol, version, revision, metric,
+        changed = _netjson_networkgraph(protocol, version, revision, metric,
                                        [],
                                        changed_edges,
                                        dict=True)
@@ -149,3 +116,36 @@ def _find_changed(old, new, both):
                     new_edge.remove(item)
             changed.append((new_edge[0], new_edge[1], weight))
     return changed
+
+
+def _netjson_networkgraph(protocol, version, revision, metric,
+                         nodes, links,
+                         dict=False, **kwargs):
+    # netjson formatting check
+    if protocol is None:
+        raise NetJsonError('protocol cannot be None')
+    if version is None and protocol != 'static':
+        raise NetJsonError('version cannot be None except when protocol is "static"')
+    if metric is None and protocol != 'static':
+        raise NetJsonError('metric cannot be None except when protocol is "static"')
+    # prepare lists
+    node_list = [{'id': node} for node in nodes]
+    link_list = []
+    for link in links:
+        link_list.append(OrderedDict((
+            ('source', link[0]),
+            ('target', link[1]),
+            ('weight', link[2]['weight'])
+        )))
+    data = OrderedDict((
+        ('type', 'NetworkGraph'),
+        ('protocol', protocol),
+        ('version', version),
+        ('revision', revision),
+        ('metric', metric),
+        ('nodes', node_list),
+        ('links', link_list)
+    ))
+    if dict:
+        return data
+    return json.dumps(data, **kwargs)

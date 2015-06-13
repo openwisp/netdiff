@@ -9,7 +9,7 @@ except ImportError:
     import urllib.parse as urlparse
 
 from ..exceptions import ConversionException, TopologyRetrievalError
-from ..utils import netjson_networkgraph, diff
+from ..utils import diff, _netjson_networkgraph
 
 
 class BaseParser(object):
@@ -138,11 +138,11 @@ class BaseParser(object):
             graph = self.graph
         except AttributeError:
             raise NotImplementedError()
-        return netjson_networkgraph(self.protocol,
-                                    self.version,
-                                    self.revision,
-                                    self.metric,
-                                    graph.nodes(),
-                                    graph.edges(data=True),
-                                    dict,
-                                    **kwargs)
+        return _netjson_networkgraph(self.protocol,
+                                     self.version,
+                                     self.revision,
+                                     self.metric,
+                                     graph.nodes(),
+                                     graph.edges(data=True),
+                                     dict,
+                                     **kwargs)
