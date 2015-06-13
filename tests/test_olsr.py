@@ -16,6 +16,7 @@ links2 = '{0}/static/olsr-2-links.json'.format(CURRENT_DIR)
 links2_cost = '{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)
 links3 = '{0}/static/olsr-3-links.json'.format(CURRENT_DIR)
 links5 = '{0}/static/olsr-5-links.json'.format(CURRENT_DIR)
+links5_cost = '{0}/static/olsr-5-links-cost-changed.json'.format(CURRENT_DIR)
 
 
 class TestOlsrParser(TestCase):
@@ -183,7 +184,7 @@ class TestOlsrParser(TestCase):
         self.assertIsInstance(data['nodes'], list)
         self.assertIsInstance(data['links'], list)
 
-    def test_cost_changes(self):
+    def test_cost_changes_1(self):
         old = OlsrParser(links2)
         new = OlsrParser(links2_cost)
         result = diff(old, new)
@@ -197,3 +198,19 @@ class TestOlsrParser(TestCase):
         # ensure results are correct
         self.assertTrue(1.302734375 in (links[0]['weight'], links[1]['weight']))
         self.assertTrue(1.0234375 in (links[0]['weight'], links[1]['weight']))
+
+    def test_cost_changes_2(self):
+        old = OlsrParser(links5)
+        new = OlsrParser(links5_cost)
+        result = diff(old, new)
+        self.assertIsNone(result['added'])
+        self.assertIsNone(result['removed'])
+        self.assertIsInstance(result['changed'], dict)
+        self.assertEqual(len(result['changed']['nodes']), 0)
+        links = result['changed']['links']
+        self.assertEqual(len(links), 4)
+        weights = [link['weight'] for link in links]
+        self.assertIn(1.0, weights)
+        self.assertIn(2.0, weights)
+        self.assertIn(1.50390625, weights)
+        self.assertIn(3.515625, weights)
