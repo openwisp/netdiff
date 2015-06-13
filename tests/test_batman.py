@@ -12,8 +12,8 @@ __all__ = ['TestBatmanParser']
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-iulinet = open('{0}/../static/batman.json'.format(CURRENT_DIR)).read()
-iulinet2 = open('{0}/../static/batman-1+1.json'.format(CURRENT_DIR)).read()
+iulinet = open('{0}/static/batman.json'.format(CURRENT_DIR)).read()
+iulinet2 = open('{0}/static/batman-1+1.json'.format(CURRENT_DIR)).read()
 
 
 class TestBatmanParser(TestCase):

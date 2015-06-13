@@ -12,8 +12,8 @@ __all__ = ['TestBmx6Parser']
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-topo = open('{0}/../static/bmx6.json'.format(CURRENT_DIR)).read()
-topo2 = open('{0}/../static/bmx6-1+1.json'.format(CURRENT_DIR)).read()
+topo = open('{0}/static/bmx6.json'.format(CURRENT_DIR)).read()
+topo2 = open('{0}/static/bmx6-1+1.json'.format(CURRENT_DIR)).read()
 
 
 class TestBmx6Parser(TestCase):

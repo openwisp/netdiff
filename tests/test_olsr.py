@@ -12,9 +12,9 @@ __all__ = ['TestOlsrParser']
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-links2 = '{0}/../static/olsr-2-links.json'.format(CURRENT_DIR)
-links3 = '{0}/../static/olsr-3-links.json'.format(CURRENT_DIR)
-links5 = '{0}/../static/olsr-5-links.json'.format(CURRENT_DIR)
+links2 = '{0}/static/olsr-2-links.json'.format(CURRENT_DIR)
+links3 = '{0}/static/olsr-3-links.json'.format(CURRENT_DIR)
+links5 = '{0}/static/olsr-5-links.json'.format(CURRENT_DIR)
 
 
 class TestOlsrParser(TestCase):

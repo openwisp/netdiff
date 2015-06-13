@@ -274,10 +274,10 @@ Alternatively, you can use the ``nose`` command (which has a ton of available op
 .. code-block:: shell
 
     nosetests
-    nosetests tests.olsr  # run only olsr related tests
-    nosetests tests/olsr  # variant form of the previous command
-    nosetests tests.olsr.tests:TestOlsrParser  # variant form of the previous command
-    nosetests tests.olsr.tests:TestOlsrParser.test_parse  # run specific test
+    nosetests tests.test_olsr  # run only olsr related tests
+    nosetests tests/test_olsr.py  # variant form of the previous command
+    nosetests tests.test_olsr:TestOlsrParser  # variant form of the previous command
+    nosetests tests.test_olsr:TestOlsrParser.test_parse  # run specific test
 
 See test coverage with:
 

@@ -17,7 +17,7 @@ class TestBaseParser(unittest.TestCase):
 
     def test_parse_file(self):
         dir = os.path.dirname(os.path.realpath(__file__))
-        path = '{0}/../static/olsr-2-links.json'.format(dir)
+        path = '{0}/static/olsr-2-links.json'.format(dir)
         p = BaseParser(path)
         self.assertIsInstance(p.original_data, dict)
         with self.assertRaises(TopologyRetrievalError):
