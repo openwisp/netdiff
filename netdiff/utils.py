@@ -80,12 +80,12 @@ def _make_diff(old, new):
     # make a copy of old topology to avoid tampering with it
     diff_edges = old.copy()
     not_different = []
+    old_edges = [set(edge) for edge in old.edges()]
+    new_edges = [set(edge) for edge in new.edges()]
     # keep only new links in the graph
-    for old_edge in old.edges():
-        # if link is also in new topology add it to the list
-        for new_edge in new.edges():
-            if old_edge[0] in new_edge and old_edge[1] in new_edge:
-                not_different.append(old_edge)
+    for old_edge in old_edges:
+        if old_edge in new_edges:
+            not_different.append(tuple(old_edge))
     diff_edges.remove_edges_from(not_different)
     # repeat operation with nodes
     diff_nodes = old.copy()
@@ -94,5 +94,6 @@ def _make_diff(old, new):
         if old_node in new.nodes():
             not_different.append(old_node)
     diff_nodes.remove_nodes_from(not_different)
-    # return modified graph
+    # return tuple with modified graphs
+    # one for nodes and one for links
     return diff_nodes, diff_edges
