@@ -26,7 +26,7 @@ class OlsrParser(BaseParser):
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
             # original olsrd cost (jsoninfo multiplies by 1024)
-            cost = float(cost / 1024)
+            cost = float(cost) / 1024.0
             # add link to Graph
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph
