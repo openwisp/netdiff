@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.4 [unreleased]
+Version 0.4 [14-06-2015]
 ------------------------
 
 - `#21 <https://github.com/ninuxorg/netdiff/issues/21>`_: **breaking change** made ``diff`` output consistent with NetJSON ``NetworkGraph``
