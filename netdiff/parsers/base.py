@@ -106,11 +106,14 @@ class BaseParser(object):
 
     def _get_http(self, url):
         try:
-            response = requests.get(url.geturl(), verify=self.verify, timeout=self.timeout)
+            response = requests.get(url.geturl(),
+                                    verify=self.verify,
+                                    timeout=self.timeout)
         except Exception as e:
             raise TopologyRetrievalError(e)
         if response.status_code != 200:
-            raise TopologyRetrievalError('Expecting HTTP 200 ok, got {0}'.format(response.status_code))
+            msg = 'Expecting HTTP 200 ok, got {0}'.format(response.status_code)
+            raise TopologyRetrievalError(msg)
         return response.content.decode()
 
     def _get_telnet(self, url):

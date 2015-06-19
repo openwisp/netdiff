@@ -22,23 +22,23 @@ def diff(old, new):
     # or assign None if no changes
     if added_nodes.nodes() and added_edges.edges():
         added = _netjson_networkgraph(protocol, version, revision, metric,
-                                     added_nodes.nodes(),
-                                     added_edges.edges(data=True),
-                                     dict=True)
+                                      added_nodes.nodes(),
+                                      added_edges.edges(data=True),
+                                      dict=True)
     else:
         added = None
     if removed_nodes.nodes() and removed_edges.edges():
         removed = _netjson_networkgraph(protocol, version, revision, metric,
-                                       removed_nodes.nodes(),
-                                       removed_edges.edges(data=True),
-                                       dict=True)
+                                        removed_nodes.nodes(),
+                                        removed_edges.edges(data=True),
+                                        dict=True)
     else:
         removed = None
     if changed_edges:
         changed = _netjson_networkgraph(protocol, version, revision, metric,
-                                       [],
-                                       changed_edges,
-                                       dict=True)
+                                        [],
+                                        changed_edges,
+                                        dict=True)
     else:
         changed = None
     return OrderedDict((
@@ -119,8 +119,8 @@ def _find_changed(old, new, both):
 
 
 def _netjson_networkgraph(protocol, version, revision, metric,
-                         nodes, links,
-                         dict=False, **kwargs):
+                          nodes, links,
+                          dict=False, **kwargs):
     # netjson formatting check
     if protocol is None:
         raise NetJsonError('protocol cannot be None')
