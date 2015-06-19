@@ -1,0 +1,23 @@
+Table: Links
+Local IP	Remote IP	Hyst.	LQ	NLQ	Cost
+10.150.0.4	176.62.53.97	0.00	1.000	1.000	1.000
+
+Table: Neighbors
+IP address	SYM	MPR	MPRS	Will.	2 Hop Neighbors
+10.150.0.3	YES	YES	NO	3	7
+10.150.0.5	YES	YES	NO	3	7
+
+Table: Topology
+Dest. IP	Last hop IP	LQ	NLQ	Cost
+10.150.0.3	10.150.0.2	0.195	0.184	27.669
+10.150.0.3	10.150.0.4	1.000	1.000	1.000
+10.150.0.4	10.150.0.5	1.000	1.000	1.000
+
+Table: HNA
+Destination	Gateway
+
+Table: MID
+IP address	Aliases
+
+Table: Routes
+Destination	Gateway IP	Metric	ETX	Interface
