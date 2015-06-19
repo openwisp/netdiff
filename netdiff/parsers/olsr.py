@@ -5,9 +5,9 @@ from ..exceptions import ParserError
 
 
 class OlsrParser(BaseParser):
-    """ OLSR 0.6.x parser """
+    """ OLSR 1 jsoninfo parser """
     protocol = 'OLSR'
-    version = '0.6'
+    version = '0.8'
     metric = 'ETX'
 
     def parse(self, data):
