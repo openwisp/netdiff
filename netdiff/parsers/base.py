@@ -69,9 +69,9 @@ class BaseParser(object):
             try:
                 return json.loads(data)
             except ValueError:
-                raise ConversionException('Could not recognize format')
+                raise ConversionException('Could not recognize format', data=data)
         else:
-            raise ConversionException('Could not recognize format')
+            raise ConversionException('Could not recognize format', data=data)
 
     def _retrieve_data(self, data):
         """

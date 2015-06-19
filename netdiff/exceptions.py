@@ -8,8 +8,12 @@ class ConversionException(NetdiffException):
     netdiff can't recognize the format passed
     not necessarily an error, should be caught and managed
     in order to support additional formats
+
+    The data which was retrieved from network/storage
+    can be assecced via the "data" attribute
     """
-    pass
+    def __init__(self, *args, **kwargs):
+        self.data = kwargs.pop('data')
 
 
 class ParserError(NetdiffException):

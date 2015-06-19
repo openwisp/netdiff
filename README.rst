@@ -316,6 +316,16 @@ Raised when netdiff can't recognize the format passed to the parser.
 
 Not necessarily an error, should be caught and managed in order to support additional formats.
 
+The data which was retrieved from network/storage can be assecced via the "data" attribute, eg:
+
+.. code-block:: python
+
+    def to_python(self, data):
+        try:
+            return super(OlsrParser, self).to_python(data)
+        except ConversionException as e:
+            return self._txtinfo_to_jsoninfo(e.data)
+
 ParserError
 ~~~~~~~~~~~
 
