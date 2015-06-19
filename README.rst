@@ -316,7 +316,7 @@ Raised when netdiff can't recognize the format passed to the parser.
 
 Not necessarily an error, should be caught and managed in order to support additional formats.
 
-The data which was retrieved from network/storage can be assecced via the "data" attribute, eg:
+The data which was retrieved from network/storage can be accessed via the "data" attribute, eg:
 
 .. code-block:: python
 
