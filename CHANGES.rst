@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.4.1 [26-06-2015]
+--------------------------
+
+- `#13 <https://github.com/ninuxorg/netdiff/issues/13>`_: added support for OLSR 0.6.x txtinfo plugin
+- `e94e91 <https://github.com/ninuxorg/netdiff/commit/e94e91>`_: updated default "version" attribute of ``OlsrParser``
+
 Version 0.4 [14-06-2015]
 ------------------------
 
