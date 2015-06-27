@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.4.2 [27-06-2015]
+--------------------------
+
+- `deea34 <https://github.com/ninuxorg/netdiff/commit/deea34>`_: skip links with infinite cost in ``OlsrParser``
+
 Version 0.4.1 [26-06-2015]
 --------------------------
 
