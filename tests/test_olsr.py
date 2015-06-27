@@ -214,3 +214,19 @@ class TestOlsrParser(TestCase):
         self.assertIn(2.0, weights)
         self.assertIn(1.50390625, weights)
         self.assertIn(3.515625, weights)
+
+    def test_link_with_infinite_cost(self):
+        p = OlsrParser({
+            "topology": [
+                {
+                    "lastHopIP": "10.150.0.2",
+                    "destinationIP": "10.150.0.3",
+                    "linkQuality": 0.195,
+                    "neighborLinkQuality": 0.184,
+                    "tcEdgeCost": float('inf'),
+                    "validityTime": 284572
+                }
+            ]
+        })
+        # ensure link is ignored
+        self.assertEqual(len(p.graph.edges()), 0)

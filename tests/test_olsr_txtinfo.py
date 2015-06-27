@@ -187,8 +187,8 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertTrue(1.302 in (links[0]['weight'], links[1]['weight']))
         self.assertTrue(1.023 in (links[0]['weight'], links[1]['weight']))
 
-    def test_infinite_cost(self):
+    def test_link_with_infinite_cost(self):
         data = 'Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\n10.150.0.3\t10.150.0.2\t0.195\t0.184\tINFINITE\n\n'
         p = OlsrParser(data)
-        cost = p.json(dict=True)['links'][0]['weight']
-        self.assertEqual(cost, float('inf'))
+        # ensure link is ignored
+        self.assertEqual(len(p.graph.edges()), 0)

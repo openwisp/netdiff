@@ -31,6 +31,9 @@ class OlsrParser(BaseParser):
                 cost = link["tcEdgeCost"]
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
+            # skip links with infinite cost
+            if cost == float('inf'):
+                continue
             # original olsrd cost (jsoninfo multiplies by 1024)
             cost = float(cost) / 1024.0
             # add link to Graph
