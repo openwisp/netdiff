@@ -46,7 +46,7 @@ class BaseParser(object):
         self.original_data = self.to_python(data)
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
-            self.parse(self.original_data)
+            self.graph = self.parse(self.original_data)
 
     def __sub__(self, other):
         return diff(other, self)
@@ -130,6 +130,7 @@ class BaseParser(object):
         """
         Converts the original python data structure into a NetworkX Graph object
         Must be implemented by subclasses.
+        Must return an instance of <networkx.Graph>
         """
         raise NotImplementedError()
 

@@ -190,7 +190,7 @@ Parsers
 -------
 
 Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
-which is in charge of converting a python data structure into ``networkx.Graph`` object.
+which is in charge of converting a python data structure into ``networkx.Graph`` object and return the result.
 
 Parsers also have a ``json`` method which returns valid `NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`__.
 

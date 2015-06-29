@@ -33,10 +33,10 @@ class CnmlParser(BaseParser):
 
     def parse(self, data):
         """
-        Extract information from a CNML file to generate a NetworkX Graph object.
+        Converts a CNML structure to a NetworkX Graph object
+        which is then returned.
         """
         graph = networkx.Graph()
-
         # loop over links and create networkx graph
         # Add only working nodes with working links
         for link in data.get_inner_links():
@@ -47,5 +47,4 @@ class CnmlParser(BaseParser):
             dest = interface_b.ipv4
             # add link to Graph
             graph.add_edge(source, dest, weight=1)
-
-        self.graph = graph
+        return graph

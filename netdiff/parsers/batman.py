@@ -77,11 +77,13 @@ class BatmanParser(BaseParser):
             * txtinfo
         """
         method = getattr(self, '_parse_{0}'.format(self._format))
-        method(data)
+        return method(data)
 
     def _parse_alfred_vis(self, data):
         """
-        Converts a alfred-vis JSON object to a NetworkX Graph object.
+        Converts a alfred-vis JSON object
+        to a NetworkX Graph object which is then returned.
+        Additionally checks for "source_vesion" to determine the batman-adv version.
         """
         # initialize graph and list of aggregated nodes
         graph = networkx.Graph()
@@ -97,17 +99,16 @@ class BatmanParser(BaseParser):
                 p_neigh = self._get_primary_address(neigh['neighbor'], node_list)
                 # networkx automatically ignores duplicated edges
                 graph.add_edge(node['primary'], p_neigh, weight=neigh['metric'])
-
-        self.graph = graph
+        return graph
 
     def _parse_txtinfo(self, data):
         """
         Converts the python list returned by self._txtinfo_to_python()
-        to a NetworkX Graph object.
+        to a NetworkX Graph object, which is then returned.
         """
         graph = networkx.Graph()
         for link in data:
             graph.add_edge(link['source'],
                            link['target'],
                            weight=link['weight'])
-        self.graph = graph
+        return graph

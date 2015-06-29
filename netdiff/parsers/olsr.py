@@ -21,11 +21,22 @@ class OlsrParser(BaseParser):
 
     def parse(self, data):
         """
-        Converts a dict representing an OLSR 0.6.x topology in a NetworkX Graph object.
+        Converts a dict representing an OLSR 0.6.x topology
+        to a NetworkX Graph object, which is then returned.
+        Additionally checks for "config" data in order to determine version and revision.
         """
         graph = networkx.Graph()
         if 'topology' not in data:
             raise ParserError('Parse error, "topology" key not found')
+
+        # determine version and revision
+        if 'config' in data:
+            version_info = data['config']['olsrdVersion'].replace(' ', '').split('-')
+            self.version = version_info[1]
+            # try to get only the git hash
+            if 'hash_' in version_info[-1]:
+                version_info[-1] = version_info[-1].split('hash_')[-1]
+            self.revision = version_info[-1]
 
         # loop over topology section and create networkx graph
         for link in data["topology"]:
@@ -42,16 +53,7 @@ class OlsrParser(BaseParser):
             cost = float(cost) / 1024.0
             # add link to Graph
             graph.add_edge(source, dest, weight=cost)
-        self.graph = graph
-
-        # determine version and revision
-        if 'config' in data:
-            version_info = data['config']['olsrdVersion'].replace(' ', '').split('-')
-            self.version = version_info[1]
-            # try to get only the git hash
-            if 'hash_' in version_info[-1]:
-                version_info[-1] = version_info[-1].split('hash_')[-1]
-            self.revision = version_info[-1]
+        return graph
 
     def _txtinfo_to_jsoninfo(self, data):
         """

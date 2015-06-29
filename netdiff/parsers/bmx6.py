@@ -12,7 +12,8 @@ class Bmx6Parser(BaseParser):
 
     def parse(self, data):
         """
-        Converts a topology in a NetworkX Graph object.
+        Converts a BMX6 b6m JSON to a NetworkX Graph object
+        which is then returned.
         """
         # initialize graph and list of aggregated nodes
         graph = networkx.Graph()
@@ -24,4 +25,4 @@ class Bmx6Parser(BaseParser):
         for node in data:
             for neigh in node['links']:
                 graph.add_edge(node['name'], neigh['name'], weight=1)
-        self.graph = graph
+        return graph

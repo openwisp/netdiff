@@ -9,7 +9,9 @@ class NetJsonParser(BaseParser):
 
     def parse(self, data):
         """
-        Converts a NetJSON 'NetworkGraph' object in a NetworkX Graph object.
+        Converts a NetJSON 'NetworkGraph' object
+        to a NetworkX Graph object,which is then returned.
+        Additionally checks for protocol version, revision and metric.
         """
         graph = networkx.Graph()
         # ensure is NetJSON NetworkGraph object
@@ -20,12 +22,14 @@ class NetJsonParser(BaseParser):
         for key in required_keys:
             if key not in data:
                 raise ParserError('Parse error, "{0}" key not found'.format(key))
+
         # store metadata
         self.protocol = data['protocol']
         self.version = data['version']
         self.revision = data.get('revision')  # optional
         self.metric = data['metric']
-        # add nodes
+
+        # create graph
         for node in data['nodes']:
             graph.add_node(node['id'])
         for link in data['links']:
@@ -36,4 +40,4 @@ class NetJsonParser(BaseParser):
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
             graph.add_edge(source, dest, weight=cost)
-        self.graph = graph
+        return graph
