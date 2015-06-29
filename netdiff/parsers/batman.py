@@ -45,26 +45,29 @@ class BatmanParser(BaseParser):
             })
         return parsed_lines
 
-    def _get_primary(self, mac, collection):
-        # Use the ag_node structure to return the main mac address associated to
-        # a secondary mac, if none return itself.
-        for node in collection:
-            for interface in node:
-                if mac == interface:
-                    return node[0]
-        return 0
+    def _get_primary_address(self, mac_address, node_list):
+        """
+        Uses the _get_aggregated_node_list structure to find
+        the primary mac address associated to a secondary one,
+        if none is found returns itself.
+        """
+        for local_addresses in node_list:
+            if mac_address in local_addresses:
+                return local_addresses[0]
+        # remote case
+        raise ValueError('primary address not found')
 
-    def _get_ag_node_list(self, data):
-        # Create a structure of main and secondary mac address.
-        ag_nodes = []
+    def _get_aggregated_node_list(self, data):
+        """
+        Returns list of main and secondary mac addresses.
+        """
+        node_list = []
         for node in data:
-            ag_interfaces = []
-            ag_interfaces.append(node['primary'])
-            if('secondary'in node):
-                for interface in node['secondary']:
-                    ag_interfaces.append(interface)
-            ag_nodes.append(ag_interfaces)
-        return ag_nodes
+            local_addresses = [node['primary']]
+            if 'secondary'in node:
+                local_addresses += node['secondary']
+            node_list.append(local_addresses)
+        return node_list
 
     def parse(self, data):
         """
@@ -86,13 +89,15 @@ class BatmanParser(BaseParser):
             self.version = data['source_version']
         if 'vis' not in data:
             raise ParserError('Parse error, "vis" key not found')
-        ag_nodes = self._get_ag_node_list(data['vis'])
+        node_list = self._get_aggregated_node_list(data['vis'])
+
         # loop over topology section and create networkx graph
         for node in data["vis"]:
             for neigh in node["neighbors"]:
-                p_neigh = self._get_primary(neigh['neighbor'], ag_nodes)
+                p_neigh = self._get_primary_address(neigh['neighbor'], node_list)
                 # networkx automatically ignores duplicated edges
                 graph.add_edge(node['primary'], p_neigh, weight=neigh['metric'])
+
         self.graph = graph
 
     def _parse_txtinfo(self, data):
