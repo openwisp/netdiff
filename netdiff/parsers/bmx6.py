@@ -23,6 +23,5 @@ class Bmx6Parser(BaseParser):
         # this topology don't have weight, so we set it as 1
         for node in data:
             for neigh in node['links']:
-                if not graph.has_edge(node['name'], neigh['name']):
-                    graph.add_edge(node['name'], neigh['name'], weight=1)
+                graph.add_edge(node['name'], neigh['name'], weight=1)
         self.graph = graph
