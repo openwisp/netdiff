@@ -11,6 +11,9 @@ class OlsrParser(BaseParser):
     metric = 'ETX'
 
     def to_python(self, data):
+        """
+        Adds support for txtinfo format
+        """
         try:
             return super(OlsrParser, self).to_python(data)
         except ConversionException as e:
@@ -23,6 +26,7 @@ class OlsrParser(BaseParser):
         graph = networkx.Graph()
         if 'topology' not in data:
             raise ParserError('Parse error, "topology" key not found')
+
         # loop over topology section and create networkx graph
         for link in data["topology"]:
             try:
@@ -39,6 +43,7 @@ class OlsrParser(BaseParser):
             # add link to Graph
             graph.add_edge(source, dest, weight=cost)
         self.graph = graph
+
         # determine version and revision
         if 'config' in data:
             version_info = data['config']['olsrdVersion'].replace(' ', '').split('-')
@@ -56,11 +61,13 @@ class OlsrParser(BaseParser):
         data = data.replace('INFINITE', 'inf')
         # find interesting section
         lines = data.split('\n')
+
         try:
             start = lines.index('Table: Topology') + 2
             end = lines[start:].index('') + start
         except ValueError as e:
             raise ParserError(e)
+
         topology_lines = lines[start:end]
         # convert interesting section to jsoninfo format
         parsed_lines = []
