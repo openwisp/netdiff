@@ -64,7 +64,7 @@ class BatmanParser(BaseParser):
         node_list = []
         for node in data:
             local_addresses = [node['primary']]
-            if 'secondary'in node:
+            if 'secondary' in node:
                 local_addresses += node['secondary']
             node_list.append(local_addresses)
         return node_list
