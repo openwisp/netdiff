@@ -4,6 +4,11 @@ Changelog
 Version 0.4.3 [unreleased]
 --------------------------
 
+- `#27 <https://github.com/ninuxorg/netdiff/issues/27>`_: Added support for txtinfo format to ``BatmanParser``
+- `ab9c40 <https://github.com/ninuxorg/netdiff/commit/ab9c40>`_, `9ac89a <https://github.com/ninuxorg/netdiff/commit/9ac89a>`_: minor optimizations and simplifications in ``BatmanParser``
+- `990a30 <https://github.com/ninuxorg/netdiff/commit/990a30>`_: minor optimization in ``Bmx6Parser``
+- `64f8f44 <https://github.com/ninuxorg/netdiff/commit/64f8f44>`_: the parse() method of each parser now must return a networkx.Graph instance instead of storing it
+
 Version 0.4.2 [27-06-2015]
 --------------------------
 
