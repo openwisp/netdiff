@@ -6,9 +6,6 @@ from netdiff.parsers.base import BaseParser
 from netdiff.exceptions import ParserError, ConversionException, TopologyRetrievalError
 
 
-__all__ = ['TestBaseParser']
-
-
 class TestBaseParser(unittest.TestCase):
     """ BaseParser tests """
 

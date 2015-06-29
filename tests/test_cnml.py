@@ -8,9 +8,6 @@ from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
 
 
-__all__ = ['TestCnmlParser']
-
-
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 cnml1 = '{0}/static/26494_detail_1.cnml'.format(CURRENT_DIR)
 cnml2 = '{0}/static/26494_detail_2.cnml'.format(CURRENT_DIR)

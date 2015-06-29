@@ -8,9 +8,6 @@ from netdiff.tests import TestCase
 from netdiff.exceptions import ParserError
 
 
-__all__ = ['TestBatmanParser']
-
-
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 iulinet = open('{0}/static/batman.json'.format(CURRENT_DIR)).read()
 iulinet2 = open('{0}/static/batman-1+1.json'.format(CURRENT_DIR)).read()
@@ -95,3 +92,8 @@ class TestBatmanParser(TestCase):
         # nodup and dup have the same amount of nodes and edges
         self.assertEqual(len(nodup.graph.edges()), len(dup.graph.edges()))
         self.assertEqual(len(nodup.graph.nodes()), len(dup.graph.nodes()))
+
+    def test_get_primary_address_ValueError(self):
+        p = BatmanParser(iulinet)
+        with self.assertRaises(ValueError):
+            p._get_primary_address('wrong', [['aa:bb:cc:dd:ee:ff']])

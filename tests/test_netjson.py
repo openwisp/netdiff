@@ -8,9 +8,6 @@ from netdiff.exceptions import ParserError, TopologyRetrievalError
 from netdiff.tests import TestCase
 
 
-__all__ = ['TestNetJsonParser']
-
-
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = '{0}/static/netjson-2-links.json'.format(CURRENT_DIR)
 links3 = '{0}/static/netjson-3-links.json'.format(CURRENT_DIR)

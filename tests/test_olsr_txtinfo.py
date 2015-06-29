@@ -8,9 +8,6 @@ from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
 
 
-__all__ = ['TestOlsrTxtinfoParser']
-
-
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = '{0}/static/olsr-2-links.txt'.format(CURRENT_DIR)
 links2_cost = '{0}/static/olsr-2-links-cost-changed.txt'.format(CURRENT_DIR)
