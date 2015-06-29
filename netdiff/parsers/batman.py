@@ -46,8 +46,6 @@ class BatmanParser(BaseParser):
         for node in data["vis"]:
             for neigh in node["neighbors"]:
                 p_neigh = self._get_primary(neigh['neighbor'], ag_nodes)
-                if not graph.has_edge(node['primary'], p_neigh):
-                    graph.add_edge(node['primary'],
-                                   p_neigh,
-                                   weight=neigh['metric'])
+                # networkx automatically ignores duplicated edges
+                graph.add_edge(node['primary'], p_neigh, weight=neigh['metric'])
         self.graph = graph

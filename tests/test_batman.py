@@ -14,6 +14,7 @@ __all__ = ['TestBatmanParser']
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 iulinet = open('{0}/static/batman.json'.format(CURRENT_DIR)).read()
 iulinet2 = open('{0}/static/batman-1+1.json'.format(CURRENT_DIR)).read()
+duplicated = open('{0}/static/batman-duplicated.json'.format(CURRENT_DIR)).read()
 
 
 class TestBatmanParser(TestCase):
@@ -87,3 +88,10 @@ class TestBatmanParser(TestCase):
         self.assertIsInstance(result, dict)
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
+
+    def test_duplicated(self):
+        nodup = BatmanParser(iulinet)
+        dup = BatmanParser(duplicated)
+        # nodup and dup have the same amount of nodes and edges
+        self.assertEqual(len(nodup.graph.edges()), len(dup.graph.edges()))
+        self.assertEqual(len(nodup.graph.nodes()), len(dup.graph.nodes()))
