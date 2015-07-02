@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.4.3 [unreleased]
+Version 0.4.3 [02-07-2015]
 --------------------------
 
 - `#27 <https://github.com/ninuxorg/netdiff/issues/27>`_: Added support for txtinfo format to ``BatmanParser``
