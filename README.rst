@@ -99,7 +99,7 @@ The output will be an ordered dictionary with three keys:
 * removed
 * changed
 
-Each key will contain a dict compatible with the `NetJSON NetworkGraph format <https://github.com/interop-dev/netjson#network-graph>`__
+Each key will contain a dict compatible with the `NetJSON NetworkGraph format <https://github.com/interop-dev/netjson#networkgraph>`__
 representing respectively:
 
 * the nodes and links that have been added to the topology
@@ -200,7 +200,7 @@ The available parsers are:
 * ``netdiff.BatmanParser``: parser for the `batman-advanced alfred tool <http://www.open-mesh.org/projects/open-mesh/wiki/Alfred>`__
 * ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`__
 * ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`__
-* ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/netjson#network-graph>`__.
+* ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/netjson#networkgraph>`__.
 
 Initialization arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -252,7 +252,7 @@ HTTPS example with self-signed SSL certificate using ``verify=False``:
 NetJSON output
 --------------
 
-Netdiff parsers can return a valid `NetJSON <https://github.com/interop-dev/netjson>`__
+Netdiff parsers can return a valid `NetJSON <http://netjson.org>`__
 ``NetworkGraph`` object:
 
 .. code-block:: python
@@ -339,7 +339,7 @@ NetJsonError
 ``netdiff.exceptions.NetJsonError``
 
 Raised when the ``json`` method of ``netdiff.parsers.BaseParser`` does not have enough data
-to be compliant with the `NetJSON NetworkGraph <https://github.com/interop-dev/netjson#network-graph>`__ specification.
+to be compliant with the `NetJSON NetworkGraph <https://github.com/interop-dev/netjson#networkgraph>`__ specification.
 
 TopologyRetrievalError
 ~~~~~~~~~~~~~~~~~~~~~~
