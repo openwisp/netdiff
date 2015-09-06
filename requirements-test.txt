@@ -1,3 +1,4 @@
 nose
 coverage
 coveralls
+responses==0.4.0

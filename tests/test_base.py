@@ -1,5 +1,6 @@
 import os
 import unittest
+import responses
 
 from netdiff import get_version
 from netdiff.parsers.base import BaseParser
@@ -8,6 +9,9 @@ from netdiff.exceptions import ParserError, ConversionException, TopologyRetriev
 
 class TestBaseParser(unittest.TestCase):
     """ BaseParser tests """
+
+    def _load_contents(self, file):
+        return open(os.path.abspath(file)).read()
 
     def test_version(self):
         get_version()
@@ -20,9 +24,14 @@ class TestBaseParser(unittest.TestCase):
         with self.assertRaises(TopologyRetrievalError):
             BaseParser('../wrong.json')
 
+    @responses.activate
     def test_parse_http(self):
-        url = 'http://raw.githubusercontent.com/ninuxorg/netdiff/e7b677fca3f16a4365e1fd5a6a81e1039abedce5/tests/olsr1/2links.json'
-        p = BaseParser(url)
+        responses.add(
+            responses.GET,
+            'http://localhost:9090',
+            body=self._load_contents('tests/static/olsr-2-links.json')
+        )
+        p = BaseParser('http://localhost:9090')
         self.assertIsInstance(p.original_data, dict)
 
     def test_parse_json_string(self):

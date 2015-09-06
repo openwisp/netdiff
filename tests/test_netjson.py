@@ -1,6 +1,7 @@
 import os
 import six
 import networkx
+import responses
 
 from netdiff import NetJsonParser
 from netdiff import diff
@@ -165,17 +166,16 @@ class TestNetJsonParser(TestCase):
         # ensure correct node added
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
+    @responses.activate
     def test_topology_retrieval_error_http_404(self):
+        responses.add(
+            responses.GET,
+            'http://404.com',
+            body='not found',
+            status=404
+        )
         with self.assertRaises(TopologyRetrievalError):
-            NetJsonParser('https://github.com/netdiff/404')
-
-    def test_topology_retrieval_error_http_wrong_domain(self):
-        with self.assertRaises(TopologyRetrievalError):
-            NetJsonParser('https://github.com/netdiff/404')
-
-    def test_topology_retrieval_error_http_wrong_domain(self):
-        with self.assertRaises(TopologyRetrievalError):
-            NetJsonParser('https://wrongunexsitingdomain.jeg')
+            NetJsonParser('http://404.com')
 
     def test_topology_retrieval_error_telnet(self):
         with self.assertRaises(TopologyRetrievalError):
