@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.4.4 [unreleased]
+--------------------------
+
+- `#31 <https://github.com/ninuxorg/netdiff/issues/31>`_: Mocked HTTP requests in tests
+- `#29 <https://github.com/ninuxorg/netdiff/issues/28>`_: Replaced weight with cost in all NetJSON occurrences
+
 Version 0.4.3 [02-07-2015]
 --------------------------
 
