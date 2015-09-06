@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.4.4 [unreleased]
+Version 0.4.4 [06-09-2015]
 --------------------------
 
 - `#31 <https://github.com/ninuxorg/netdiff/issues/31>`_: Mocked HTTP requests in tests
