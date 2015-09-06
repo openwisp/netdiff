@@ -152,11 +152,11 @@ class TestOlsrParser(TestCase):
         self.assertIn('10.150.0.7', added_nodes)
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
-    def test_weight(self):
+    def test_cost(self):
         parser = OlsrParser(links2)
         graph = parser.json(dict=True)
-        a = graph['links'][0]['weight']
-        b = graph['links'][1]['weight']
+        a = graph['links'][0]['cost']
+        b = graph['links'][1]['cost']
         self.assertIn(27.669921875, [a, b])
         self.assertIn(1.0, [a, b])
 
@@ -193,8 +193,8 @@ class TestOlsrParser(TestCase):
         self.assertTrue(type(links) is list)
         self.assertEqual(len(links), 2)
         # ensure results are correct
-        self.assertTrue(1.302734375 in (links[0]['weight'], links[1]['weight']))
-        self.assertTrue(1.0234375 in (links[0]['weight'], links[1]['weight']))
+        self.assertTrue(1.302734375 in (links[0]['cost'], links[1]['cost']))
+        self.assertTrue(1.0234375 in (links[0]['cost'], links[1]['cost']))
 
     def test_cost_changes_2(self):
         old = OlsrParser(links5)
@@ -206,11 +206,11 @@ class TestOlsrParser(TestCase):
         self.assertEqual(len(result['changed']['nodes']), 0)
         links = result['changed']['links']
         self.assertEqual(len(links), 4)
-        weights = [link['weight'] for link in links]
-        self.assertIn(1.0, weights)
-        self.assertIn(2.0, weights)
-        self.assertIn(1.50390625, weights)
-        self.assertIn(3.515625, weights)
+        costs = [link['cost'] for link in links]
+        self.assertIn(1.0, costs)
+        self.assertIn(2.0, costs)
+        self.assertIn(1.50390625, costs)
+        self.assertIn(3.515625, costs)
 
     def test_link_with_infinite_cost(self):
         p = OlsrParser({

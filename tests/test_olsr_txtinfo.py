@@ -140,11 +140,11 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertIn('10.150.0.7', added_nodes)
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
-    def test_weight(self):
+    def test_cost(self):
         parser = OlsrParser(links2)
         graph = parser.json(dict=True)
-        a = graph['links'][0]['weight']
-        b = graph['links'][1]['weight']
+        a = graph['links'][0]['cost']
+        b = graph['links'][1]['cost']
         self.assertIn(27.669, [a, b])
         self.assertIn(1.0, [a, b])
 
@@ -181,8 +181,8 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertTrue(type(links) is list)
         self.assertEqual(len(links), 2)
         # ensure results are correct
-        self.assertTrue(1.302 in (links[0]['weight'], links[1]['weight']))
-        self.assertTrue(1.023 in (links[0]['weight'], links[1]['weight']))
+        self.assertTrue(1.302 in (links[0]['cost'], links[1]['cost']))
+        self.assertTrue(1.023 in (links[0]['cost'], links[1]['cost']))
 
     def test_link_with_infinite_cost(self):
         data = 'Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\n10.150.0.3\t10.150.0.2\t0.195\t0.184\tINFINITE\n\n'

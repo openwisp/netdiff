@@ -21,7 +21,7 @@ class Bmx6Parser(BaseParser):
             if "links" not in data[0]:
                 raise ParserError('Parse error, "links" key not found')
         # loop over topology section and create networkx graph
-        # this topology don't have weight, so we set it as 1
+        # this data structure does not contain cost information, so we set it as 1
         for node in data:
             for neigh in node['links']:
                 graph.add_edge(node['name'], neigh['name'], weight=1)

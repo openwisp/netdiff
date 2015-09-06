@@ -41,7 +41,7 @@ class BatmanParser(BaseParser):
             parsed_lines.append({
                 'source': values[0],
                 'target': values[1],
-                'weight': float(values[4])
+                'cost': float(values[4])
             })
         return parsed_lines
 
@@ -110,5 +110,5 @@ class BatmanParser(BaseParser):
         for link in data:
             graph.add_edge(link['source'],
                            link['target'],
-                           weight=link['weight'])
+                           weight=link['cost'])
         return graph

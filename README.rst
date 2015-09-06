@@ -104,7 +104,7 @@ representing respectively:
 
 * the nodes and links that have been added to the topology
 * the nodes and links that have been removed from the topology
-* links that are present in both topologies but their weight changed
+* links that are present in both topologies but their cost changed
 
 If no changes are present, keys will contain ``None``.
 
@@ -141,12 +141,12 @@ While if there are changes, the result will look like:
                 {
                     "source": "10.150.0.3",
                     "target": "10.150.0.7",
-                    "weight": 1.50390625
+                    "cost": 1.50390625
                 },
                 {
                     "source": "10.150.0.3",
                     "target": "10.150.0.6",
-                    "weight": 1.0
+                    "cost": 1.0
                 }
             ]
         },
@@ -165,7 +165,7 @@ While if there are changes, the result will look like:
                 {
                     "source": "10.150.0.7",
                     "target": "10.150.0.8",
-                    "weight": 1.0
+                    "cost": 1.0
                 }
             ]
         },
@@ -180,7 +180,7 @@ While if there are changes, the result will look like:
                 {
                     "source": "10.150.0.3",
                     "target": "10.150.0.2",
-                    "weight": 1.0
+                    "cost": 1.0
                 }
             ]
         }
@@ -292,12 +292,12 @@ Output:
             {
                 "source": "10.150.0.3",
                 "target": "10.150.0.2",
-                "weight": 2.4
+                "cost": 2.4
             },
             {
                 "source": "10.150.0.3",
                 "target": "10.150.0.4",
-                "weight": 1.0
+                "cost": 1.0
             }
         ]
     }
