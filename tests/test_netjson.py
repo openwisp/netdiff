@@ -41,7 +41,7 @@ class TestNetJsonParser(TestCase):
         {
             "source": "10.150.0.3",
             "target": "10.150.0.2",
-            "weight": 28334
+            "cost": 1.0
         }
     ]
 }"""
@@ -50,6 +50,7 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.3', p.graph.nodes())
         self.assertIn('10.150.0.2', p.graph.nodes())
         self.assertEqual(len(p.graph.edges()), 1)
+        self.assertEqual(p.graph.edges(data=True)[0][2]['weight'], 1.0)
 
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
