@@ -349,6 +349,24 @@ TopologyRetrievalError
 Raised when it is not possible to retrieve the topology data
 (eg: the URL might be temporary unreachable).
 
+Known Issues
+------------
+
+ConnectionError: BadStatusLine
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you get a similar error when performing a request to the `jsoninfo plugin <http://www.olsr.org/?q=jsoninfo_plugin>`__ of
+`olsrd <http://www.olsr.org/>`__ (version 0.6 to 0.9) chances are high that http headers are disabled.
+
+To fix it turn on http headers in your olsrd configuration file, eg::
+
+    LoadPlugin "olsrd_jsoninfo.so.0.0"
+    {
+        PlParam "httpheaders" "yes"   # add this line
+        PlParam "Port" "9090"
+        PlParam "accept" "0.0.0.0"
+    }
+
 Running tests
 -------------
 
