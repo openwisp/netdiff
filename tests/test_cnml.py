@@ -1,6 +1,7 @@
 import os
 import six
 import networkx
+import libcnml
 
 from netdiff import CnmlParser
 from netdiff import diff
@@ -23,10 +24,6 @@ class TestCnmlParser(TestCase):
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
             CnmlParser('{ "test": "test" }')
-
-    def test_parse_exception2(self):
-        with self.assertRaises(ParserError):
-            CnmlParser('telnet://127.0.0.1:9090')
 
     def test_json_dict(self):
         p = CnmlParser(cnml1)
@@ -110,3 +107,11 @@ class TestCnmlParser(TestCase):
                 ('10.228.172.33', '10.228.172.36'),
             ]
         )
+
+    def test_parse_error(self):
+        with self.assertRaises(ParserError):
+            CnmlParser(1)
+
+    def test_cnml_argument(self):
+        cnml = libcnml.CNMLParser(cnml1)
+        CnmlParser(cnml)

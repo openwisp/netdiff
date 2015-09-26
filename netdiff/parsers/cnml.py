@@ -1,7 +1,7 @@
-import networkx
-import libcnml
 import os
 import six
+import networkx
+import libcnml
 
 try:
     import urlparse
