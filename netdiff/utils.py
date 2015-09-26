@@ -121,7 +121,7 @@ def _find_changed(old, new, both):
 def _netjson_networkgraph(protocol, version, revision, metric,
                           nodes, links,
                           dict=False, **kwargs):
-    # netjson formatting check
+    # netjson format validity check
     if protocol is None:
         raise NetJsonError('protocol cannot be None')
     if version is None and protocol != 'static':

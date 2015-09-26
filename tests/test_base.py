@@ -3,8 +3,12 @@ import unittest
 import responses
 
 from netdiff import get_version
+from netdiff.utils import _netjson_networkgraph
 from netdiff.parsers.base import BaseParser
-from netdiff.exceptions import ParserError, ConversionException, TopologyRetrievalError
+from netdiff.exceptions import (ParserError,
+                                ConversionException,
+                                TopologyRetrievalError,
+                                NetJsonError)
 
 
 class TestBaseParser(unittest.TestCase):
@@ -62,3 +66,11 @@ class TestBaseParser(unittest.TestCase):
         p = BaseParser('{}')
         with self.assertRaises(NotImplementedError):
             p.json()
+
+    def test_netjson_networkgraph_func(self):
+        with self.assertRaises(NetJsonError):
+            _netjson_networkgraph(None, None, None, None, [], [])
+        with self.assertRaises(NetJsonError):
+            _netjson_networkgraph('bgp', None, None, None, [], [])
+        with self.assertRaises(NetJsonError):
+            _netjson_networkgraph('olsr', '2', None, None, [], [])
