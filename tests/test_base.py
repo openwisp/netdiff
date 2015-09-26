@@ -1,6 +1,12 @@
 import os
 import unittest
 import responses
+import telnetlib
+from requests.exceptions import ConnectionError
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from netdiff import get_version
 from netdiff.utils import _netjson_networkgraph
@@ -37,6 +43,44 @@ class TestBaseParser(unittest.TestCase):
         )
         p = BaseParser('http://localhost:9090')
         self.assertIsInstance(p.original_data, dict)
+
+    @responses.activate
+    def test_topology_retrieval_error_http_404(self):
+        responses.add(
+            responses.GET,
+            'http://404.com',
+            body='not found',
+            status=404
+        )
+        with self.assertRaises(TopologyRetrievalError):
+            BaseParser('http://404.com')
+
+    @responses.activate
+    def test_topology_retrieval_error_http(self):
+        def request_callback(request):
+            raise ConnectionError('test exception')
+        responses.add_callback(
+            responses.GET,
+            'http://connectionerror.com',
+            callback=request_callback,
+        )
+        with self.assertRaises(TopologyRetrievalError):
+            BaseParser('http://connectionerror.com')
+
+    @mock.patch('telnetlib.Telnet')
+    def test_telnet_retrieval_error(self, MockClass):
+        telnetlib.Telnet.side_effect=ValueError('testing exception')
+        with self.assertRaises(TopologyRetrievalError):
+            BaseParser('telnet://wrong.com')
+
+    @mock.patch('telnetlib.Telnet')
+    def test_telnet_retrieval(self, MockClass):
+        with self.assertRaises(ConversionException):
+            BaseParser('telnet://127.0.0.1')
+
+    def test_topology_retrieval_error_file(self):
+        with self.assertRaises(TopologyRetrievalError):
+            BaseParser('./tests/static/wrong.json')
 
     def test_parse_json_string(self):
         p = BaseParser('{}')
