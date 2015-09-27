@@ -132,7 +132,7 @@ def _netjson_networkgraph(protocol, version, revision, metric,
     # prepare nodes
     node_list = []
     for node in nodes:
-        netjson_node = {'id': node[0]}
+        netjson_node = OrderedDict({'id': node[0]})
         # must copy properties dict to avoid modifying data
         properties = node[1].copy()
         local_addresses = properties.pop('local_addresses', None)
