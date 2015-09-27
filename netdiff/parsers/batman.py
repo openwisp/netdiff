@@ -96,10 +96,14 @@ class BatmanParser(BaseParser):
         # loop over topology section and create networkx graph
         for node in data["vis"]:
             for neigh in node["neighbors"]:
-                p_neigh = self._get_primary_address(neigh['neighbor'], node_list)
+                graph.add_node(node['primary'], **{
+                    'clients': node.get('clients', [])
+                })
+                primary_neigh = self._get_primary_address(neigh['neighbor'],
+                                                          node_list)
                 # networkx automatically ignores duplicated edges
                 graph.add_edge(node['primary'],
-                               p_neigh,
+                               primary_neigh,
                                weight=float(neigh['metric']))
         return graph
 

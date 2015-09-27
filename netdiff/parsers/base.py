@@ -146,7 +146,7 @@ class BaseParser(object):
                                      self.version,
                                      self.revision,
                                      self.metric,
-                                     graph.nodes(),
+                                     graph.nodes(data=True),
                                      graph.edges(data=True),
                                      dict,
                                      **kwargs)
