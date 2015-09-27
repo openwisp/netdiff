@@ -27,5 +27,7 @@ class Bmx6Parser(BaseParser):
                 cost = (link['txRate'] + link['rxRate']) / 2.0
                 graph.add_edge(node['name'],
                                link['name'],
-                               weight=cost)
+                               weight=cost,
+                               tx_rate=link['txRate'],
+                               rx_rate=link['rxRate'])
         return graph
