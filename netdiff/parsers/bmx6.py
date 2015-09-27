@@ -23,6 +23,9 @@ class Bmx6Parser(BaseParser):
         # loop over topology section and create networkx graph
         # this data structure does not contain cost information, so we set it as 1
         for node in data:
-            for neigh in node['links']:
-                graph.add_edge(node['name'], neigh['name'], weight=1)
+            for link in node['links']:
+                cost = (link['txRate'] + link['rxRate']) / 2.0
+                graph.add_edge(node['name'],
+                               link['name'],
+                               weight=cost)
         return graph

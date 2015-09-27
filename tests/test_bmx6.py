@@ -18,6 +18,8 @@ class TestBmx6Parser(TestCase):
     def test_parse(self):
         p = Bmx6Parser(topo)
         self.assertIsInstance(p.graph, networkx.Graph)
+        properties = p.graph.edges(data=True)[0][2]
+        self.assertIsInstance(properties['weight'], float)
 
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
@@ -35,6 +37,8 @@ class TestBmx6Parser(TestCase):
         self.assertIsInstance(data['links'], list)
         self.assertEqual(len(data['nodes']), 7)
         self.assertEqual(len(data['links']), 6)
+        self.assertIsInstance(data['links'][0]['cost'], float)
+        self.assertGreater(data['links'][0]['cost'], 1)
 
     def test_json_string(self):
         p = Bmx6Parser(topo)
