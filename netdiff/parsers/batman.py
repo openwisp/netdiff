@@ -98,7 +98,9 @@ class BatmanParser(BaseParser):
             for neigh in node["neighbors"]:
                 p_neigh = self._get_primary_address(neigh['neighbor'], node_list)
                 # networkx automatically ignores duplicated edges
-                graph.add_edge(node['primary'], p_neigh, weight=neigh['metric'])
+                graph.add_edge(node['primary'],
+                               p_neigh,
+                               weight=float(neigh['metric']))
         return graph
 
     def _parse_txtinfo(self, data):

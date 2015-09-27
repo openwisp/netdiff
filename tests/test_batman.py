@@ -19,6 +19,8 @@ class TestBatmanParser(TestCase):
     def test_parse(self):
         p = BatmanParser(iulinet)
         self.assertIsInstance(p.graph, networkx.Graph)
+        properties = p.graph.edges(data=True)[0][2]
+        self.assertIsInstance(properties['weight'], float)
 
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
@@ -40,6 +42,7 @@ class TestBatmanParser(TestCase):
         self.assertIsInstance(data['links'], list)
         self.assertEqual(len(data['nodes']), 5)
         self.assertEqual(len(data['links']), 4)
+        self.assertIsInstance(data['links'][0]['cost'], float)
 
     def test_json_string(self):
         p = BatmanParser(iulinet)
