@@ -21,6 +21,12 @@ class TestNetJsonParser(TestCase):
         self.assertEqual(p.version, '0.6.6')
         self.assertEqual(p.revision, '5031a799fcbe17f61d57e387bc3806de')
         self.assertEqual(p.metric, 'ETX')
+        # test additional properties in links of network graph
+        properties = p.graph.edges(data=True)[0][2]
+        self.assertIsInstance(properties['custom_property'], bool)
+        # test additional properties in nodes of networkx graph
+        properties = p.graph.nodes(data=True)[0][1]
+        self.assertIsInstance(properties['hostname'], six.string_types)
 
     def test_parse_string_graph(self):
         data = """{
@@ -109,6 +115,12 @@ class TestNetJsonParser(TestCase):
         self.assertIsInstance(data['links'], list)
         self.assertEqual(len(data['nodes']), 3)
         self.assertEqual(len(data['links']), 2)
+        # ensure additional node properties are present
+        self.assertIn('properties', data['nodes'][0])
+        self.assertIn('hostname', data['nodes'][0]['properties'])
+        # ensure additional link properties are present
+        self.assertIn('properties', data['links'][0])
+        self.assertIn('custom_property', data['links'][0]['properties'])
 
     def test_json_string(self):
         p = NetJsonParser(links2)

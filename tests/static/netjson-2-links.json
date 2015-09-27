@@ -6,13 +6,22 @@
     "metric": "ETX",
     "nodes": [
         {
-            "id": "10.150.0.3"
+            "id": "10.150.0.3",
+            "properties": {
+                "hostname": "router.3nnx"
+            }
         },
         {
-            "id": "10.150.0.2"
+            "id": "10.150.0.2",
+            "properties": {
+                "hostname": "router2.nnx"
+            }
         },
         {
-            "id": "10.150.0.4"
+            "id": "10.150.0.4",
+            "properties": {
+                "hostname": "router4.nnx"
+            }
         }
     ],
     "links": [
