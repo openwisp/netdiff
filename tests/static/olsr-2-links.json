@@ -17,6 +17,39 @@
             "validityTime": 284572
         }
     ],
+    "mid": [
+        {
+            "ipAddress": "10.150.0.2",
+            "aliases": [
+                {
+                    "ipAddress": "172.16.192.2",
+                    "validityTime": 286445
+                },
+                {
+                    "ipAddress": "192.168.0.2",
+                    "validityTime": 286445
+                }
+            ]
+        },
+        {
+            "ipAddress": "10.150.0.3",
+            "aliases": [
+                {
+                    "ipAddress": "172.16.192.3",
+                    "validityTime": 286445
+                }
+            ]
+        },
+        {
+            "ipAddress": "10.150.0.4",
+            "aliases": [
+                {
+                    "ipAddress": "172.16.192.4",
+                    "validityTime": 286445
+                }
+            ]
+        }
+    ],
     "config": {
         "olsrPort":698,
         "debugLevel":0,

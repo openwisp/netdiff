@@ -25,11 +25,19 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertIsInstance(properties['weight'], float)
         self.assertIsInstance(properties['link_quality'], float)
         self.assertIsInstance(properties['neighbor_link_quality'], float)
+        # test additional node properties
+        properties = p.graph.nodes(data=True)[0][1]
+        self.assertIsInstance(properties['local_addresses'], list)
 
-    def test_parse_exception(self):
+    def test_parse_exception_topology(self):
         with self.assertRaises(ParserError):
             OlsrParser('clearly wrong')
+        with self.assertRaises(ParserError):
             OlsrParser('Table: Topology\n......')
+
+    def test_parse_exception_mid(self):
+        with self.assertRaises(ParserError):
+            OlsrParser('Table: Topology\n\n\nMISSING MID')
 
     def test_json_dict(self):
         p = OlsrParser(links2)
@@ -49,6 +57,16 @@ class TestOlsrTxtinfoParser(TestCase):
         properties = data['links'][0]['properties']
         self.assertIsInstance(properties['link_quality'], float)
         self.assertIsInstance(properties['neighbor_link_quality'], float)
+        # test local_addresses
+        self.assertIsInstance(data['nodes'][0]['local_addresses'], list)
+        found = False
+        for node in data['nodes']:
+            if node['id'] == '10.150.0.2':
+                self.assertEqual(len(node['local_addresses']), 2)
+                self.assertEqual(node['local_addresses'][0], '172.16.192.2')
+                self.assertEqual(node['local_addresses'][1], '192.168.0.2')
+                found = True
+        self.assertTrue(found)
 
     def test_json_string(self):
         p = OlsrParser(links2)
@@ -195,7 +213,14 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertTrue(1.023 in (links[0]['cost'], links[1]['cost']))
 
     def test_link_with_infinite_cost(self):
-        data = 'Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\n10.150.0.3\t10.150.0.2\t0.195\t0.184\tINFINITE\n\n'
+        data = """Table: Topology
+Dest. IP\tLast hop IP\tLQ\tNLQ\tCost
+10.150.0.3\t10.150.0.2\t0.195\t0.184\tINFINITE
+
+Table: MID
+IP address\tAliases
+
+"""
         p = OlsrParser(data)
         # ensure link is ignored
         self.assertEqual(len(p.graph.edges()), 0)

@@ -26,6 +26,9 @@ class TestOlsrParser(TestCase):
         self.assertIsInstance(properties['weight'], float)
         self.assertIsInstance(properties['link_quality'], float)
         self.assertIsInstance(properties['neighbor_link_quality'], float)
+        # test additional node properties
+        properties = p.graph.nodes(data=True)[0][1]
+        self.assertIsInstance(properties['local_addresses'], list)
 
     def test_init(self):
         p = OlsrParser(links3, version='0.6.3', metric='ETC')
@@ -41,7 +44,11 @@ class TestOlsrParser(TestCase):
 
     def test_parse_exception2(self):
         with self.assertRaises(ParserError):
-            OlsrParser('{ "topology": [{ "a": "a" }] }')
+            OlsrParser('{ "topology": [{ "a": "a" }], "mid": [] }')
+
+    def test_parse_exception_mid(self):
+        with self.assertRaises(ParserError):
+            OlsrParser('{ "topology": [], "missing_mid": [] }')
 
     def test_json_dict(self):
         p = OlsrParser(links2)
@@ -57,10 +64,20 @@ class TestOlsrParser(TestCase):
         self.assertEqual(len(data['nodes']), 3)
         self.assertEqual(len(data['links']), 2)
         self.assertIsInstance(data['links'][0]['cost'], float)
-        # test additional properties
+        # test additional link properties
         properties = data['links'][0]['properties']
         self.assertIsInstance(properties['link_quality'], float)
         self.assertIsInstance(properties['neighbor_link_quality'], float)
+        # test local_addresses
+        self.assertIsInstance(data['nodes'][0]['local_addresses'], list)
+        found = False
+        for node in data['nodes']:
+            if node['id'] == '10.150.0.2':
+                self.assertEqual(len(node['local_addresses']), 2)
+                self.assertEqual(node['local_addresses'][0], '172.16.192.2')
+                self.assertEqual(node['local_addresses'][1], '192.168.0.2')
+                found = True
+        self.assertTrue(found)
 
     def test_json_string(self):
         p = OlsrParser(links2)
@@ -233,7 +250,8 @@ class TestOlsrParser(TestCase):
                     "tcEdgeCost": float('inf'),
                     "validityTime": 284572
                 }
-            ]
+            ],
+            "mid": []
         })
         # ensure link is ignored
         self.assertEqual(len(p.graph.edges()), 0)

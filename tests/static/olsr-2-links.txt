@@ -16,6 +16,9 @@ Destination	Gateway
 
 Table: MID
 IP address	Aliases
+10.150.0.2	172.16.192.2;192.168.0.2
+10.150.0.3	172.16.192.3
+10.150.0.4	172.16.192.4
 
 Table: Routes
 Destination	Gateway IP	Metric	ETX	Interface
