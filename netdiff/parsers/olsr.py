@@ -67,8 +67,8 @@ class OlsrParser(BaseParser):
         try:
             start = lines.index('Table: Topology') + 2
             end = lines[start:].index('') + start
-        except ValueError as e:
-            raise ParserError(e)
+        except ValueError:
+            raise ParserError('Unrecognized format')
 
         topology_lines = lines[start:end]
         # convert interesting section to jsoninfo format

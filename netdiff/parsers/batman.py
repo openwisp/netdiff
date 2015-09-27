@@ -31,8 +31,8 @@ class BatmanParser(BaseParser):
         lines = data.split('\n')
         try:
             start = lines.index('Table: Topology') + 2
-        except ValueError as e:
-            raise ParserError(e)
+        except ValueError:
+            raise ParserError('Unrecognized format')
         topology_lines = [line for line in lines[start:] if line]
         # convert to python list
         parsed_lines = []
