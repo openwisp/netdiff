@@ -147,6 +147,9 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.4', result['added']['links'][0].values())
         # ensure correct node added
         self.assertIn('10.150.0.5', result['added']['nodes'][0].values())
+        # ensure changed value is correct
+        self.assertIn('10.150.0.3', result['changed']['links'][0].values())
+        self.assertEqual(result['changed']['links'][0]['cost'], 1048)
 
     def test_removed_1_link(self):
         old = NetJsonParser(links3)

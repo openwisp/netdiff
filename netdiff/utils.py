@@ -93,17 +93,17 @@ def _find_changed(old, new, both):
         # skip links that are not in both
         if set((edge[0], edge[1])) not in both:
             continue
-        # let's convert cost dict to a hashable form
-        hashable = tuple(sorted(edge[2].items()))
-        old_edges.append(set((edge[0], edge[1], hashable)))
+        # wrap cost in tuple so it will be recognizable
+        cost = (edge[2]['weight'],)
+        old_edges.append(set((edge[0], edge[1], cost)))
     new_edges = []
     for edge in new.edges(data=True):
         # skip links that are not in both
         if set((edge[0], edge[1])) not in both:
             continue
-        # let's convert cost dict to a hashable form
-        hashable = tuple(sorted(edge[2].items()))
-        new_edges.append(set((edge[0], edge[1], hashable)))
+        # wrap cost in tuple so it will be recognizable
+        cost = (edge[2]['weight'],)
+        new_edges.append(set((edge[0], edge[1], cost)))
     # find out which edge changed
     changed = []
     for new_edge in new_edges:
@@ -112,7 +112,8 @@ def _find_changed(old, new, both):
             new_edge = list(new_edge)
             for item in new_edge:
                 if isinstance(item, tuple):
-                    cost = dict(item)
+                    # unwrap cost from tuple and put it in a dict
+                    cost = {'weight': item[0]}
                     new_edge.remove(item)
             changed.append((new_edge[0], new_edge[1], cost))
     return changed

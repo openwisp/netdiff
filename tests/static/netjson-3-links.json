@@ -22,12 +22,16 @@
         {
             "source": "10.150.0.3",
             "target": "10.150.0.2",
-            "cost": 28334
+            "cost": 28334,
+            "properties": {
+                "custom_property": false,
+                "foo": "bar"
+            }
         },
         {
             "source": "10.150.0.3",
             "target": "10.150.0.4",
-            "cost": 1024
+            "cost": 1048
         },
         {
             "source": "10.150.0.5",
