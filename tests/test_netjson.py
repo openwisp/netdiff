@@ -26,6 +26,7 @@ class TestNetJsonParser(TestCase):
         self.assertIsInstance(properties['custom_property'], bool)
         # test additional properties in nodes of networkx graph
         properties = p.graph.nodes(data=True)[0][1]
+        self.assertIsInstance(properties['local_addresses'], list)
         self.assertIsInstance(properties['hostname'], six.string_types)
 
     def test_parse_string_graph(self):
@@ -118,6 +119,8 @@ class TestNetJsonParser(TestCase):
         # ensure additional node properties are present
         self.assertIn('properties', data['nodes'][0])
         self.assertIn('hostname', data['nodes'][0]['properties'])
+        # ensure local_addresses is present
+        self.assertIn('local_addresses', data['nodes'][0])
         # ensure additional link properties are present
         self.assertIn('properties', data['links'][0])
         self.assertIn('custom_property', data['links'][0]['properties'])

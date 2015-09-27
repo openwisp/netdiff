@@ -32,6 +32,7 @@ class NetJsonParser(BaseParser):
         # create graph
         for node in data['nodes']:
             graph.add_node(node['id'],
+                           local_addresses=node.get('local_addresses', []),
                            **node.get('properties', {}))
         for link in data['links']:
             try:
