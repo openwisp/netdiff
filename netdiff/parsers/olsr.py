@@ -39,11 +39,11 @@ class OlsrParser(BaseParser):
             self.revision = version_info[-1]
 
         # loop over topology section and create networkx graph
-        for link in data["topology"]:
+        for link in data['topology']:
             try:
-                source = link["lastHopIP"]
-                dest = link["destinationIP"]
-                cost = link["tcEdgeCost"]
+                source = link['lastHopIP']
+                dest = link['destinationIP']
+                cost = link['tcEdgeCost']
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
             # skip links with infinite cost
@@ -76,10 +76,10 @@ class OlsrParser(BaseParser):
         for line in topology_lines:
             values = line.split('\t')
             parsed_lines.append({
-                "destinationIP": values[0],
-                "lastHopIP": values[1],
-                "linkQuality": float(values[2]),
-                "neighborLinkQuality": float(values[3]),
-                "tcEdgeCost": float(values[4]) * 1024.0
+                'destinationIP': values[0],
+                'lastHopIP': values[1],
+                'linkQuality': float(values[2]),
+                'neighborLinkQuality': float(values[3]),
+                'tcEdgeCost': float(values[4]) * 1024.0
             })
         return {'topology': parsed_lines}
