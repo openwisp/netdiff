@@ -132,11 +132,18 @@ def _netjson_networkgraph(protocol, version, revision, metric,
     node_list = [{'id': node} for node in nodes]
     link_list = []
     for link in links:
-        link_list.append(OrderedDict((
+        # must copy properties dict to avoid modifying data
+        properties = link[2].copy()
+        cost = properties.pop('weight')
+        netjson_link = OrderedDict((
             ('source', link[0]),
             ('target', link[1]),
-            ('cost', link[2]['weight'])
-        )))
+            ('cost', cost)
+        ))
+        # append properties only if not empty
+        if properties:
+            netjson_link['properties'] = properties
+        link_list.append(netjson_link)
     data = OrderedDict((
         ('type', 'NetworkGraph'),
         ('protocol', protocol),

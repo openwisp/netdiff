@@ -21,6 +21,11 @@ class TestOlsrParser(TestCase):
     def test_parse(self):
         p = OlsrParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
+        # test additional properties in networkx graph
+        properties = p.graph.edges(data=True)[0][2]
+        self.assertIsInstance(properties['weight'], float)
+        self.assertIsInstance(properties['link_quality'], float)
+        self.assertIsInstance(properties['neighbor_link_quality'], float)
 
     def test_init(self):
         p = OlsrParser(links3, version='0.6.3', metric='ETC')
@@ -51,6 +56,11 @@ class TestOlsrParser(TestCase):
         self.assertIsInstance(data['links'], list)
         self.assertEqual(len(data['nodes']), 3)
         self.assertEqual(len(data['links']), 2)
+        self.assertIsInstance(data['links'][0]['cost'], float)
+        # test additional properties
+        properties = data['links'][0]['properties']
+        self.assertIsInstance(properties['link_quality'], float)
+        self.assertIsInstance(properties['neighbor_link_quality'], float)
 
     def test_json_string(self):
         p = OlsrParser(links2)

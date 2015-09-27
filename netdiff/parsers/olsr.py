@@ -44,6 +44,10 @@ class OlsrParser(BaseParser):
                 source = link['lastHopIP']
                 dest = link['destinationIP']
                 cost = link['tcEdgeCost']
+                properties = {
+                    'link_quality': link['linkQuality'],
+                    'neighbor_link_quality': link['neighborLinkQuality']
+                }
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
             # skip links with infinite cost
@@ -52,7 +56,7 @@ class OlsrParser(BaseParser):
             # original olsrd cost (jsoninfo multiplies by 1024)
             cost = float(cost) / 1024.0
             # add link to Graph
-            graph.add_edge(source, dest, weight=cost)
+            graph.add_edge(source, dest, weight=cost, **properties)
         return graph
 
     def _txtinfo_to_jsoninfo(self, data):
