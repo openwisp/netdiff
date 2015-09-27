@@ -134,6 +134,10 @@ def _netjson_networkgraph(protocol, version, revision, metric,
         netjson_node = {'id': node[0]}
         # must copy properties dict to avoid modifying data
         properties = node[1].copy()
+        local_addresses = properties.pop('local_addresses', None)
+        # append local_addresses only if not empty
+        if local_addresses:
+            netjson_node['local_addresses'] = local_addresses
         # append properties only if not empty
         if properties:
             netjson_node['properties'] = properties

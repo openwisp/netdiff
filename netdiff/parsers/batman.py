@@ -97,6 +97,7 @@ class BatmanParser(BaseParser):
         for node in data["vis"]:
             for neigh in node["neighbors"]:
                 graph.add_node(node['primary'], **{
+                    'local_addresses': node.get('secondary', []),
                     'clients': node.get('clients', [])
                 })
                 primary_neigh = self._get_primary_address(neigh['neighbor'],

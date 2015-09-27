@@ -23,6 +23,7 @@ class TestBatmanParser(TestCase):
         self.assertIsInstance(properties['weight'], float)
         # test additional properties in nodes of networkx graph
         properties = p.graph.nodes(data=True)[0][1]
+        self.assertIsInstance(properties['local_addresses'], list)
         self.assertIsInstance(properties['clients'], list)
 
     def test_parse_exception(self):
@@ -50,7 +51,16 @@ class TestBatmanParser(TestCase):
         found = False
         for node in data['nodes']:
             if node['id'] == '90:f6:52:f2:8c:2c':
+                self.assertIsInstance(node['local_addresses'], list)
                 self.assertIsInstance(node['properties']['clients'], list)
+                found = True
+                break
+        self.assertTrue(found)
+        found = False
+        # ensure local_addresses not present if empty
+        for node in data['nodes']:
+            if node['id'] == 'a0:f3:c1:96:94:06':
+                self.assertFalse('local_addresses' in node)
                 found = True
                 break
         self.assertTrue(found)
