@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.4.5 [unreleased]
+Version 0.4.5 [28-09-2015]
 --------------------------
 
 - `#34 <https://github.com/ninuxorg/netdiff/issues/34>`_: show ``local_addresses`` in NetJSON output (``OlsrParser``, ``BatmanParser`` and ``NetJsonParser``)
