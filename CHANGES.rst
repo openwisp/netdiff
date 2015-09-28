@@ -4,16 +4,22 @@ Changelog
 Version 0.4.5 [unreleased]
 --------------------------
 
+- `#34 <https://github.com/ninuxorg/netdiff/issues/34>`_: show ``local_addresses`` in NetJSON output (``OlsrParser``, ``BatmanParser`` and ``NetJsonParser``)
+- `#29 <https://github.com/ninuxorg/netdiff/issues/29>`_: support additional properties in NetJSON output
+- `#32 <https://github.com/ninuxorg/netdiff/issues/32>`_: mock telnet requests in tests
+- `63a5e8a <https://github.com/ninuxorg/netdiff/commit/63a5e8a>`_: added ``"Unrecognized format"`` message in ``ParserError`` exceptions
+- `9ed48a4 <https://github.com/ninuxorg/netdiff/commit/9ed48a4>`_: added arbitrary metric value (average of tx and rx) in ``Bmx6Parser``
+
 Version 0.4.4 [06-09-2015]
 --------------------------
 
-- `#31 <https://github.com/ninuxorg/netdiff/issues/31>`_: Mocked HTTP requests in tests
-- `#29 <https://github.com/ninuxorg/netdiff/issues/28>`_: Replaced weight with cost in all NetJSON occurrences
+- `#31 <https://github.com/ninuxorg/netdiff/issues/31>`_: mocked HTTP requests in tests
+- `#29 <https://github.com/ninuxorg/netdiff/issues/28>`_: replaced weight with cost in all NetJSON occurrences
 
 Version 0.4.3 [02-07-2015]
 --------------------------
 
-- `#27 <https://github.com/ninuxorg/netdiff/issues/27>`_: Added support for txtinfo format to ``BatmanParser``
+- `#27 <https://github.com/ninuxorg/netdiff/issues/27>`_: added support for txtinfo format to ``BatmanParser``
 - `ab9c40 <https://github.com/ninuxorg/netdiff/commit/ab9c40>`_, `9ac89a <https://github.com/ninuxorg/netdiff/commit/9ac89a>`_: minor optimizations and simplifications in ``BatmanParser``
 - `990a30 <https://github.com/ninuxorg/netdiff/commit/990a30>`_: minor optimization in ``Bmx6Parser``
 - `64f8f44 <https://github.com/ninuxorg/netdiff/commit/64f8f44>`_: the parse() method of each parser now must return a networkx.Graph instance instead of storing it
