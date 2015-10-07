@@ -7,10 +7,6 @@ netdiff
 .. image:: https://coveralls.io/repos/ninuxorg/netdiff/badge.png
   :target: https://coveralls.io/r/ninuxorg/netdiff
 
-.. image:: https://landscape.io/github/ninuxorg/netdiff/master/landscape.png
-   :target: https://landscape.io/github/ninuxorg/netdiff/master
-   :alt: Code Health
-
 .. image:: https://requires.io/github/ninuxorg/netdiff/requirements.png?branch=master
    :target: https://requires.io/github/ninuxorg/netdiff/requirements/?branch=master
    :alt: Requirements Status
