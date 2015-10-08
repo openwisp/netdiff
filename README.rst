@@ -1,7 +1,7 @@
 netdiff
 =======
 
-.. image:: https://travis-ci.org/ninuxorg/netdiff.png
+.. image:: https://travis-ci.org/ninuxorg/netdiff.svg
    :target: https://travis-ci.org/ninuxorg/netdiff
 
 .. image:: https://coveralls.io/repos/ninuxorg/netdiff/badge.png
