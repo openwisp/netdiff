@@ -4,7 +4,7 @@ netdiff
 .. image:: https://travis-ci.org/ninuxorg/netdiff.svg
    :target: https://travis-ci.org/ninuxorg/netdiff
 
-.. image:: https://coveralls.io/repos/ninuxorg/netdiff/badge.png
+.. image:: https://coveralls.io/repos/ninuxorg/netdiff/badge.svg
   :target: https://coveralls.io/r/ninuxorg/netdiff
 
 .. image:: https://requires.io/github/ninuxorg/netdiff/requirements.png?branch=master
