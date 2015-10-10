@@ -7,7 +7,7 @@ netdiff
 .. image:: https://coveralls.io/repos/ninuxorg/netdiff/badge.svg
   :target: https://coveralls.io/r/ninuxorg/netdiff
 
-.. image:: https://requires.io/github/ninuxorg/netdiff/requirements.png?branch=master
+.. image:: https://requires.io/github/ninuxorg/netdiff/requirements.svg?branch=master
    :target: https://requires.io/github/ninuxorg/netdiff/requirements/?branch=master
    :alt: Requirements Status
 
