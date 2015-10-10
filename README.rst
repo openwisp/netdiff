@@ -11,7 +11,7 @@ netdiff
    :target: https://requires.io/github/ninuxorg/netdiff/requirements/?branch=master
    :alt: Requirements Status
 
-.. image:: https://badge.fury.io/py/netdiff.png
+.. image:: https://badge.fury.io/py/netdiff.svg
    :target: http://badge.fury.io/py/netdiff
 
 .. image:: https://img.shields.io/pypi/dm/netdiff.svg
