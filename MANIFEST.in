@@ -1,3 +1,4 @@
-include AUTHORS LICENSE README.rst requirements.txt
-recursive-include tests *
+include README.rst LICENSE requirements.txt
+recursive-include netdiff *
 recursive-exclude * *.pyc *.swp
+recursive-exclude * __pycache__

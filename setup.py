@@ -39,12 +39,21 @@ def get_install_requires():
 setup(
     name='netdiff',
     version=get_version(),
-    description="Calculates a diff of a network topology",
+    description="Python library for parsing network topology data (eg: dynamic "
+                "routing protocols, NetJSON, CNML) and detect changes.",
     long_description=open('README.rst').read(),
     author='Federico Capoano (nemesisdesign)',
     author_email='ninux-dev@ml.ninux.org',
     license='MIT',
     url='https://github.com/ninuxorg/netdiff',
+    download_url='https://github.com/ninuxorg/netdiff/releases',
+    keywords=['networking',
+              'mesh-network',
+              'netjson',
+              'olsr',
+              'batman',
+              'bmx'],
+    platforms=['Platform Indipendent'],
     packages=find_packages(exclude=['tests', 'tests.*', 'docs', 'docs.*']),
     zip_safe=False,
     classifiers=[
@@ -55,6 +64,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: System :: Networking',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
     ],
     install_requires=get_install_requires(),
     test_suite='nose.collector'
