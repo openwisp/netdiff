@@ -20,14 +20,14 @@ def diff(old, new):
     changed_edges = _find_changed(old.graph, new.graph, in_both)
     # create netjson objects
     # or assign None if no changes
-    if added_nodes.nodes() and added_edges.edges():
+    if added_nodes.nodes() or added_edges.edges():
         added = _netjson_networkgraph(protocol, version, revision, metric,
                                       added_nodes.nodes(data=True),
                                       added_edges.edges(data=True),
                                       dict=True)
     else:
         added = None
-    if removed_nodes.nodes() and removed_edges.edges():
+    if removed_nodes.nodes() or removed_edges.edges():
         removed = _netjson_networkgraph(protocol, version, revision, metric,
                                         removed_nodes.nodes(data=True),
                                         removed_edges.edges(data=True),
