@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.4.6 [27-12-2015]
+--------------------------
+
+- `#36 <https://github.com/ninuxorg/netdiff/issues/36>`_: fixed wrong diff when same nodes but different links
+
 Version 0.4.5 [28-09-2015]
 --------------------------
 
