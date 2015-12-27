@@ -19,18 +19,28 @@ netdiff
 
 ------------
 
-Netdiff is an experimental Python library that provides utilities for parsing network topologies
-of open source dynamic routing protocols and calculating changes in these topologies.
+Netdiff is a simple Python library that provides utilities for parsing network topology
+data of open source dynamic routing protocols and detecting changes in these topologies.
 
-It was developed to abstract the differences between the different JSON structures of the
-open source dynamic routing protocols (like **OLSR** and **batman-advanced**).
+**Current features**:
 
-It's currently also used in `Nodeshot <https://github.com/ninuxorg/nodeshot>`__
-to update the network links that are shown on the map.
+* `parse different formats <https://github.com/ninuxorg/netdiff#parsers>`_
+* `detect changes in two topologies <https://github.com/ninuxorg/netdiff#basic-usage-example>`_
+* `return consistent NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`_
+* uses the popular `networkx <https://networkx.github.io/>`_ library under the hood
 
-If you are a developer of another community network node-db project and you want
-to use netdiff to update the topology stored in your database, please
-`get in touch <http://ml.ninux.org/mailman/listinfo/ninux-dev>`__!
+**Goals**:
+
+* provide an abstraction layer to facilitate parsing different network topology formats
+* add support for the most popular dynamic open source routing protocols
+* facilitate detecting changes in network topology for monitoring purposes
+* provide standard `NetJSON`_ output
+* keep the library small with as few dependencies as possible
+
+**Currently used by**
+
+* `django-netjsongraph <https://github.com/interop-dev/django-netjsongraph>`_
+* `nodeshot <https://github.com/ninuxorg/nodeshot>`_
 
 Install stable version from pypi
 --------------------------------
@@ -95,7 +105,7 @@ The output will be an ordered dictionary with three keys:
 * removed
 * changed
 
-Each key will contain a dict compatible with the `NetJSON NetworkGraph format <https://github.com/interop-dev/netjson#networkgraph>`__
+Each key will contain a dict compatible with the `NetJSON NetworkGraph format`_
 representing respectively:
 
 * the nodes and links that have been added to the topology
@@ -188,15 +198,17 @@ Parsers
 Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
 which is in charge of converting a python data structure into ``networkx.Graph`` object and return the result.
 
-Parsers also have a ``json`` method which returns valid `NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`__.
+Parsers also have a ``json`` method which returns valid `NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`_.
 
 The available parsers are:
 
-* ``netdiff.OlsrParser``: parser for the `olsrd jsoninfo plugin <http://www.olsr.org/?q=jsoninfo_plugin>`__
-* ``netdiff.BatmanParser``: parser for the `batman-advanced alfred tool <http://www.open-mesh.org/projects/open-mesh/wiki/Alfred>`__
-* ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`__
-* ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`__
-* ``netdiff.NetJsonParser``: parser for the ``NetworkGraph`` `NetJSON object <https://github.com/interop-dev/netjson#networkgraph>`__.
+* ``netdiff.OlsrParser``: parser for the `olsrd jsoninfo plugin <http://www.olsr.org/?q=jsoninfo_plugin>`_
+  or the older `txtinfo plugin <http://www.olsr.org/?q=txtinfo_plugin>`_
+* ``netdiff.BatmanParser``: parser for the `batman-advanced alfred tool <http://www.open-mesh.org/projects/open-mesh/wiki/Alfred>`_
+  (supports also the legacy txtinfo format inherited from olsrd)
+* ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`_
+* ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`_
+* ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph format`_.
 
 Initialization arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,7 +223,8 @@ Initialization arguments
 
 **timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to None
 
-**verify**: boolean indicating to the `request library whether to do SSL certificate verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`__
+**verify**: boolean indicating to the `request library whether to do SSL certificate
+verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_
 
 Initialization examples
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,7 +261,7 @@ HTTPS example with self-signed SSL certificate using ``verify=False``:
 NetJSON output
 --------------
 
-Netdiff parsers can return a valid `NetJSON <http://netjson.org>`__
+Netdiff parsers can return a valid `NetJSON`_
 ``NetworkGraph`` object:
 
 .. code-block:: python
@@ -335,7 +348,7 @@ NetJsonError
 ``netdiff.exceptions.NetJsonError``
 
 Raised when the ``json`` method of ``netdiff.parsers.BaseParser`` does not have enough data
-to be compliant with the `NetJSON NetworkGraph <https://github.com/interop-dev/netjson#networkgraph>`__ specification.
+to be compliant with the `NetJSON NetworkGraph format`_ specification.
 
 TopologyRetrievalError
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -351,8 +364,8 @@ Known Issues
 ConnectionError: BadStatusLine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you get a similar error when performing a request to the `jsoninfo plugin <http://www.olsr.org/?q=jsoninfo_plugin>`__ of
-`olsrd <http://www.olsr.org/>`__ (version 0.6 to 0.9) chances are high that http headers are disabled.
+If you get a similar error when performing a request to the `jsoninfo plugin <http://www.olsr.org/?q=jsoninfo_plugin>`_ of
+`olsrd <http://www.olsr.org/>`_ (version 0.6 to 0.9) chances are high that http headers are disabled.
 
 To fix it turn on http headers in your olsrd configuration file, eg::
 
@@ -417,3 +430,5 @@ Contributing
 
 .. _PEP8, Style Guide for Python Code: http://www.python.org/dev/peps/pep-0008/
 .. _ninux-dev mailing list: http://ml.ninux.org/mailman/listinfo/ninux-dev
+.. _NetJSON NetworkGraph format: http://netjson.org/rfc.html#rfc.section.4
+.. _NetJSON: http://netjson.org
