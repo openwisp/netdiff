@@ -15,7 +15,7 @@ duplicated = open('{0}/static/batman-duplicated.json'.format(CURRENT_DIR)).read(
 
 
 class TestBatmanParser(TestCase):
-
+    """ tests for BatmanParser """
     def test_parse(self):
         p = BatmanParser(iulinet)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -119,5 +119,5 @@ class TestBatmanParser(TestCase):
 
     def test_get_primary_address_ValueError(self):
         p = BatmanParser(iulinet)
-        with self.assertRaises(ValueError):
-            p._get_primary_address('wrong', [['aa:bb:cc:dd:ee:ff']])
+        r = p._get_primary_address('bb:aa:cc:dd:ee:ff', [['aa:bb:cc:dd:ee:ff']])
+        self.assertEqual(r, 'bb:aa:cc:dd:ee:ff')

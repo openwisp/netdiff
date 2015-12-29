@@ -54,8 +54,7 @@ class BatmanParser(BaseParser):
         for local_addresses in node_list:
             if mac_address in local_addresses:
                 return local_addresses[0]
-        # remote case
-        raise ValueError('primary address not found')
+        return mac_address
 
     def _get_aggregated_node_list(self, data):
         """
