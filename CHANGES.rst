@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.4.7 [04-01-2016]
+--------------------------
+
+- `c79b745 <https://github.com/ninuxorg/netdiff/commit/c79b745>`_: fixed return value of ``_get_primary_address()`` in ``BatmanParser``
+
 Version 0.4.6 [27-12-2015]
 --------------------------
 
