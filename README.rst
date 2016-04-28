@@ -85,7 +85,7 @@ Calculate diff of an OLSR 0.6.x topology:
     from netdiff import diff
 
     old = OlsrParser('./stored-olsr.json')
-    new = OlsrParser('telnet://127.0.0.1:9090')
+    new = OlsrParser('http://127.0.0.1:9090')
     diff(old, new)
 
 In alternative, you may also use the subtraction operator:
@@ -96,7 +96,7 @@ In alternative, you may also use the subtraction operator:
     from netdiff import diff
 
     old = OlsrParser('./stored-olsr.json')
-    new = OlsrParser('telnet://127.0.0.1:9090')
+    new = OlsrParser('http://127.0.0.1:9090')
     old - new
 
 The output will be an ordered dictionary with three keys:
