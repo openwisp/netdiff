@@ -2,6 +2,12 @@ import six
 import json
 import requests
 import telnetlib
+# python2
+try:
+    from urllib2 import urlopen
+# python3
+except:
+    from urllib.request import urlopen
 
 try:
     import urlparse
@@ -106,15 +112,38 @@ class BaseParser(object):
 
     def _get_http(self, url):
         try:
-            response = requests.get(url.geturl(),
-                                    verify=self.verify,
-                                    timeout=self.timeout)
+            # unfortunately some routing protocols might not add http headers by default
+            # this situation raises an exception with the requests library (Connection Aborted)
+            # to make netdiff easier to use, in these cases we fallback to urllib2 which
+            # handles this issue in a nicer way
+            try:
+                response = requests.get(url.geturl(),
+                                        verify=self.verify,
+                                        timeout=self.timeout)
+            except Exception as e:
+                # this is the case we want to handle gracefully
+                # and fallback to urllib2
+                if isinstance(e, requests.exceptions.ConnectionError) and 'BadStatusLine' in str(e):
+                    try:
+                        response = urlopen(url.geturl(), timeout=self.timeout)
+                    except Exception as e:
+                        raise TopologyRetrievalError(e)
+                    else:
+                        status_code = response.getcode()
+                        content = response.read()
+                # in all the other cases pass the error to the next handling block
+                else:
+                    raise TopologyRetrievalError(e)
         except Exception as e:
             raise TopologyRetrievalError(e)
+        # save response status and content in vars
+        else:
+            status_code = response.status_code
+            content = response.content.decode()
         if response.status_code != 200:
-            msg = 'Expecting HTTP 200 ok, got {0}'.format(response.status_code)
+            msg = 'Expecting HTTP 200 ok, got {0}'.format(status_code)
             raise TopologyRetrievalError(msg)
-        return response.content.decode()
+        return content
 
     def _get_telnet(self, url):
         try:
