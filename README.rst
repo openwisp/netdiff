@@ -14,9 +14,6 @@ netdiff
 .. image:: https://badge.fury.io/py/netdiff.svg
    :target: http://badge.fury.io/py/netdiff
 
-.. image:: https://img.shields.io/pypi/dm/netdiff.svg
-   :target: https://pypi.python.org/pypi/netdiff
-
 ------------
 
 Netdiff is a simple Python library that provides utilities for parsing network topology
