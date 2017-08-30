@@ -1,10 +1,10 @@
 Changelog
 =========
 
-Version 0.4.8 [unreleased]
+Version 0.4.8 [30-08-2017]
 --------------------------
 
-WIP
+- pinned precise supported versions of dependencies to avoid incompatibilities
 
 Version 0.4.7 [04-01-2016]
 --------------------------
