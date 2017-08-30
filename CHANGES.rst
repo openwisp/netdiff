@@ -1,10 +1,11 @@
 Changelog
 =========
 
-Version 0.5.0 [unreleased]
+Version 0.5.0 [30-08-2017]
 --------------------------
 
-WIP
+- `#40 <https://github.com/ninuxorg/netdiff/issues/40>`_:
+  implemented stricter input (**backward incompatible**)
 
 Version 0.4.8 [30-08-2017]
 --------------------------
