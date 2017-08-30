@@ -1,4 +1,4 @@
-networkx
-requests
+networkx<2.0
+requests<3.0
 six
-libcnml
+libcnml<0.10.0
