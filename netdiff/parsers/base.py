@@ -23,12 +23,15 @@ class BaseParser(object):
     revision = None
     metric = None
 
-    def __init__(self, data, version=None, revision=None, metric=None,
+    def __init__(self, data=None, url=None, file=None,
+                 version=None, revision=None, metric=None,
                  timeout=None, verify=True):  # noqa
         """
         Initializes a new Parser
 
-        :param data: JSON, dict, path to file or HTTP URL of topology
+        :param data: ``str`` or ``dict`` containing topology data
+        :param url: HTTP URL to retrieve topology data
+        :param file: path to file containing topology data
         :param version: routing protocol version
         :param revision: routing protocol revision
         :param metric: routing protocol metric
@@ -43,10 +46,24 @@ class BaseParser(object):
             self.metric = metric
         self.timeout = timeout
         self.verify = verify
+        if data is None and url is not None:
+            data = self._get_url(url)
+        elif data is None and file is not None:
+            data = self._get_file(file)
+        elif data is None and url is None and file is None:
+            raise ValueError('no topology data supplied, on of the following arguments'
+                             'must be supplied: data, url or file')
         self.original_data = self.to_python(data)
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
             self.graph = self.parse(self.original_data)
+
+    def _get_url(self, url):
+        url = urlparse.urlparse(url)
+        if url.scheme in ['http', 'https']:
+            return self._get_http(url)
+        if url.scheme == 'telnet':
+            return self._get_telnet(url)
 
     def __sub__(self, other):
         return diff(other, self)
@@ -61,7 +78,6 @@ class BaseParser(object):
             * a JSON formatted string
             * a dict representing a JSON structure
         """
-        data = self._retrieve_data(data)
         if isinstance(data, dict):
             return data
         elif isinstance(data, six.string_types):
@@ -69,34 +85,8 @@ class BaseParser(object):
             try:
                 return json.loads(data)
             except ValueError:
-                raise ConversionException('Could not recognize format', data=data)
-        else:
-            raise ConversionException('Could not recognize format', data=data)
-
-    def _retrieve_data(self, data):
-        """
-        if recognizes a URL or a path
-        tries to retrieve and returns data
-        otherwise will return data as is
-        """
-        if isinstance(data, six.string_types):
-            # if it looks like URL
-            if '://' in data:
-                url = urlparse.urlparse(data)
-                if url.scheme in ['http', 'https']:
-                    return self._get_http(url)
-                if url.scheme == 'telnet':
-                    return self._get_telnet(url)
-            # if it looks like a path
-            elif True in [data.startswith('./'),
-                          data.startswith('../'),
-                          data.startswith('/'),
-                          data.startswith('.\\'),
-                          data.startswith('..\\'),
-                          data.startswith('\\'),
-                          data[1:3].startswith(':\\')]:
-                return self._get_file(data)
-        return data
+                pass
+        raise ConversionException('Could not recognize format', data=data)
 
     def _get_file(self, path):
         try:

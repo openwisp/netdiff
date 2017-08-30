@@ -81,8 +81,8 @@ Calculate diff of an OLSR 0.6.x topology:
     from netdiff import OlsrParser
     from netdiff import diff
 
-    old = OlsrParser('./stored-olsr.json')
-    new = OlsrParser('http://127.0.0.1:9090')
+    old = OlsrParser(file='./stored-olsr.json')
+    new = OlsrParser(url='http://127.0.0.1:9090')
     diff(old, new)
 
 In alternative, you may also use the subtraction operator:
@@ -92,8 +92,8 @@ In alternative, you may also use the subtraction operator:
     from netdiff import OlsrParser
     from netdiff import diff
 
-    old = OlsrParser('./stored-olsr.json')
-    new = OlsrParser('http://127.0.0.1:9090')
+    old = OlsrParser(file='./stored-olsr.json')
+    new = OlsrParser(url='http://127.0.0.1:9090')
     old - new
 
 The output will be an ordered dictionary with three keys:
@@ -210,18 +210,17 @@ The available parsers are:
 Initialization arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-**data**: the only required argument, different inputs are accepted:
+Data can be supplied in 3 different ways, in the following order of precedence:
 
-* JSON formatted string representing the topology
-* python `dict` (or subclass of `dict`) representing the topology
-* string representing a HTTP URL where the data resides
-* string representing a telnet URL where the data resides
-* string representing a file path where the data resides
+* ``data``: ``dict`` or ``str`` representing the topology/graph
+* ``url``: URL to fetch data from
+* ``file``: file path to retrieve data from
 
-**timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to None
+Other available arguments:
 
-**verify**: boolean indicating to the `request library whether to do SSL certificate
-verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_
+* **timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to ``None``
+* **verify**: boolean indicating to the `request library whether to do SSL certificate
+  verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_
 
 Initialization examples
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -231,7 +230,7 @@ Local file example:
 .. code-block:: python
 
     from netdiff import BatmanParser
-    BatmanParser('./my-stored-topology.json')
+    BatmanParser(file='./my-stored-topology.json')
 
 HTTP example:
 
@@ -239,33 +238,32 @@ HTTP example:
 
     from netdiff import NetJsonParser
     url = 'https://raw.githubusercontent.com/interop-dev/netjson/master/examples/network-graph.json'
-    NetJsonParser(url)
+    NetJsonParser(url=url)
 
 Telnet example with ``timeout``:
 
 .. code-block:: python
 
     from netdiff import OlsrParser
-    OlsrParser('telnet://127.0.1:8080', timeout=5)
+    OlsrParser(url='telnet://127.0.1', timeout=5)
 
 HTTPS example with self-signed SSL certificate using ``verify=False``:
 
 .. code-block:: python
 
     from netdiff import NetJsonParser
-    OlsrParser('https://myserver.mydomain.com/topology.json', verify=False)
+    OlsrParser(url='https://myserver.mydomain.com/topology.json', verify=False)
 
 NetJSON output
 --------------
 
-Netdiff parsers can return a valid `NetJSON`_
-``NetworkGraph`` object:
+Netdiff parsers can return a valid `NetJSON`_ ``NetworkGraph`` object:
 
 .. code-block:: python
 
     from netdiff import OlsrParser
 
-    olsr = OlsrParser('telnet://127.0.0.1:9090')
+    olsr = OlsrParser(url='telnet://127.0.0.1:9090')
 
     # will return a dict
     olsr.json(dict=True)

@@ -9,11 +9,11 @@ from netdiff.tests import TestCase
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-links2 = '{0}/static/olsr-2-links.json'.format(CURRENT_DIR)
-links2_cost = '{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)
-links3 = '{0}/static/olsr-3-links.json'.format(CURRENT_DIR)
-links5 = '{0}/static/olsr-5-links.json'.format(CURRENT_DIR)
-links5_cost = '{0}/static/olsr-5-links-cost-changed.json'.format(CURRENT_DIR)
+links2 = open('{0}/static/olsr-2-links.json'.format(CURRENT_DIR)).read()
+links2_cost = open('{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)).read()
+links3 = open('{0}/static/olsr-3-links.json'.format(CURRENT_DIR)).read()
+links5 = open('{0}/static/olsr-5-links.json'.format(CURRENT_DIR)).read()
+links5_cost = open('{0}/static/olsr-5-links-cost-changed.json'.format(CURRENT_DIR)).read()
 
 
 class TestOlsrParser(TestCase):

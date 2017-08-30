@@ -6,7 +6,7 @@ from netdiff.tests import TestCase
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-links2 = '{0}/static/netjson-2-links.json'.format(CURRENT_DIR)
+links2 = open('{0}/static/netjson-2-links.json'.format(CURRENT_DIR)).read()
 
 
 class TestUtils(TestCase):
