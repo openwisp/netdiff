@@ -26,88 +26,82 @@ class TestBaseParser(unittest.TestCase):
     def test_version(self):
         get_version()
 
+    def test_no_data_supplied(self):
+        with self.assertRaises(ValueError):
+            BaseParser()
+
     def test_parse_file(self):
         dir = os.path.dirname(os.path.realpath(__file__))
         path = '{0}/static/olsr-2-links.json'.format(dir)
-        p = BaseParser(path)
+        p = BaseParser(file=path)
         self.assertIsInstance(p.original_data, dict)
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser('../wrong.json')
+            BaseParser(file='../wrong.json')
 
     @responses.activate
     def test_parse_http(self):
-        responses.add(
-            responses.GET,
-            'http://localhost:9090',
-            body=self._load_contents('tests/static/olsr-2-links.json')
-        )
-        p = BaseParser('http://localhost:9090')
+        responses.add(responses.GET, 'http://localhost:9090',
+                      body=self._load_contents('tests/static/olsr-2-links.json'))
+        p = BaseParser(url='http://localhost:9090')
         self.assertIsInstance(p.original_data, dict)
 
     @responses.activate
     def test_topology_retrieval_error_http_404(self):
-        responses.add(
-            responses.GET,
-            'http://404.com',
-            body='not found',
-            status=404
-        )
+        responses.add(responses.GET, 'http://404.com',
+                      body='not found', status=404)
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser('http://404.com')
+            BaseParser(url='http://404.com')
 
     @responses.activate
     def test_topology_retrieval_error_http(self):
         def request_callback(request):
             raise ConnectionError('test exception')
-        responses.add_callback(
-            responses.GET,
-            'http://connectionerror.com',
-            callback=request_callback,
-        )
+        responses.add_callback(responses.GET, 'http://connectionerror.com',
+                               callback=request_callback)
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser('http://connectionerror.com')
+            BaseParser(url='http://connectionerror.com')
 
     @mock.patch('telnetlib.Telnet')
     def test_telnet_retrieval_error(self, MockClass):
-        telnetlib.Telnet.side_effect=ValueError('testing exception')
+        telnetlib.Telnet.side_effect = ValueError('testing exception')
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser('telnet://wrong.com')
+            BaseParser(url='telnet://wrong.com')
 
     @mock.patch('telnetlib.Telnet')
     def test_telnet_retrieval(self, MockClass):
         with self.assertRaises(ConversionException):
-            BaseParser('telnet://127.0.0.1')
+            BaseParser(url='telnet://127.0.0.1')
 
     def test_topology_retrieval_error_file(self):
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser('./tests/static/wrong.json')
+            BaseParser(file='./tests/static/wrong.json')
 
     def test_parse_json_string(self):
-        p = BaseParser('{}')
+        p = BaseParser(data='{}')
         self.assertIsInstance(p.original_data, dict)
-        p = BaseParser(u'{}')
+        p = BaseParser(data=u'{}')
         self.assertIsInstance(p.original_data, dict)
 
     def test_parse_dict(self):
-        p = BaseParser({})
+        p = BaseParser(data={})
         self.assertIsInstance(p.original_data, dict)
 
     def test_parse_conversion_exception(self):
         with self.assertRaises(ConversionException):
-            BaseParser('wrong [] ; .')
+            BaseParser(data='wrong [] ; .')
 
     def test_parse_error(self):
         with self.assertRaises(ConversionException):
-            BaseParser(8)
+            BaseParser(data=8)
 
     def test_parse_not_implemented(self):
         class MyParser(BaseParser):
             pass
         with self.assertRaises(NotImplementedError):
-            MyParser('{}')
+            MyParser(data='{}')
 
     def test_json_not_implemented(self):
-        p = BaseParser('{}')
+        p = BaseParser(data='{}')
         with self.assertRaises(NotImplementedError):
             p.json()
 
