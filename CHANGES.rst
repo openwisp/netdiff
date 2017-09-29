@@ -1,10 +1,11 @@
 Changelog
 =========
 
-Version 0.5.1 [unreleased]
+Version 0.5.1 [29-09-2017]
 --------------------------
 
-WIP
+- `#47 <https://github.com/ninuxorg/netdiff/pull/47>`_:
+  Added OpenVPN parser
 
 Version 0.5.0 [30-08-2017]
 --------------------------
