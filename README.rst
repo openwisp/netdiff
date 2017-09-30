@@ -205,7 +205,8 @@ The available parsers are:
   (supports also the legacy txtinfo format inherited from olsrd)
 * ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`_
 * ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://cnml.info/>`_
-* ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph format`_.
+* ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph format`_
+* ``netdiff.OpenvpnParser``: parser for the `OpenVPN status file <https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage>`_
 
 Initialization arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~
