@@ -26,7 +26,7 @@ class OpenvpnParser(BaseParser):
         # add server (central node) to graph
         graph.add_node(server)
         # add clients in graph as nodes
-        for common_name, client in data.client_list.items():
+        for client in data.client_list.values():
             client_properties = {
                 'real_address': str(client.real_address.host),
                 'port': client.real_address.port,
@@ -34,12 +34,15 @@ class OpenvpnParser(BaseParser):
                 'bytes_received': client.bytes_received,
                 'bytes_sent': client.bytes_sent
             }
-            if common_name in data.routing_table:
-                client_properties['local_addresses'] = [
-                    str(data.routing_table.get(common_name).virtual_address)
-                ]
-            graph.add_node(common_name, **client_properties)
+            local_addresses = [
+                str(route.virtual_address)
+                for route in data.routing_table.values()
+                if route.real_address == client.real_address
+            ]
+            if local_addresses:
+                client_properties['local_addresses'] = local_addresses
+            graph.add_node(str(client.real_address.host), **client_properties)
         # add links in routing table to graph
-        for common_name, link in data.routing_table.items():
-            graph.add_edge(server, common_name, weight=1)
+        for link in data.routing_table.values():
+            graph.add_edge(server, str(link.real_address.host), weight=1)
         return graph
