@@ -15,6 +15,9 @@ install:
   - python setup.py -q develop
   - pip install -r requirements-test.txt
 
+# command to run flake8
+before_script: "flake8 netdiff"
+
 # command to run tests, e.g. python setup.py test
 script:
   - nosetests --with-coverage --cover-package=netdiff

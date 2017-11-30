@@ -5,5 +5,5 @@ from .parsers.batman import BatmanParser  # noqa
 from .parsers.bmx6 import Bmx6Parser  # noqa
 from .parsers.netjson import NetJsonParser  # noqa
 from .parsers.cnml import CnmlParser  # noqa
-from .parsers.openvpn import OpenvpnParser #noqa
+from .parsers.openvpn import OpenvpnParser  # noqa
 from .utils import diff  # noqa
