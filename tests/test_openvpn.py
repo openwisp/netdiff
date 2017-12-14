@@ -1,7 +1,6 @@
 import os
 
 import networkx
-import six
 from netdiff import OpenvpnParser
 from netdiff.tests import TestCase
 
