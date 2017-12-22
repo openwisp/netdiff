@@ -10,7 +10,7 @@
             "local_addresses": [
                 "192.168.1.3"
             ],
-	    "label": "nodeA",
+            "label": "nodeA",
             "properties": {
                 "hostname": "router.3nnx"
             }
@@ -20,7 +20,7 @@
             "local_addresses": [
                 "192.168.1.2"
             ],
-	    "label": "nodeB",
+            "label": "nodeB",
             "properties": {
                 "hostname": "router2.nnx"
             }

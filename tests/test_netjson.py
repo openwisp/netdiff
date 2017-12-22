@@ -121,13 +121,17 @@ class TestNetJsonParser(TestCase):
         self.assertIn('hostname', data['nodes'][0]['properties'])
         # ensure local_addresses is present
         self.assertIn('local_addresses', data['nodes'][0])
-        # ensure label is present when present in source
-        self.assertIn('label', data['nodes'][0])
-        # ensure label is absent when absent in source
-        self.assertNotIn('label', data['nodes'][2])
         # ensure additional link properties are present
         self.assertIn('properties', data['links'][0])
         self.assertIn('custom_property', data['links'][0]['properties'])
+        # check presence of labels, we need to find 2
+        labels = []
+        for node in data['nodes']:
+            if 'label' in node:
+                labels.append(node['label'])
+        self.assertEqual(len(labels), 2)
+        self.assertIn('nodeA', labels)
+        self.assertIn('nodeB', labels)
 
     def test_json_string(self):
         p = NetJsonParser(links2)
