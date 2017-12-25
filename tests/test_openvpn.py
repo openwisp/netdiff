@@ -30,6 +30,14 @@ class TestOpenvpnParser(TestCase):
         self.assertIsInstance(data['links'], list)
         self.assertEqual(len(data['nodes']), 3)
         self.assertEqual(len(data['links']), 2)
+        # check presence of labels
+        labels = []
+        for node in data['nodes']:
+            if 'label' in node:
+                labels.append(node['label'])
+        self.assertEqual(len(labels), 2)
+        self.assertIn('nodeA', labels)
+        self.assertIn('nodeB', labels)
 
     def test_json_dict_tap(self):
         p = OpenvpnParser(links2_tap)
@@ -44,3 +52,13 @@ class TestOpenvpnParser(TestCase):
         self.assertIsInstance(data['links'], list)
         self.assertEqual(len(data['nodes']), 6)
         self.assertEqual(len(data['links']), 5)
+        labels = []
+        for node in data['nodes']:
+            if 'label' in node:
+                labels.append(node['label'])
+        self.assertEqual(len(labels), 5)
+        self.assertIn('nodeA', labels)
+        self.assertIn('nodeB', labels)
+        self.assertIn('nodeC', labels)
+        self.assertIn('nodeD', labels)
+        self.assertIn('nodeE', labels)
