@@ -20,7 +20,7 @@ class TestBatmanTxtinfoParser(TestCase):
         self.assertIsInstance(p.graph, networkx.Graph)
         self.assertEqual(len(p.graph.nodes()), 5)
         self.assertEqual(len(p.graph.edges()), 4)
-        properties = p.graph.edges(data=True)[0][2]
+        properties = list(p.graph.edges(data=True))[0][2]
         self.assertIsInstance(properties['weight'], float)
 
     def test_parse_exception(self):

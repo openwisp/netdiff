@@ -22,12 +22,12 @@ class TestOlsrParser(TestCase):
         p = OlsrParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
         # test additional properties in networkx graph
-        properties = p.graph.edges(data=True)[0][2]
+        properties = list(p.graph.edges(data=True))[0][2]
         self.assertIsInstance(properties['weight'], float)
         self.assertIsInstance(properties['link_quality'], float)
         self.assertIsInstance(properties['neighbor_link_quality'], float)
         # test additional node properties
-        properties = p.graph.nodes(data=True)[0][1]
+        properties = list(p.graph.nodes(data=True))[0][1]
         self.assertIsInstance(properties['local_addresses'], list)
 
     def test_init(self):

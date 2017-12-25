@@ -19,10 +19,10 @@ class TestBatmanParser(TestCase):
     def test_parse(self):
         p = BatmanParser(iulinet)
         self.assertIsInstance(p.graph, networkx.Graph)
-        properties = p.graph.edges(data=True)[0][2]
+        properties = list(p.graph.edges(data=True))[0][2]
         self.assertIsInstance(properties['weight'], float)
         # test additional properties in nodes of networkx graph
-        properties = p.graph.nodes(data=True)[0][1]
+        properties = list(p.graph.nodes(data=True))[0][1]
         self.assertIsInstance(properties['local_addresses'], list)
         self.assertIsInstance(properties['clients'], list)
 
