@@ -1,10 +1,15 @@
 Changelog
 =========
 
-Version 0.5.2 [unreleased]
+Version 0.5.2 [26-12-2017]
 --------------------------
 
-WIP
+- `#55 <https://github.com/ninuxorg/netdiff/pull/55>`_:
+  Added a label in OpenvpnParser output
+- `#52 <https://github.com/ninuxorg/netdiff/pull/52>`_:
+  Added a label in NetjsonParser output
+- `#49 <https://github.com/ninuxorg/netdiff/pull/49>`_:
+  Added support to TAP mode in OpenVPN parser
 
 Version 0.5.1 [29-09-2017]
 --------------------------
