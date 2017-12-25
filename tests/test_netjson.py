@@ -22,10 +22,10 @@ class TestNetJsonParser(TestCase):
         self.assertEqual(p.revision, '5031a799fcbe17f61d57e387bc3806de')
         self.assertEqual(p.metric, 'ETX')
         # test additional properties in links of network graph
-        properties = p.graph.edges(data=True)[0][2]
+        properties = list(p.graph.edges(data=True))[0][2]
         self.assertIsInstance(properties['custom_property'], bool)
         # test additional properties in nodes of networkx graph
-        properties = p.graph.nodes(data=True)[0][1]
+        properties = list(p.graph.nodes(data=True))[0][1]
         self.assertIsInstance(properties['local_addresses'], list)
         self.assertIsInstance(properties['hostname'], six.string_types)
 
@@ -57,7 +57,7 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.3', p.graph.nodes())
         self.assertIn('10.150.0.2', p.graph.nodes())
         self.assertEqual(len(p.graph.edges()), 1)
-        self.assertEqual(p.graph.edges(data=True)[0][2]['weight'], 1.0)
+        self.assertEqual(list(p.graph.edges(data=True))[0][2]['weight'], 1.0)
 
     def test_parse_exception(self):
         with self.assertRaises(ParserError):

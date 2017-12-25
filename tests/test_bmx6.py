@@ -19,7 +19,7 @@ class TestBmx6Parser(TestCase):
         p = Bmx6Parser(topo)
         self.assertIsInstance(p.graph, networkx.Graph)
         # test additional properties in networkx graph
-        properties = p.graph.edges(data=True)[0][2]
+        properties = list(p.graph.edges(data=True))[0][2]
         self.assertIsInstance(properties['weight'], float)
         self.assertIsInstance(properties['tx_rate'], int)
         self.assertIsInstance(properties['rx_rate'], int)
