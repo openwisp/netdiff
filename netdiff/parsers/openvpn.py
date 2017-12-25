@@ -28,6 +28,7 @@ class OpenvpnParser(BaseParser):
         # add clients in graph as nodes
         for client in data.client_list.values():
             client_properties = {
+                'label': client.common_name,
                 'real_address': str(client.real_address.host),
                 'port': client.real_address.port,
                 'connected_since': client.connected_since.strftime('%Y-%m-%dT%H:%M:%SZ'),
