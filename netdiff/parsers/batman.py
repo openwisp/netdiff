@@ -1,7 +1,7 @@
 import networkx
 
+from ..exceptions import ConversionException, ParserError
 from .base import BaseParser
-from ..exceptions import ParserError, ConversionException
 
 
 class BatmanParser(BaseParser):

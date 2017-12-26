@@ -1,19 +1,19 @@
 import os
-import unittest
-import responses
 import telnetlib
+import unittest
+
+import responses
 from requests.exceptions import ConnectionError
+
+from netdiff import get_version
+from netdiff.exceptions import ConversionException, NetJsonError, TopologyRetrievalError
+from netdiff.parsers.base import BaseParser
+from netdiff.utils import _netjson_networkgraph
+
 try:
     from unittest import mock
 except ImportError:
     import mock
-
-from netdiff import get_version
-from netdiff.utils import _netjson_networkgraph
-from netdiff.parsers.base import BaseParser
-from netdiff.exceptions import (ConversionException,
-                                TopologyRetrievalError,
-                                NetJsonError)
 
 
 class TestBaseParser(unittest.TestCase):

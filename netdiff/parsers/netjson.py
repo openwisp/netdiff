@@ -1,7 +1,7 @@
 import networkx
 
-from .base import BaseParser
 from ..exceptions import ParserError
+from .base import BaseParser
 
 
 class NetJsonParser(BaseParser):

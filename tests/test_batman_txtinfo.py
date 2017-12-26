@@ -1,12 +1,11 @@
 import os
-import six
+
 import networkx
+import six
 
-from netdiff import BatmanParser
-from netdiff import diff
-from netdiff.tests import TestCase
+from netdiff import BatmanParser, diff
 from netdiff.exceptions import ParserError
-
+from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 iulinet = open('{0}/static/batman.txt'.format(CURRENT_DIR)).read()

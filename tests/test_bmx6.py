@@ -1,12 +1,11 @@
 import os
-import six
+
 import networkx
+import six
 
-from netdiff import Bmx6Parser
-from netdiff import diff
-from netdiff.tests import TestCase
+from netdiff import Bmx6Parser, diff
 from netdiff.exceptions import ParserError
-
+from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 topo = open('{0}/static/bmx6.json'.format(CURRENT_DIR)).read()

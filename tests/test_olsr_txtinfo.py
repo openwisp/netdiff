@@ -1,12 +1,11 @@
 import os
-import six
-import networkx
 
-from netdiff import OlsrParser
-from netdiff import diff
+import networkx
+import six
+
+from netdiff import OlsrParser, diff
 from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
-
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/olsr-2-links.txt'.format(CURRENT_DIR)).read()

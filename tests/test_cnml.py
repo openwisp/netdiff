@@ -1,13 +1,12 @@
 import os
-import six
-import networkx
-import libcnml
 
-from netdiff import CnmlParser
-from netdiff import diff
+import libcnml
+import networkx
+import six
+
+from netdiff import CnmlParser, diff
 from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
-
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 cnml1 = '{0}/static/26494_detail_1.cnml'.format(CURRENT_DIR)

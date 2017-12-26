@@ -1,8 +1,8 @@
 import os
 
 import networkx
-from netdiff import diff
-from netdiff import OpenvpnParser
+
+from netdiff import OpenvpnParser, diff
 from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))

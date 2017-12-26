@@ -1,15 +1,16 @@
 import os
-import six
-import networkx
+
 import libcnml
+import networkx
+import six
+
+from ..exceptions import ParserError
+from .base import BaseParser
 
 try:
     import urlparse
 except ImportError:
     import urllib.parse as urlparse
-
-from .base import BaseParser
-from ..exceptions import ParserError
 
 
 class CnmlParser(BaseParser):

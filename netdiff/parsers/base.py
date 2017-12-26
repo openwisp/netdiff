@@ -1,15 +1,16 @@
-import six
 import json
-import requests
 import telnetlib
+
+import requests
+import six
+
+from ..exceptions import ConversionException, TopologyRetrievalError
+from ..utils import _netjson_networkgraph, diff
 
 try:
     import urlparse
 except ImportError:
     import urllib.parse as urlparse
-
-from ..exceptions import ConversionException, TopologyRetrievalError
-from ..utils import diff, _netjson_networkgraph
 
 
 class BaseParser(object):

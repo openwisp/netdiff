@@ -4,3 +4,4 @@ coveralls
 responses>0.5.0,<0.8.0
 mock
 flake8
+isort
