@@ -62,3 +62,10 @@ class TestOpenvpnParser(TestCase):
         self.assertIn('nodeC', labels)
         self.assertIn('nodeD', labels)
         self.assertIn('nodeE', labels)
+
+    def test_empty_string(self):
+        OpenvpnParser(data='{}')
+
+    def test_empty_dict(self):
+        OpenvpnParser({})
+
