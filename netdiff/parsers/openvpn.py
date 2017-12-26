@@ -41,10 +41,10 @@ class OpenvpnParser(BaseParser):
             client_properties = {
                 'label': client.common_name,
                 'real_address': str(client.real_address.host),
-                'port': client.real_address.port,
+                'port': int(client.real_address.port),
                 'connected_since': client.connected_since.strftime('%Y-%m-%dT%H:%M:%SZ'),
-                'bytes_received': client.bytes_received,
-                'bytes_sent': client.bytes_sent
+                'bytes_received': int(client.bytes_received),
+                'bytes_sent': int(client.bytes_sent)
             }
             local_addresses = [
                 str(route.virtual_address)
