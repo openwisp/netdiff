@@ -11,8 +11,7 @@ except ImportError:
 from netdiff import get_version
 from netdiff.utils import _netjson_networkgraph
 from netdiff.parsers.base import BaseParser
-from netdiff.exceptions import (ParserError,
-                                ConversionException,
+from netdiff.exceptions import (ConversionException,
                                 TopologyRetrievalError,
                                 NetJsonError)
 

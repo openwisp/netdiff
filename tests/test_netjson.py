@@ -4,7 +4,7 @@ import networkx
 
 from netdiff import NetJsonParser
 from netdiff import diff
-from netdiff.exceptions import ParserError, TopologyRetrievalError
+from netdiff.exceptions import ParserError
 from netdiff.tests import TestCase
 
 
