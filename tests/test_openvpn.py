@@ -1,12 +1,13 @@
 import os
 
 import networkx
+from netdiff import diff
 from netdiff import OpenvpnParser
 from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/openvpn-2-links.txt'.format(CURRENT_DIR)).read()
-links2_tap = open('{0}/static/openvpn-5-links-tap.txt'.format(CURRENT_DIR)).read()
+links5_tap = open('{0}/static/openvpn-5-links-tap.txt'.format(CURRENT_DIR)).read()
 
 
 class TestOpenvpnParser(TestCase):
@@ -40,7 +41,7 @@ class TestOpenvpnParser(TestCase):
         self.assertIn('nodeB', labels)
 
     def test_json_dict_tap(self):
-        p = OpenvpnParser(links2_tap)
+        p = OpenvpnParser(links5_tap)
         data = p.json(dict=True)
         self.assertIsInstance(data, dict)
         self.assertEqual(data['type'], 'NetworkGraph')
@@ -69,3 +70,17 @@ class TestOpenvpnParser(TestCase):
     def test_empty_dict(self):
         OpenvpnParser({})
 
+    def test_label_diff_added(self):
+        old = OpenvpnParser({})
+        new = OpenvpnParser(links5_tap)
+        result = diff(old, new)
+        labels = []
+        for node in result['added']['nodes']:
+            if 'label' in node:
+                labels.append(node['label'])
+        self.assertEqual(len(labels), 5)
+        self.assertIn('nodeA', labels)
+        self.assertIn('nodeB', labels)
+        self.assertIn('nodeC', labels)
+        self.assertIn('nodeD', labels)
+        self.assertIn('nodeE', labels)
