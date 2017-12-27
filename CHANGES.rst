@@ -1,10 +1,15 @@
 Changelog
 =========
 
-Version 0.6.0 [unreleased]
+Version 0.6.0 [27-12-2017]
 --------------------------
 
-WIP
+- `2283d6d <https://github.com/ninuxorg/netdiff/commit/2283d6d>`_:
+  [openvpn] Convert node properties to integer
+- `6b72dab <https://github.com/ninuxorg/netdiff/commit/6b72dab>`_:
+  [openvpn] Avoid failing if data is empty
+- `#56 <https://github.com/ninuxorg/netdiff/pull/56>`_:
+  Updated networkx to 2.0
 
 Version 0.5.2 [26-12-2017]
 --------------------------
