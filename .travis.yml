@@ -14,6 +14,7 @@ branches:
 install:
   - python setup.py -q develop
   - pip install -r requirements-test.txt
+  - pip install openwisp-utils
 
 # command to run flake8
 before_script:
@@ -23,6 +24,14 @@ before_script:
 # command to run tests, e.g. python setup.py test
 script:
   - nosetests --with-coverage --cover-package=netdiff
+  - |
+   if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+     # gets commit message of last commit before pull request merge
+     COMMIT_MESSAGE=$(git log $TRAVIS_PULL_REQUEST_SHA --format=%B -n 1)
+     printf "Checking commit message:\n\n"
+     printf "$COMMIT_MESSAGE\n\n"
+     checkcommit --message "$COMMIT_MESSAGE"
+   fi
 
 after_success:
   coveralls
