@@ -14,8 +14,6 @@ branches:
 install:
   - python setup.py -q develop
   - pip install -r requirements-test.txt
-  #installing openwisp-until to get checkcommit script
-  - pip install openwisp-utils
 
 # command to run flake8
 before_script:
@@ -36,10 +34,3 @@ script:
 
 after_success:
   coveralls
-
-notifications:
-  email:
-    recipients:
-      - ninux-dev@ml.ninux.org
-    on_success: [always]
-    on_failure: [always]
