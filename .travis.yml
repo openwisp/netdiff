@@ -25,6 +25,7 @@ before_script:
 # command to run tests, e.g. python setup.py test
 script:
   - nosetests --with-coverage --cover-package=netdiff
+  - checkendline
   - |
    if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
      # gets commit message of last commit before pull request merge
