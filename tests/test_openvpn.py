@@ -3,6 +3,7 @@ import os
 import networkx
 
 from netdiff import OpenvpnParser, diff
+from netdiff.exceptions import ConversionException
 from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -66,6 +67,14 @@ class TestOpenvpnParser(TestCase):
 
     def test_empty_string(self):
         OpenvpnParser(data='{}')
+
+    def test_bogus_data(self):
+        try:
+            OpenvpnParser(data='{%$^*([[zsde4323@#}')
+        except ConversionException as e:
+            print("Something went wrong: {0}".format(str(e)))
+        else:
+            self.fail('ValidationError not raised')
 
     def test_empty_dict(self):
         OpenvpnParser({})

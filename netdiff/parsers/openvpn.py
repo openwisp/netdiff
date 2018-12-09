@@ -2,6 +2,7 @@ import networkx
 from openvpn_status import parse_status
 from openvpn_status.parser import ParsingError
 
+from ..exceptions import ConversionException
 from .base import BaseParser
 
 
@@ -16,8 +17,9 @@ class OpenvpnParser(BaseParser):
     def to_python(self, data):
         try:
             return parse_status(data)
-        except (AttributeError, ParsingError):
-            return None
+        except (AttributeError, ParsingError) as e:
+            msg = 'something went wrong: {0}'.format(str(e))
+            raise ConversionException(msg, data=data)
 
     def parse(self, data):
         """
