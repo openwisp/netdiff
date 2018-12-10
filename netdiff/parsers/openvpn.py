@@ -15,10 +15,12 @@ class OpenvpnParser(BaseParser):
     _server_common_name = 'openvpn-server'
 
     def to_python(self, data):
+        if not data:
+            return None
         try:
             return parse_status(data)
         except (AttributeError, ParsingError) as e:
-            msg = 'something went wrong: {0}'.format(str(e))
+            msg = 'OpenVPN parsing error: {0}'.format(str(e))
             raise ConversionException(msg, data=data)
 
     def parse(self, data):
