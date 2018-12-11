@@ -8,6 +8,7 @@ from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/openvpn-2-links.txt'.format(CURRENT_DIR)).read()
+links2undef = open('{0}/static/openvpn-2-links-undef.txt'.format(CURRENT_DIR)).read()
 links5_tap = open('{0}/static/openvpn-5-links-tap.txt'.format(CURRENT_DIR)).read()
 
 
@@ -18,6 +19,13 @@ class TestOpenvpnParser(TestCase):
         self.assertIsInstance(p.graph, networkx.Graph)
         self.assertEqual(p.version, '1')
         self.assertEqual(p.metric, 'static')
+
+    def test_parse_undef(self):
+        p = OpenvpnParser(links2undef)
+        data = p.json(dict=True)
+        self.assertIsInstance(p.graph, networkx.Graph)
+        self.assertEqual(len(data['nodes']), 0)
+        self.assertEqual(len(data['links']), 0)
 
     def test_json_dict(self):
         p = OpenvpnParser(links2)
