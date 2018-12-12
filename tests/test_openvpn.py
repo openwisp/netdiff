@@ -24,7 +24,8 @@ class TestOpenvpnParser(TestCase):
         p = OpenvpnParser(links2undef)
         data = p.json(dict=True)
         self.assertIsInstance(p.graph, networkx.Graph)
-        self.assertEqual(len(data['nodes']), 0)
+        # we expect 1 node (only the openvpn server)
+        self.assertEqual(len(data['nodes']), 1)
         self.assertEqual(len(data['links']), 0)
 
     def test_json_dict(self):
