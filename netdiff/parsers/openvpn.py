@@ -42,6 +42,8 @@ class OpenvpnParser(BaseParser):
             links = data.routing_table.values()
         # add clients in graph as nodes
         for client in clients:
+            if client.common_name == 'UNDEF':
+                continue
             client_properties = {
                 'label': client.common_name,
                 'real_address': str(client.real_address.host),
@@ -60,5 +62,7 @@ class OpenvpnParser(BaseParser):
             graph.add_node(str(client.real_address.host), **client_properties)
         # add links in routing table to graph
         for link in links:
+            if link.common_name == 'UNDEF':
+                continue
             graph.add_edge(server, str(link.real_address.host), weight=1)
         return graph
