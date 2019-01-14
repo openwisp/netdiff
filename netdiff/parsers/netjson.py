@@ -1,5 +1,3 @@
-import networkx
-
 from ..exceptions import ParserError
 from .base import BaseParser
 
@@ -13,7 +11,7 @@ class NetJsonParser(BaseParser):
         to a NetworkX Graph object,which is then returned.
         Additionally checks for protocol version, revision and metric.
         """
-        graph = networkx.Graph()
+        graph = self._init_graph()
         # ensure is NetJSON NetworkGraph object
         if 'type' not in data or data['type'] != 'NetworkGraph':
             raise ParserError('Parse error, not a NetworkGraph object')
