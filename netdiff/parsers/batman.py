@@ -1,5 +1,3 @@
-import networkx
-
 from ..exceptions import ConversionException, ParserError
 from .base import BaseParser
 
@@ -85,7 +83,7 @@ class BatmanParser(BaseParser):
         Additionally checks for "source_vesion" to determine the batman-adv version.
         """
         # initialize graph and list of aggregated nodes
-        graph = networkx.Graph()
+        graph = self._init_graph()
         if 'source_version' in data:
             self.version = data['source_version']
         if 'vis' not in data:
@@ -112,7 +110,7 @@ class BatmanParser(BaseParser):
         Converts the python list returned by self._txtinfo_to_python()
         to a NetworkX Graph object, which is then returned.
         """
-        graph = networkx.Graph()
+        graph = self._init_graph()
         for link in data:
             graph.add_edge(link['source'],
                            link['target'],

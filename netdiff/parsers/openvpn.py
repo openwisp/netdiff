@@ -1,4 +1,3 @@
-import networkx
 from openvpn_status import parse_status
 from openvpn_status.parser import ParsingError
 
@@ -29,7 +28,7 @@ class OpenvpnParser(BaseParser):
         which is then returned.
         """
         # initialize graph and list of aggregated nodes
-        graph = networkx.Graph()
+        graph = self._init_graph()
         server = self._server_common_name
         # add server (central node) to graph
         graph.add_node(server)

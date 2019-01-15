@@ -1,5 +1,3 @@
-import networkx
-
 from ..exceptions import ParserError
 from .base import BaseParser
 
@@ -16,7 +14,7 @@ class Bmx6Parser(BaseParser):
         which is then returned.
         """
         # initialize graph and list of aggregated nodes
-        graph = networkx.Graph()
+        graph = self._init_graph()
         if len(data) != 0:
             if "links" not in data[0]:
                 raise ParserError('Parse error, "links" key not found')

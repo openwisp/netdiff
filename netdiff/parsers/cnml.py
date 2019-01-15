@@ -1,7 +1,6 @@
 import os
 
 import libcnml
-import networkx
 import six
 
 from ..exceptions import ParserError
@@ -37,7 +36,7 @@ class CnmlParser(BaseParser):
         Converts a CNML structure to a NetworkX Graph object
         which is then returned.
         """
-        graph = networkx.Graph()
+        graph = self._init_graph()
         # loop over links and create networkx graph
         # Add only working nodes with working links
         for link in data.get_inner_links():

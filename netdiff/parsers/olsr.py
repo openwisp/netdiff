@@ -1,5 +1,3 @@
-import networkx
-
 from ..exceptions import ConversionException, ParserError
 from .base import BaseParser
 
@@ -25,7 +23,7 @@ class OlsrParser(BaseParser):
         to a NetworkX Graph object, which is then returned.
         Additionally checks for "config" data in order to determine version and revision.
         """
-        graph = networkx.Graph()
+        graph = self._init_graph()
         if 'topology' not in data:
             raise ParserError('Parse error, "topology" key not found')
         elif 'mid' not in data:
