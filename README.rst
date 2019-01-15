@@ -1,14 +1,14 @@
 netdiff
 =======
 
-.. image:: https://travis-ci.org/ninuxorg/netdiff.svg
-   :target: https://travis-ci.org/ninuxorg/netdiff
+.. image:: https://travis-ci.org/openwisp/netdiff.svg
+   :target: https://travis-ci.org/openwisp/netdiff
 
-.. image:: https://coveralls.io/repos/ninuxorg/netdiff/badge.svg
-  :target: https://coveralls.io/r/ninuxorg/netdiff
+.. image:: https://coveralls.io/repos/openwisp/netdiff/badge.svg
+  :target: https://coveralls.io/r/openwisp/netdiff
 
-.. image:: https://requires.io/github/ninuxorg/netdiff/requirements.svg?branch=master
-   :target: https://requires.io/github/ninuxorg/netdiff/requirements/?branch=master
+.. image:: https://requires.io/github/openwisp/netdiff/requirements.svg?branch=master
+   :target: https://requires.io/github/openwisp/netdiff/requirements/?branch=master
    :alt: Requirements Status
 
 .. image:: https://badge.fury.io/py/netdiff.svg
@@ -21,9 +21,9 @@ data of open source dynamic routing protocols and detecting changes in these top
 
 **Current features**:
 
-* `parse different formats <https://github.com/ninuxorg/netdiff#parsers>`_
-* `detect changes in two topologies <https://github.com/ninuxorg/netdiff#basic-usage-example>`_
-* `return consistent NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`_
+* `parse different formats <https://github.com/openwisp/netdiff#parsers>`_
+* `detect changes in two topologies <https://github.com/openwisp/netdiff#basic-usage-example>`_
+* `return consistent NetJSON output <https://github.com/openwisp/netdiff#netjson-output>`_
 * uses the popular `networkx <https://networkx.github.io/>`_ library under the hood
 
 **Goals**:
@@ -37,7 +37,7 @@ data of open source dynamic routing protocols and detecting changes in these top
 **Currently used by**
 
 * `django-netjsongraph <https://github.com/interop-dev/django-netjsongraph>`_
-* `nodeshot <https://github.com/ninuxorg/nodeshot>`_
+* `nodeshot <https://github.com/openwisp/nodeshot>`_
 
 Install stable version from pypi
 --------------------------------
@@ -55,13 +55,13 @@ Install tarball:
 
 .. code-block:: shell
 
-    pip install https://github.com/ninuxorg/netdiff/tarball/master
+    pip install https://github.com/openwisp/netdiff/tarball/master
 
 Alternatively you can install via pip using git:
 
 .. code-block:: shell
 
-    pip install -e git+git://github.com/ninuxorg/netdiff#egg=netdiff
+    pip install -e git+git://github.com/openwisp/netdiff#egg=netdiff
 
 If you want to contribute, install your cloned fork:
 
@@ -195,7 +195,7 @@ Parsers
 Parsers are classes that extend ``netdiff.base.BaseParser`` and implement a ``parse`` method
 which is in charge of converting a python data structure into ``networkx.Graph`` object and return the result.
 
-Parsers also have a ``json`` method which returns valid `NetJSON output <https://github.com/ninuxorg/netdiff#netjson-output>`_.
+Parsers also have a ``json`` method which returns valid `NetJSON output <https://github.com/openwisp/netdiff#netjson-output>`_.
 
 The available parsers are:
 
