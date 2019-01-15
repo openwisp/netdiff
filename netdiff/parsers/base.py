@@ -1,6 +1,7 @@
 import json
 import telnetlib
 
+import networkx
 import requests
 import six
 
@@ -26,7 +27,7 @@ class BaseParser(object):
 
     def __init__(self, data=None, url=None, file=None,
                  version=None, revision=None, metric=None,
-                 timeout=None, verify=True):  # noqa
+                 timeout=None, verify=True, directed=False):  # noqa
         """
         Initializes a new Parser
 
@@ -38,6 +39,8 @@ class BaseParser(object):
         :param metric: routing protocol metric
         :param timeout: timeout in seconds for HTTP or telnet requests
         :param verify: boolean (valid for HTTPS requests only)
+        :param directed: whether the resulting graph should be directed
+                         (undirected by default for backwards compatibility)
         """
         if version:
             self.version = version
@@ -47,6 +50,7 @@ class BaseParser(object):
             self.metric = metric
         self.timeout = timeout
         self.verify = verify
+        self.directed = directed
         if data is None and url is not None:
             data = self._get_url(url)
         elif data is None and file is not None:
@@ -116,6 +120,9 @@ class BaseParser(object):
         data = tn.read_all().decode('ascii')
         tn.close()
         return data
+
+    def _init_graph(self):
+        return networkx.DiGraph() if self.directed else networkx.Graph()
 
     def parse(self, data):
         """

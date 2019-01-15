@@ -28,6 +28,20 @@ class TestNetJsonParser(TestCase):
         self.assertIsInstance(properties['local_addresses'], list)
         self.assertIsInstance(properties['hostname'], six.string_types)
 
+    def test_parse_directed(self):
+        p = NetJsonParser(links2, directed=True)
+        self.assertIsInstance(p.graph, networkx.DiGraph)
+        self.assertEqual(p.version, '0.6.6')
+        self.assertEqual(p.revision, '5031a799fcbe17f61d57e387bc3806de')
+        self.assertEqual(p.metric, 'ETX')
+        # test additional properties in links of network graph
+        properties = list(p.graph.edges(data=True))[0][2]
+        self.assertIsInstance(properties['custom_property'], bool)
+        # test additional properties in nodes of networkx graph
+        properties = list(p.graph.nodes(data=True))[0][1]
+        self.assertIsInstance(properties['local_addresses'], list)
+        self.assertIsInstance(properties['hostname'], six.string_types)
+
     def test_parse_string_graph(self):
         data = """{
     "type": "NetworkGraph",
@@ -57,6 +71,86 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.2', p.graph.nodes())
         self.assertEqual(len(p.graph.edges()), 1)
         self.assertEqual(list(p.graph.edges(data=True))[0][2]['weight'], 1.0)
+
+    def test_parse_one_way_directed_string_graph(self):
+        """
+        In directed mode, it should be possible to have an edge in only one direction
+        """
+        data = """{
+    "type": "NetworkGraph",
+    "protocol": "OLSR",
+    "version": "0.6.6",
+    "revision": "5031a799fcbe17f61d57e387bc3806de",
+    "metric": "ETX",
+    "nodes": [
+        {
+            "id": "10.150.0.3"
+        },
+        {
+            "id": "10.150.0.2"
+        }
+    ],
+    "links": [
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.2",
+            "cost": 1.0
+        }
+    ]
+}"""
+        p = NetJsonParser(data, directed=True)
+        self.assertEqual(len(p.graph.nodes()), 2)
+        self.assertIn('10.150.0.3', p.graph.nodes())
+        self.assertIn('10.150.0.2', p.graph.nodes())
+        self.assertEqual(len(p.graph.edges()), 1)
+        self.assertEqual(len(p.graph.adj["10.150.0.3"]), 1,
+                         msg="10.150.0.3 should have an edge")
+        self.assertEqual(len(p.graph.adj["10.150.0.2"]), 0,
+                         msg="10.150.0.2 should have no edges")
+        self.assertEqual(p.graph.edges[("10.150.0.3", "10.150.0.2")]['weight'], 1.0,
+                         msg="Expected directed edge does not exist!")
+
+    def test_parse_forward_backward_directed_string_graph3(self):
+        """
+        In directed mode, it should be possible to have a forward edge and a backward edge with different
+        weights
+        """
+        data = """{
+    "type": "NetworkGraph",
+    "protocol": "OLSR",
+    "version": "0.6.6",
+    "revision": "5031a799fcbe17f61d57e387bc3806de",
+    "metric": "ETX",
+    "nodes": [
+        {
+            "id": "10.150.0.3"
+        },
+        {
+            "id": "10.150.0.2"
+        }
+    ],
+    "links": [
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.2",
+            "cost": 1.0
+        },
+        {
+            "source": "10.150.0.2",
+            "target": "10.150.0.3",
+            "cost": 99.0
+        }
+    ]
+}"""
+        p = NetJsonParser(data, directed=True)
+        self.assertEqual(len(p.graph.nodes()), 2)
+        self.assertIn('10.150.0.3', p.graph.nodes())
+        self.assertIn('10.150.0.2', p.graph.nodes())
+        self.assertEqual(len(p.graph.edges()), 2)
+        self.assertEqual(p.graph.edges[("10.150.0.3", "10.150.0.2")]['weight'], 1.0,
+                         msg="Forward edge weight was incorrectly overwritten!")
+        self.assertEqual(p.graph.edges[("10.150.0.2", "10.150.0.3")]['weight'], 99.0,
+                         msg="Backward edge weight was not correctly assigned!")
 
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
