@@ -222,6 +222,7 @@ Other available arguments:
 * **timeout**: integer representing timeout in seconds for HTTP or telnet requests, defaults to ``None``
 * **verify**: boolean indicating to the `request library whether to do SSL certificate
   verification or not <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_
+* **directed**: boolean that enables the use of a directed graph (``networkx.DiGraph``), defaults to ``False``
 
 Initialization examples
 ~~~~~~~~~~~~~~~~~~~~~~~
