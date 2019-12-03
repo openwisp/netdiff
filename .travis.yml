@@ -3,7 +3,7 @@ sudo: false
 cache: pip
 
 python:
-  - "3.4"
+  - "3.5"
   - "2.7"
 
 branches:
@@ -24,13 +24,12 @@ before_script:
 script:
   - nosetests --with-coverage --cover-package=netdiff
   - |
-   if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-     # gets commit message of last commit before pull request merge
-     COMMIT_MESSAGE=$(git log $TRAVIS_PULL_REQUEST_SHA --format=%B -n 1)
-     printf "Checking commit message:\n\n"
-     printf "$COMMIT_MESSAGE\n\n"
-     checkcommit --message "$COMMIT_MESSAGE"
-   fi
+    if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+      # gets commit message of last commit before pull request merge
+      COMMIT_MESSAGE=$(git log $TRAVIS_PULL_REQUEST_SHA --format=%B -n 1)
+      printf "Checking commit message:\n\n"
+      printf "$COMMIT_MESSAGE\n\n"
+      checkcommit --message "$COMMIT_MESSAGE"
+    fi
 
-after_success:
-  coveralls
+after_success: coveralls

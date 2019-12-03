@@ -1,10 +1,10 @@
 #!/usr/bin/env python
+
 import sys
 from setuptools import setup, find_packages
 
 # avoid networkx ImportError
 sys.path.insert(0, 'netdiff')
-from info import get_version
 sys.path.remove('netdiff')
 
 
@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload -s dist/*")
     os.system("rm -rf dist build")
-    args = {'version': get_version()}
+    args = {'version': float(str(sys.version_info.major) + "." + str(sys.version_info.minor))}
     print("You probably want to also tag the version now:")
     print("  git tag -a %(version)s -m 'version %(version)s'" % args)
     print("  git push --tags")
@@ -36,12 +36,16 @@ def get_install_requires():
             continue
         # add line to requirements
         requirements.append(line.replace('\n', ''))
+    if sys.version_info.major < 3:
+        requirements.append("networkx==2.2")
+    else:
+        requirements.append("networkx>=2.2")
     return requirements
 
 
 setup(
     name='netdiff',
-    version=get_version(),
+    version=float(str(sys.version_info.major) + "." + str(sys.version_info.minor)),
     description="Python library for parsing network topology data (eg: dynamic "
                 "routing protocols, NetJSON, CNML) and detect changes.",
     long_description=open('README.rst').read(),
