@@ -40,7 +40,6 @@ def get_install_requires():
         requirements.append("networkx==2.2")
     else:
         requirements.append("networkx>=2.2")
-    return requirements
 
 
 setup(
