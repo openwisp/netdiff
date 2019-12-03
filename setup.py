@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload -s dist/*")
     os.system("rm -rf dist build")
-    args = {'version': sys.version_info.major + "." + sys.version_info.minor}
+    args = {'version': float(str(sys.version_info.major) + "." + str(sys.version_info.minor))}
     print("You probably want to also tag the version now:")
     print("  git tag -a %(version)s -m 'version %(version)s'" % args)
     print("  git push --tags")
@@ -43,7 +43,7 @@ def get_install_requires():
 
 setup(
     name='netdiff',
-    version=sys.version_info.major + "." + sys.version_info.minor,
+    version=float(str(sys.version_info.major) + "." + str(sys.version_info.minor)),
     description="Python library for parsing network topology data (eg: dynamic "
                 "routing protocols, NetJSON, CNML) and detect changes.",
     long_description=open('README.rst').read(),
