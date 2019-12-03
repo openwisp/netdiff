@@ -19,7 +19,7 @@ if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload -s dist/*")
     os.system("rm -rf dist build")
-    args = {'version': get_version()}
+    args = {'version': get_version(__file__)}
     print("You probably want to also tag the version now:")
     print("  git tag -a %(version)s -m 'version %(version)s'" % args)
     print("  git push --tags")
@@ -35,7 +35,7 @@ def get_install_requires():
         # skip to next iteration if comment or empty line
         if line.startswith('#') or line == '' or line.startswith('http') or line.startswith('git'):
             continue
-        if line.startswith("networkx") and get_version() < 3.5:
+        if line.startswith("networkx") and get_version(__file__) < 3.5:
             line.replace("<", "=")
         # add line to requirements
         requirements.append(line.replace('\n', ''))
@@ -44,7 +44,7 @@ def get_install_requires():
 
 setup(
     name='netdiff',
-    version=get_version(),
+    version=get_version(__file__),
     description="Python library for parsing network topology data (eg: dynamic "
                 "routing protocols, NetJSON, CNML) and detect changes.",
     long_description=open('README.rst').read(),
