@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 from get_version import get_version
 import sys
 from setuptools import setup, find_packages
