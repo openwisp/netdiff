@@ -12,8 +12,8 @@ branches:
 
 # command to install requirements
 install:
-  - pip install -r requirements-test.txt # to install before running setup.py
   - python setup.py -q develop
+  - pip install -r requirements-test.txt
 
 # command to run flake8
 before_script:
