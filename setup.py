@@ -36,6 +36,10 @@ def get_install_requires():
             continue
         # add line to requirements
         requirements.append(line.replace('\n', ''))
+    if sys.version_info.major >= 3:
+        requirements.append("networkx>=2.0,<2.5")
+    else:
+        requirements.append("networkx>=2.0,<2.3")
     return requirements
 
 
