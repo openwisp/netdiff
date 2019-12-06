@@ -127,8 +127,6 @@ def _netjson_networkgraph(protocol, version, revision, metric,
         raise NetJsonError('protocol cannot be None')
     if version is None and protocol != 'static':
         raise NetJsonError('version cannot be None except when protocol is "static"')
-    if metric is None and protocol != 'static':
-        raise NetJsonError('metric cannot be None except when protocol is "static"')
     # prepare nodes
     node_list = []
     for node in nodes:
