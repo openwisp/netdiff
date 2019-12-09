@@ -109,5 +109,3 @@ class TestBaseParser(unittest.TestCase):
             _netjson_networkgraph(None, None, None, None, [], [])
         with self.assertRaises(NetJsonError):
             _netjson_networkgraph('bgp', None, None, None, [], [])
-        with self.assertRaises(NetJsonError):
-            _netjson_networkgraph('olsr', '2', None, None, [], [])
