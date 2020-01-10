@@ -1,10 +1,12 @@
 Changelog
 =========
 
-Version 0.6.1 [unreleased]
+Version 0.6.1 [10-01-2019]
 --------------------------
 
-WIP
+- Added ``DiGraph`` support for NetJsonParser
+- Updated networkx version
+- [openvpn] Ignore UNDEF nodes
 
 Version 0.6.0 [27-12-2017]
 --------------------------
