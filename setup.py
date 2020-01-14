@@ -75,5 +75,5 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     install_requires=get_install_requires(),
-    test_suite='nose.collector'
+    test_suite='nose2.collector'
 )
