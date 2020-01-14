@@ -1,7 +1,6 @@
 import os
 
 import networkx
-import six
 
 from netdiff import NetJsonParser, diff
 from netdiff.exceptions import ParserError
@@ -26,7 +25,7 @@ class TestNetJsonParser(TestCase):
         # test additional properties in nodes of networkx graph
         properties = list(p.graph.nodes(data=True))[0][1]
         self.assertIsInstance(properties['local_addresses'], list)
-        self.assertIsInstance(properties['hostname'], six.string_types)
+        self.assertIsInstance(properties['hostname'], str)
 
     def test_parse_directed(self):
         p = NetJsonParser(links2, directed=True)
@@ -40,7 +39,7 @@ class TestNetJsonParser(TestCase):
         # test additional properties in nodes of networkx graph
         properties = list(p.graph.nodes(data=True))[0][1]
         self.assertIsInstance(properties['local_addresses'], list)
-        self.assertIsInstance(properties['hostname'], six.string_types)
+        self.assertIsInstance(properties['hostname'], str)
 
     def test_parse_string_graph(self):
         data = """{
@@ -229,7 +228,7 @@ class TestNetJsonParser(TestCase):
     def test_json_string(self):
         p = NetJsonParser(links2)
         data = p.json()
-        self.assertIsInstance(data, six.string_types)
+        self.assertIsInstance(data, str)
         self.assertIn('NetworkGraph', data)
         self.assertIn('protocol', data)
         self.assertIn('version', data)

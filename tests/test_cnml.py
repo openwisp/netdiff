@@ -2,7 +2,6 @@ import os
 
 import libcnml
 import networkx
-import six
 
 from netdiff import CnmlParser, diff
 from netdiff.exceptions import ParserError
@@ -41,7 +40,7 @@ class TestCnmlParser(TestCase):
     def test_json_string(self):
         p = CnmlParser(cnml1)
         data = p.json()
-        self.assertIsInstance(data, six.string_types)
+        self.assertIsInstance(data, str)
         self.assertIn('NetworkGraph', data)
         self.assertIn('protocol', data)
         self.assertIn('version', data)

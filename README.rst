@@ -328,7 +328,7 @@ The data which was retrieved from network/storage can be accessed via the "data"
 
     def to_python(self, data):
         try:
-            return super(OlsrParser, self).to_python(data)
+            return super().to_python(data)
         except ConversionException as e:
             return self._txtinfo_to_jsoninfo(e.data)
 

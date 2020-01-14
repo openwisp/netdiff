@@ -1,7 +1,6 @@
 import os
 
 import libcnml
-import six
 
 from ..exceptions import ParserError
 from .base import BaseParser
@@ -19,7 +18,7 @@ class CnmlParser(BaseParser):
     metric = None
 
     def to_python(self, data):
-        if isinstance(data, six.string_types):
+        if isinstance(data, str):
             up = urlparse.urlparse(data)
             # if it looks like a file path
             if os.path.isfile(data) or up.scheme in ['http', 'https']:

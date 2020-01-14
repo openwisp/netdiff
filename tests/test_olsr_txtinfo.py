@@ -1,7 +1,6 @@
 import os
 
 import networkx
-import six
 
 from netdiff import OlsrParser, diff
 from netdiff.exceptions import ParserError
@@ -70,7 +69,7 @@ class TestOlsrTxtinfoParser(TestCase):
     def test_json_string(self):
         p = OlsrParser(links2)
         data = p.json()
-        self.assertIsInstance(data, six.string_types)
+        self.assertIsInstance(data, str)
         self.assertIn('NetworkGraph', data)
         self.assertIn('protocol', data)
         self.assertIn('version', data)

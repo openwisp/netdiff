@@ -2,23 +2,20 @@ language: python
 cache: pip
 
 python:
-  - "3.5"
-  - "2.7"
+  - "3.6"
+  - "3.7"
 
 branches:
   only:
     - master
 
-# command to install requirements
 install:
   - python setup.py -q develop
   - pip install -r requirements-test.txt
 
-# command to run qa-checks
 before_script:
   - openwisp-utils-qa-checks --skip-checkmigrations --skip-checkmakemigrations
 
-# command to run tests, e.g. python setup.py test
 script:
   - nosetests --with-coverage --cover-package=netdiff
 
