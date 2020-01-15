@@ -16,7 +16,7 @@ class BatmanParser(BaseParser):
         Adds support for txtinfo format
         """
         try:
-            return super(BatmanParser, self).to_python(data)
+            return super().to_python(data)
         except ConversionException as e:
             return self._txtinfo_to_python(e.data)
 

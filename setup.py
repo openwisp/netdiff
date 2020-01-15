@@ -36,10 +36,7 @@ def get_install_requires():
             continue
         # add line to requirements
         requirements.append(line.replace('\n', ''))
-    if sys.version_info.major >= 3:
         requirements.append("networkx>=2.0,<2.5")
-    else:
-        requirements.append("networkx>=2.0,<2.3")
     return requirements
 
 
@@ -71,8 +68,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: System :: Networking',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3',
     ],
     install_requires=get_install_requires(),
     test_suite='nose.collector'

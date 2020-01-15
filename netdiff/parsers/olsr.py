@@ -13,7 +13,7 @@ class OlsrParser(BaseParser):
         Adds support for txtinfo format
         """
         try:
-            return super(OlsrParser, self).to_python(data)
+            return super().to_python(data)
         except ConversionException as e:
             return self._txtinfo_to_jsoninfo(e.data)
 

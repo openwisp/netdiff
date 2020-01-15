@@ -3,7 +3,6 @@ import telnetlib
 
 import networkx
 import requests
-import six
 
 from ..exceptions import ConversionException, TopologyRetrievalError
 from ..utils import _netjson_networkgraph, diff
@@ -85,7 +84,7 @@ class BaseParser(object):
         """
         if isinstance(data, dict):
             return data
-        elif isinstance(data, six.string_types):
+        elif isinstance(data, str):
             # assuming is JSON
             try:
                 return json.loads(data)
