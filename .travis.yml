@@ -17,7 +17,7 @@ before_script:
   - openwisp-utils-qa-checks --skip-checkmigrations --skip-checkmakemigrations
 
 script:
-  - nosetests --with-coverage --cover-package=netdiff
+  - nose2 --with-coverage --coverage=netdiff
 
 after_success:
   coveralls

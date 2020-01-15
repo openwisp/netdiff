@@ -396,15 +396,15 @@ Run tests with:
 
     ./runtests.py
 
-Alternatively, you can use the ``nose`` command (which has a ton of available options):
+Alternatively, you can use the ``nose2`` command (which has a ton of available options):
 
 .. code-block:: shell
 
-    nosetests
-    nosetests tests.test_olsr  # run only olsr related tests
-    nosetests tests/test_olsr.py  # variant form of the previous command
-    nosetests tests.test_olsr:TestOlsrParser  # variant form of the previous command
-    nosetests tests.test_olsr:TestOlsrParser.test_parse  # run specific test
+    nose2
+    nose2 tests.test_olsr  # run only olsr related tests
+    nose2 tests/test_olsr.py  # variant form of the previous command
+    nose2 tests.test_olsr:TestOlsrParser  # variant form of the previous command
+    nose2 tests.test_olsr:TestOlsrParser.test_parse  # run specific test
 
 See test coverage with:
 
