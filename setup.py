@@ -34,9 +34,6 @@ def get_install_requires():
         # skip to next iteration if comment or empty line
         if line.startswith('#') or line == '' or line.startswith('http') or line.startswith('git'):
             continue
-        # add line to requirements
-        requirements.append(line.replace('\n', ''))
-        requirements.append("networkx>=2.0,<2.5")
     return requirements
 
 

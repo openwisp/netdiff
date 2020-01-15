@@ -1,3 +1,4 @@
 requests<3.0
 libcnml<0.10.0
 openvpn-status>=0.2,<0.3
+networkx>=2.0,<2.5
