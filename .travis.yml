@@ -10,7 +10,7 @@ branches:
     - master
 
 install:
-  - python setup.py -q develop
+  - python setup.py develop
   - pip install -r requirements-test.txt
 
 before_script:
