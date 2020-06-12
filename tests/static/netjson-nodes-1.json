@@ -1,0 +1,52 @@
+{
+    "type": "NetworkGraph",
+    "protocol": "OLSR",
+    "version": "0.6.6",
+    "revision": "5031a799fcbe17f61d57e387bc3806de",
+    "metric": "ETX",
+    "nodes": [
+        {
+            "id": "10.150.0.3",
+            "local_addresses": [
+                "192.168.1.3"
+            ],
+            "label": "nodeA",
+            "properties": {
+                "hostname": "router.3nnx"
+            }
+        },
+        {
+            "id": "10.150.0.2",
+            "local_addresses": [
+                "192.168.1.2"
+            ],
+            "label": "nodeB",
+            "properties": {
+                "hostname": "router2.nnx"
+            }
+        },
+        {
+            "id": "10.150.0.4"
+        }
+    ],
+    "links": [
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.2",
+            "cost": 28334,
+            "properties": {
+                "custom_property": false,
+                "foo": "bar"
+            }
+        },
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.4",
+            "cost": 1048,
+            "cost_text": "Slow link",
+            "properties": {
+                "custom_property": true
+            }
+        }
+    ]
+}

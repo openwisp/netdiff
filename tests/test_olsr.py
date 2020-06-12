@@ -110,7 +110,15 @@ class TestOlsrParser(TestCase):
         new = OlsrParser(links3)
         result = diff(old, new)
         self.assertIsNone(result['removed'])
-        self.assertIsNone(result['changed'])
+        self.assertEqual(len(result['changed']['links']), 1)
+        link = result['changed']['links'][0]
+        self.assertEqual(link['source'], '10.150.0.3')
+        self.assertEqual(link['target'], '10.150.0.2')
+        self.assertEqual(link['cost'], 27.669921875)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(
+            link['properties'], {'link_quality': 0.195, 'neighbor_link_quality': 0.184}
+        )
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
         self.assertEqual(len(result['added']['nodes']), 1)
@@ -125,7 +133,6 @@ class TestOlsrParser(TestCase):
         new = OlsrParser(links3)
         result = new - old
         self.assertIsNone(result['removed'])
-        self.assertIsNone(result['changed'])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
         self.assertEqual(len(result['added']['nodes']), 1)
@@ -140,7 +147,15 @@ class TestOlsrParser(TestCase):
         new = OlsrParser(links2)
         result = diff(old, new)
         self.assertIsNone(result['added'])
-        self.assertIsNone(result['changed'])
+        self.assertEqual(len(result['changed']['links']), 1)
+        link = result['changed']['links'][0]
+        self.assertEqual(link['source'], '10.150.0.2')
+        self.assertEqual(link['target'], '10.150.0.3')
+        self.assertEqual(link['cost'], 27.669921875)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(
+            link['properties'], {'link_quality': 0.195, 'neighbor_link_quality': 0.184}
+        )
         self.assertIsInstance(result, dict)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are differences
@@ -151,6 +166,42 @@ class TestOlsrParser(TestCase):
         self.assertIn('10.150.0.4', result['removed']['links'][0].values())
         # ensure correct node removed
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
+
+    def test_changed_links(self):
+        old = OlsrParser(links2)
+        new = OlsrParser(links3)
+        result = diff(old, new)
+        self.assertEqual(len(result['changed']['links']), 1)
+        link = result['changed']['links'][0]
+        self.assertEqual(link['source'], '10.150.0.3')
+        self.assertEqual(link['target'], '10.150.0.2')
+        self.assertEqual(link['cost'], 27.669921875)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(
+            link['properties'], {'link_quality': 0.195, 'neighbor_link_quality': 0.184}
+        )
+
+    def test_changed_nodes(self):
+        old = OlsrParser(links2)
+        new = OlsrParser(links2_cost)
+        result = diff(old, new)
+        self.assertIsInstance(result['changed'], dict)
+        self.assertEqual(len(result['changed']['nodes']), 3)
+        node = result['changed']['nodes'][0]
+        self.assertEqual(node['id'], '10.150.0.2')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+        node = result['changed']['nodes'][1]
+        self.assertEqual(node['id'], '10.150.0.3')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+        node = result['changed']['nodes'][2]
+        self.assertEqual(node['id'], '10.150.0.4')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
 
     def test_simple_diff(self):
         old = OlsrParser(links3)
@@ -215,7 +266,6 @@ class TestOlsrParser(TestCase):
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
         self.assertIsInstance(result['changed'], dict)
-        self.assertEqual(len(result['changed']['nodes']), 0)
         links = result['changed']['links']
         self.assertTrue(type(links) is list)
         self.assertEqual(len(links), 2)

@@ -14,10 +14,11 @@ def diff(old, new):
     revision = new.revision
     metric = new.metric
     # calculate differences
-    in_both = _find_unchanged(old.graph, new.graph)
-    added_nodes, added_edges = _make_diff(old.graph, new.graph, in_both)
-    removed_nodes, removed_edges = _make_diff(new.graph, old.graph, in_both)
-    changed_edges = _find_changed(old.graph, new.graph, in_both)
+    nodes_in_both, edges_in_both = _find_unchanged(old.graph, new.graph)
+    added_nodes, added_edges = _make_diff(old.graph, new.graph, edges_in_both)
+    removed_nodes, removed_edges = _make_diff(new.graph, old.graph, edges_in_both)
+    changed_nodes = _find_changed_nodes(old.graph, new.graph, nodes_in_both)
+    changed_edges = _find_changed_edges(old.graph, new.graph, edges_in_both)
     # create netjson objects
     # or assign None if no changes
     if added_nodes.nodes() or added_edges.edges():
@@ -44,9 +45,9 @@ def diff(old, new):
         )
     else:
         removed = None
-    if changed_edges:
+    if changed_nodes or changed_edges:
         changed = _netjson_networkgraph(
-            protocol, version, revision, metric, [], changed_edges, dict=True
+            protocol, version, revision, metric, changed_nodes, changed_edges, dict=True
         )
     else:
         changed = None
@@ -57,7 +58,7 @@ def _make_diff(old, new, both):
     """
     calculates differences between topologies 'old' and 'new'
     returns a tuple with two network graph objects
-    the first graph contains the added nodes, the secnod contains the added links
+    the first graph contains the added nodes, the second contains the added links
     """
     # make a copy of old topology to avoid tampering with it
     diff_edges = new.copy()
@@ -77,51 +78,105 @@ def _make_diff(old, new, both):
 
 def _find_unchanged(old, new):
     """
-    returns edges that are in both old and new
+    returns nodes and edges that are in both old and new
     """
     edges = []
-    old_edges = [set(edge) for edge in old.edges()]
-    new_edges = [set(edge) for edge in new.edges()]
+    nodes = []
+    old_edges = [set([src, dst]) for src, dst in old.edges()]
+    new_edges = [set([src, dst]) for src, dst in new.edges()]
+    old_nodes = [node for node in old.nodes()]
+    new_nodes = [node for node in new.nodes()]
     for old_edge in old_edges:
         if old_edge in new_edges:
             edges.append(set(old_edge))
+    for old_node in old_nodes:
+        if old_node in new_nodes:
+            nodes.append(old_node)
+    return nodes, edges
+
+
+def _nodes_difference(graph, both):
+    nodes = []
+    for ip, properties in graph.nodes(data=True):
+        # skip nodes that are not in both
+        if ip not in both:
+            continue
+        props = properties.copy()
+        old_node = [ip]
+        # wrap attributes in tuples so they will be recognizable
+        old_node.append(('label', popdefault(props, 'label', '')))
+        old_node.append(('local_addresses', props.pop('local_addresses', [])))
+        for name, value in props.items():
+            old_node.append((name, value))
+        nodes.append(old_node)
+    return nodes
+
+
+def _find_changed_nodes(old, new, both):
+    """
+    returns nodes that have changed properties
+    """
+    # create two list of sets of old and new nodes including
+    # label, local_addresses and properties
+    old_nodes = _nodes_difference(old, both)
+    new_nodes = _nodes_difference(new, both)
+
+    # find out which node changed
+    changed = []
+    for new_node in new_nodes:
+        if new_node not in old_nodes:
+            props = {}
+            for item in new_node:
+                if isinstance(item, tuple):
+                    props[item[0]] = item[1]
+            changed.append((new_node[0], props))
+    return changed
+
+
+def _edges_difference(graph, both):
+    edges = []
+    for src, dst, properties in graph.edges(data=True):
+        # skip edges that are not in both
+        if set((src, dst)) not in both:
+            continue
+        props = properties.copy()
+        old_edge = [('_src', src), ('_dst', dst)]
+        old_edge.append(('weight', props.pop('weight')))
+        old_edge.append(('cost_text', props.pop('cost_text', '')))
+        for name, value in props.items():
+            old_edge.append((name, value))
+        edges.append(set(old_edge))
     return edges
 
 
-def _find_changed(old, new, both):
+def _find_changed_edges(old, new, both):
     """
-    returns links that have changed cost
+    returns links that have changed any attribute
     """
-    # create two list of sets of old and new edges including cost
-    old_edges = []
-    for edge in old.edges(data=True):
-        # skip links that are not in both
-        if set((edge[0], edge[1])) not in both:
-            continue
-        # wrap cost in tuple so it will be recognizable
-        cost = (edge[2]['weight'],)
-        old_edges.append(set((edge[0], edge[1], cost)))
-    new_edges = []
-    for edge in new.edges(data=True):
-        # skip links that are not in both
-        if set((edge[0], edge[1])) not in both:
-            continue
-        # wrap cost in tuple so it will be recognizable
-        cost = (edge[2]['weight'],)
-        new_edges.append(set((edge[0], edge[1], cost)))
+    # create two list of sets of old and new edges including
+    # cost, cost_text and properties
+    old_edges = _edges_difference(old, both)
+    new_edges = _edges_difference(new, both)
+
     # find out which edge changed
     changed = []
     for new_edge in new_edges:
         if new_edge not in old_edges:
-            # new_edge is a set, convert it to list
-            new_edge = list(new_edge)
-            for item in new_edge:
-                if isinstance(item, tuple):
-                    # unwrap cost from tuple and put it in a dict
-                    cost = {'weight': item[0]}
-                    new_edge.remove(item)
-            changed.append((new_edge[0], new_edge[1], cost))
+            props = dict(new_edge)
+            src = props.pop('_src')
+            dst = props.pop('_dst')
+            changed.append([src, dst, props])
     return changed
+
+
+def popdefault(dictionary, key, default):
+    """
+    If the key is present and the value is not None, return it.
+    If the key is present and the value is None, return ``default`` instead.
+    If the key is not present, return ``default`` too.
+    """
+    value = dictionary.pop(key, None)
+    return value or default
 
 
 def _netjson_networkgraph(
@@ -134,35 +189,26 @@ def _netjson_networkgraph(
         raise NetJsonError('version cannot be None except when protocol is "static"')
     # prepare nodes
     node_list = []
-    for node in nodes:
-        netjson_node = OrderedDict({'id': node[0]})
+    for ip, properties in nodes:
+        netjson_node = OrderedDict({'id': ip})
         # must copy properties dict to avoid modifying data
-        properties = node[1].copy()
-        local_addresses = properties.pop('local_addresses', None)
-        label = properties.pop('label', None)
-        # append local_addresses only if not empty
-        if local_addresses:
-            netjson_node['local_addresses'] = local_addresses
-        # append properties only if not empty
-        if properties:
-            netjson_node['properties'] = properties
-        # append label only if not empty
-        if label:
-            netjson_node['label'] = label
+        props = properties.copy()
+        netjson_node['label'] = popdefault(props, 'label', '')
+        netjson_node['local_addresses'] = popdefault(props, 'local_addresses', [])
+        netjson_node['properties'] = props
         node_list.append(netjson_node)
+    node_list.sort(key=lambda d: d['id'])
     # prepare links
     link_list = []
-    for link in links:
+    for source, target, properties in links:
         # must copy properties dict to avoid modifying data
-        properties = link[2].copy()
-        cost = properties.pop('weight')
-        netjson_link = OrderedDict(
-            (('source', link[0]), ('target', link[1]), ('cost', cost))
-        )
-        # append properties only if not empty
-        if properties:
-            netjson_link['properties'] = properties
+        props = properties.copy()
+        netjson_link = OrderedDict((('source', source), ('target', target)))
+        netjson_link['cost'] = props.pop('weight')
+        netjson_link['cost_text'] = popdefault(props, 'cost_text', '')
+        netjson_link['properties'] = props
         link_list.append(netjson_link)
+    link_list.sort(key=lambda d: (d['source'], d['target']))
     data = OrderedDict(
         (
             ('type', 'NetworkGraph'),

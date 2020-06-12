@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 0.8.0 [unreleased]
+--------------------------
+
+- Detect changes in nodes and links
+- Added/remove/changed nodes/links are now sorted
+- Unspecified fields like node's label and link's cost_text are now always
+  shown as empty string if they are not specified
+- Parse cost_text field from links
+
+NOTE: The output of ``diff`` in this release differs from the previous ones.
+The previous fields haven't been changed but new ones have been added.
+
 Version 0.7.0 [15-01-2020]
 --------------------------
 

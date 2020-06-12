@@ -46,9 +46,10 @@ class TestOpenvpnParser(TestCase):
         for node in data['nodes']:
             if 'label' in node:
                 labels.append(node['label'])
-        self.assertEqual(len(labels), 2)
+        self.assertEqual(len(labels), 3)
         self.assertIn('nodeA', labels)
         self.assertIn('nodeB', labels)
+        self.assertIn('', labels)
 
     def test_json_dict_tap(self):
         p = OpenvpnParser(links5_tap)
@@ -67,12 +68,13 @@ class TestOpenvpnParser(TestCase):
         for node in data['nodes']:
             if 'label' in node:
                 labels.append(node['label'])
-        self.assertEqual(len(labels), 5)
+        self.assertEqual(len(labels), 6)
         self.assertIn('nodeA', labels)
         self.assertIn('nodeB', labels)
         self.assertIn('nodeC', labels)
         self.assertIn('nodeD', labels)
         self.assertIn('nodeE', labels)
+        self.assertIn('', labels)
 
     def test_bogus_data(self):
         try:
@@ -114,15 +116,15 @@ class TestOpenvpnParser(TestCase):
 
         labels = []
         for node in data['nodes']:
-            if 'label' in node:
-                labels.append(node['label'])
+            labels.append(node['label'])
         expected = [
-            '60C5A8FFFE74CB6D',
+            '60c5a8fffe77607a',
             '60c5a8fffe77606b',
+            '60C5A8FFFE74CB6D',
+            '60c5a8fffe77607a',
             '58a0cbeffe0176d4',
-            '60c5a8fffe77607a',
-            '60c5a8fffe77607a',
             '58a0cbeffe0156b0',
+            '',
         ]
         with self.subTest('Check contents of nodes'):
             self.assertEqual(expected, labels)
@@ -131,11 +133,11 @@ class TestOpenvpnParser(TestCase):
         for link in data['links']:
             targets.append(link['target'])
         expected = [
-            '194.183.10.51:49794',
-            '185.211.160.87:53356',
-            '195.94.160.52:20086',
             '185.211.160.5:56114',
+            '185.211.160.87:53356',
+            '194.183.10.51:49794',
             '194.183.10.51:60003',
+            '195.94.160.52:20086',
             '217.72.97.67:59908',
         ]
         self.assertEqual(expected, targets)

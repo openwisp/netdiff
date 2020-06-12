@@ -70,7 +70,26 @@ class TestBatmanTxtinfoParser(TestCase):
             graph=result['removed'],
             expected_links=[('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c')],
         )
-        self.assertIsNone(result['changed'])
+        self.assertIsInstance(result['changed'], dict)
+
+    def test_changed_links(self):
+        old = BatmanParser(iulinet)
+        new = BatmanParser(iulinet2)
+        result = diff(old, new)
+        self.assertEqual(result['changed']['nodes'], [])
+        self.assertEqual(len(result['changed']['links']), 2)
+        link = result['changed']['links'][0]
+        self.assertEqual(link['source'], '10:fe:ed:37:3a:39')
+        self.assertEqual(link['target'], 'a0:f3:c1:ac:6c:44')
+        self.assertEqual(link['cost'], 1.0)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(link['properties'], {})
+        link = result['changed']['links'][1]
+        self.assertEqual(link['source'], '90:f6:52:f2:8c:2c')
+        self.assertEqual(link['target'], '10:fe:ed:37:3a:39')
+        self.assertEqual(link['cost'], 1.0)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(link['properties'], {})
 
     def test_no_changes(self):
         old = BatmanParser(iulinet)

@@ -122,7 +122,7 @@ representing respectively:
 
 * the nodes and links that have been added to the topology
 * the nodes and links that have been removed from the topology
-* links that are present in both topologies but their cost changed
+* the nodes and links that are present in both topologies but their attributes have changed
 
 If no changes are present, keys will contain ``None``.
 
@@ -149,22 +149,34 @@ While if there are changes, the result will look like:
             "metric": "ETX",
             "nodes": [
                 {
-                    "id": "10.150.0.7"
+                    "id": "10.150.0.7",
+                    "label": "Node A",
+                    "local_addresses": [],
+                    "properties": {}
                 },
                 {
-                    "id": "10.150.0.6"
+                    "id": "10.150.0.6",
+                    "label": "Node B",
+                    "local_addresses": ["10.56.2.1"],
+                    "properties": {
+                        "hostname": "nodeb.lan"
+                    }
                 }
             ],
             "links": [
                 {
                     "source": "10.150.0.3",
                     "target": "10.150.0.7",
-                    "cost": 1.50390625
+                    "cost": 1.50390625,
+                    "cost_text", "",
+                    "properties": {}
                 },
                 {
                     "source": "10.150.0.3",
                     "target": "10.150.0.6",
                     "cost": 1.0
+                    "cost_text", "",
+                    "properties": {}
                 }
             ]
         },
@@ -176,7 +188,10 @@ While if there are changes, the result will look like:
             "metric": "ETX",
             "nodes": [
                 {
-                    "id": "10.150.0.8"
+                    "id": "10.150.0.8",
+                    "label": "Node C",
+                    "local_addresses": [],
+                    "properties": {}
                 }
             ],
             "links": [
@@ -184,6 +199,8 @@ While if there are changes, the result will look like:
                     "source": "10.150.0.7",
                     "target": "10.150.0.8",
                     "cost": 1.0
+                    "cost_text", "",
+                    "properties": {}
                 }
             ]
         },
@@ -199,6 +216,8 @@ While if there are changes, the result will look like:
                     "source": "10.150.0.3",
                     "target": "10.150.0.2",
                     "cost": 1.0
+                    "cost_text", "",
+                    "properties": {}
                 }
             ]
         }
@@ -447,3 +466,5 @@ License
 -------
 
 See `LICENSE <https://github.com/openwisp/netdiff/blob/master/LICENSE>`_.
+
+.. _`NetJSON NetworkGraph format`: http://netjson.org/rfc.html#rfc.section.4

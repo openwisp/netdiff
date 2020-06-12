@@ -56,10 +56,8 @@ class TestBatmanParser(TestCase):
                 break
         self.assertTrue(found)
         found = False
-        # ensure local_addresses not present if empty
         for node in data['nodes']:
             if node['id'] == 'a0:f3:c1:96:94:06':
-                self.assertFalse('local_addresses' in node)
                 found = True
                 break
         self.assertTrue(found)

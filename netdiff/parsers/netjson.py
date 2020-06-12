@@ -37,11 +37,12 @@ class NetJsonParser(BaseParser):
             )
         for link in data['links']:
             try:
-                source = link["source"]
-                dest = link["target"]
-                cost = link["cost"]
+                source = link['source']
+                dest = link['target']
+                cost = link['cost']
+                cost_text = link.get("cost_text", '')
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
             properties = link.get('properties', {})
-            graph.add_edge(source, dest, weight=cost, **properties)
+            graph.add_edge(source, dest, weight=cost, cost_text=cost_text, **properties)
         return graph
