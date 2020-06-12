@@ -19,14 +19,24 @@ class BaseParser(object):
     To create a parser, extend this class
     and implement a parse method
     """
+
     protocol = None
     version = None
     revision = None
     metric = None
 
-    def __init__(self, data=None, url=None, file=None,
-                 version=None, revision=None, metric=None,
-                 timeout=None, verify=True, directed=False):  # noqa
+    def __init__(
+        self,
+        data=None,
+        url=None,
+        file=None,
+        version=None,
+        revision=None,
+        metric=None,
+        timeout=None,
+        verify=True,
+        directed=False,
+    ):  # noqa
         """
         Initializes a new Parser
 
@@ -55,8 +65,10 @@ class BaseParser(object):
         elif data is None and file is not None:
             data = self._get_file(file)
         elif data is None and url is None and file is None:
-            raise ValueError('no topology data supplied, on of the following arguments'
-                             'must be supplied: data, url or file')
+            raise ValueError(
+                'no topology data supplied, on of the following arguments'
+                'must be supplied: data, url or file'
+            )
         self.original_data = self.to_python(data)
         # avoid throwing NotImplementedError in tests
         if self.__class__ is not BaseParser:
@@ -100,9 +112,9 @@ class BaseParser(object):
 
     def _get_http(self, url):
         try:
-            response = requests.get(url.geturl(),
-                                    verify=self.verify,
-                                    timeout=self.timeout)
+            response = requests.get(
+                url.geturl(), verify=self.verify, timeout=self.timeout
+            )
         except Exception as e:
             raise TopologyRetrievalError(e)
         if response.status_code != 200:
@@ -139,11 +151,13 @@ class BaseParser(object):
             graph = self.graph
         except AttributeError:
             raise NotImplementedError()
-        return _netjson_networkgraph(self.protocol,
-                                     self.version,
-                                     self.revision,
-                                     self.metric,
-                                     graph.nodes(data=True),
-                                     graph.edges(data=True),
-                                     dict,
-                                     **kwargs)
+        return _netjson_networkgraph(
+            self.protocol,
+            self.version,
+            self.revision,
+            self.metric,
+            graph.nodes(data=True),
+            graph.edges(data=True),
+            dict,
+            **kwargs
+        )

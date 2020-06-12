@@ -12,7 +12,6 @@ iulinet2 = open('{0}/static/batman-1+1.txt'.format(CURRENT_DIR)).read()
 
 
 class TestBatmanTxtinfoParser(TestCase):
-
     def test_parse(self):
         p = BatmanParser(iulinet)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -65,15 +64,11 @@ class TestBatmanTxtinfoParser(TestCase):
         self.assertEqual(len(result['removed']['links']), 1)
         self._test_expected_links(
             graph=result['added'],
-            expected_links=[
-                ('a0:f3:c1:96:94:10', '90:f6:52:f2:8c:2c')
-            ]
+            expected_links=[('a0:f3:c1:96:94:10', '90:f6:52:f2:8c:2c')],
         )
         self._test_expected_links(
             graph=result['removed'],
-            expected_links=[
-                ('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c')
-            ]
+            expected_links=[('a0:f3:c1:96:94:06', '90:f6:52:f2:8c:2c')],
         )
         self.assertIsNone(result['changed'])
 

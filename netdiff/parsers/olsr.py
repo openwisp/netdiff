@@ -4,6 +4,7 @@ from .base import BaseParser
 
 class OlsrParser(BaseParser):
     """ OLSR 1 jsoninfo parser """
+
     protocol = 'OLSR'
     version = '0.8'
     metric = 'ETX'
@@ -52,7 +53,7 @@ class OlsrParser(BaseParser):
                 cost = link['tcEdgeCost']
                 properties = {
                     'link_quality': link['linkQuality'],
-                    'neighbor_link_quality': link['neighborLinkQuality']
+                    'neighbor_link_quality': link['neighborLinkQuality'],
                 }
             except KeyError as e:
                 raise ParserError('Parse error, "%s" key not found' % e)
@@ -90,13 +91,15 @@ class OlsrParser(BaseParser):
         topology = []
         for line in topology_lines:
             values = line.split('\t')
-            topology.append({
-                'destinationIP': values[0],
-                'lastHopIP': values[1],
-                'linkQuality': float(values[2]),
-                'neighborLinkQuality': float(values[3]),
-                'tcEdgeCost': float(values[4]) * 1024.0
-            })
+            topology.append(
+                {
+                    'destinationIP': values[0],
+                    'lastHopIP': values[1],
+                    'linkQuality': float(values[2]),
+                    'neighborLinkQuality': float(values[3]),
+                    'tcEdgeCost': float(values[4]) * 1024.0,
+                }
+            )
 
         # process alias (MID) section
         try:
@@ -111,12 +114,11 @@ class OlsrParser(BaseParser):
             values = line.split('\t')
             node = values[0]
             aliases = values[1].split(';')
-            mid.append({
-                'ipAddress': node,
-                'aliases': [{'ipAddress': alias} for alias in aliases]
-            })
+            mid.append(
+                {
+                    'ipAddress': node,
+                    'aliases': [{'ipAddress': alias} for alias in aliases],
+                }
+            )
 
-        return {
-            'topology': topology,
-            'mid': mid
-        }
+        return {'topology': topology, 'mid': mid}

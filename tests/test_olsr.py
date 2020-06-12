@@ -8,14 +8,17 @@ from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/olsr-2-links.json'.format(CURRENT_DIR)).read()
-links2_cost = open('{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)).read()
+links2_cost = open(
+    '{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)
+).read()
 links3 = open('{0}/static/olsr-3-links.json'.format(CURRENT_DIR)).read()
 links5 = open('{0}/static/olsr-5-links.json'.format(CURRENT_DIR)).read()
-links5_cost = open('{0}/static/olsr-5-links-cost-changed.json'.format(CURRENT_DIR)).read()
+links5_cost = open(
+    '{0}/static/olsr-5-links-cost-changed.json'.format(CURRENT_DIR)
+).read()
 
 
 class TestOlsrParser(TestCase):
-
     def test_parse(self):
         p = OlsrParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -166,11 +169,10 @@ class TestOlsrParser(TestCase):
                 ('10.150.0.3', '10.150.0.7'),
                 ('10.150.0.3', '10.150.0.6'),
                 ('10.150.0.7', '10.150.0.6'),
-            ]
+            ],
         )
         self._test_expected_links(
-            graph=result['removed'],
-            expected_links=[('10.150.0.5', '10.150.0.4')]
+            graph=result['removed'], expected_links=[('10.150.0.5', '10.150.0.4')]
         )
         added_nodes = [node['id'] for node in result['added']['nodes']]
         self.assertIn('10.150.0.6', added_nodes)
@@ -238,18 +240,20 @@ class TestOlsrParser(TestCase):
         self.assertIn(3.515625, costs)
 
     def test_link_with_infinite_cost(self):
-        p = OlsrParser({
-            "topology": [
-                {
-                    "lastHopIP": "10.150.0.2",
-                    "destinationIP": "10.150.0.3",
-                    "linkQuality": 0.195,
-                    "neighborLinkQuality": 0.184,
-                    "tcEdgeCost": float('inf'),
-                    "validityTime": 284572
-                }
-            ],
-            "mid": []
-        })
+        p = OlsrParser(
+            {
+                "topology": [
+                    {
+                        "lastHopIP": "10.150.0.2",
+                        "destinationIP": "10.150.0.3",
+                        "linkQuality": 0.195,
+                        "neighborLinkQuality": 0.184,
+                        "tcEdgeCost": float('inf'),
+                        "validityTime": 284572,
+                    }
+                ],
+                "mid": [],
+            }
+        )
         # ensure link is ignored
         self.assertEqual(len(p.graph.edges()), 0)

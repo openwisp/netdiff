@@ -4,6 +4,7 @@ from .base import BaseParser
 
 class BatmanParser(BaseParser):
     """ batman-adv parser """
+
     protocol = 'batman-adv'
     version = '2015.0'
     metric = 'TQ'
@@ -36,11 +37,9 @@ class BatmanParser(BaseParser):
         parsed_lines = []
         for line in topology_lines:
             values = line.split(' ')
-            parsed_lines.append({
-                'source': values[0],
-                'target': values[1],
-                'cost': float(values[4])
-            })
+            parsed_lines.append(
+                {'source': values[0], 'target': values[1], 'cost': float(values[4])}
+            )
         return parsed_lines
 
     def _get_primary_address(self, mac_address, node_list):
@@ -93,16 +92,18 @@ class BatmanParser(BaseParser):
         # loop over topology section and create networkx graph
         for node in data["vis"]:
             for neigh in node["neighbors"]:
-                graph.add_node(node['primary'], **{
-                    'local_addresses': node.get('secondary', []),
-                    'clients': node.get('clients', [])
-                })
-                primary_neigh = self._get_primary_address(neigh['neighbor'],
-                                                          node_list)
+                graph.add_node(
+                    node['primary'],
+                    **{
+                        'local_addresses': node.get('secondary', []),
+                        'clients': node.get('clients', []),
+                    }
+                )
+                primary_neigh = self._get_primary_address(neigh['neighbor'], node_list)
                 # networkx automatically ignores duplicated edges
-                graph.add_edge(node['primary'],
-                               primary_neigh,
-                               weight=float(neigh['metric']))
+                graph.add_edge(
+                    node['primary'], primary_neigh, weight=float(neigh['metric'])
+                )
         return graph
 
     def _parse_txtinfo(self, data):
@@ -112,7 +113,5 @@ class BatmanParser(BaseParser):
         """
         graph = self._init_graph()
         for link in data:
-            graph.add_edge(link['source'],
-                           link['target'],
-                           weight=link['cost'])
+            graph.add_edge(link['source'], link['target'], weight=link['cost'])
         return graph

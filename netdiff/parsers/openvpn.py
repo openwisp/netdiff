@@ -7,6 +7,7 @@ from .base import BaseParser
 
 class OpenvpnParser(BaseParser):
     """ OpenVPN status log parser """
+
     protocol = 'OpenVPN Status Log'
     version = '1'
     metric = 'static'
@@ -47,9 +48,11 @@ class OpenvpnParser(BaseParser):
                 'label': client.common_name,
                 'real_address': str(client.real_address.host),
                 'port': int(client.real_address.port),
-                'connected_since': client.connected_since.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'connected_since': client.connected_since.strftime(
+                    '%Y-%m-%dT%H:%M:%SZ'
+                ),
                 'bytes_received': int(client.bytes_received),
-                'bytes_sent': int(client.bytes_sent)
+                'bytes_sent': int(client.bytes_sent),
             }
             local_addresses = [
                 str(route.virtual_address)

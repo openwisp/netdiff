@@ -14,7 +14,6 @@ cnml3 = '{0}/static/26494_detail_3.cnml'.format(CURRENT_DIR)
 
 
 class TestCnmlParser(TestCase):
-
     def test_parse(self):
         p = CnmlParser(cnml1)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -95,7 +94,7 @@ class TestCnmlParser(TestCase):
             expected_links=[
                 ('10.228.172.97', '10.228.172.101'),
                 ('10.228.172.194', '10.228.172.193'),
-            ]
+            ],
         )
         # ensure 2 links removed
         self._test_expected_links(
@@ -103,7 +102,7 @@ class TestCnmlParser(TestCase):
             expected_links=[
                 ('10.228.172.33', '10.228.172.34'),
                 ('10.228.172.33', '10.228.172.36'),
-            ]
+            ],
         )
 
     def test_parse_error(self):

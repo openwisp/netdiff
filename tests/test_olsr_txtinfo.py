@@ -8,13 +8,14 @@ from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/olsr-2-links.txt'.format(CURRENT_DIR)).read()
-links2_cost = open('{0}/static/olsr-2-links-cost-changed.txt'.format(CURRENT_DIR)).read()
+links2_cost = open(
+    '{0}/static/olsr-2-links-cost-changed.txt'.format(CURRENT_DIR)
+).read()
 links3 = open('{0}/static/olsr-3-links.txt'.format(CURRENT_DIR)).read()
 links5 = open('{0}/static/olsr-5-links.txt'.format(CURRENT_DIR)).read()
 
 
 class TestOlsrTxtinfoParser(TestCase):
-
     def test_parse(self):
         p = OlsrParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -155,11 +156,10 @@ class TestOlsrTxtinfoParser(TestCase):
                 ('10.150.0.3', '10.150.0.7'),
                 ('10.150.0.3', '10.150.0.6'),
                 ('10.150.0.7', '10.150.0.6'),
-            ]
+            ],
         )
         self._test_expected_links(
-            graph=result['removed'],
-            expected_links=[('10.150.0.5', '10.150.0.4')]
+            graph=result['removed'], expected_links=[('10.150.0.5', '10.150.0.4')]
         )
         added_nodes = [node['id'] for node in result['added']['nodes']]
         self.assertIn('10.150.0.6', added_nodes)

@@ -4,6 +4,7 @@ from .base import BaseParser
 
 class Bmx6Parser(BaseParser):
     """ Bmx6_b6m parser """
+
     protocol = 'BMX6_b6m'
     version = '0'
     metric = 'none'
@@ -23,9 +24,11 @@ class Bmx6Parser(BaseParser):
         for node in data:
             for link in node['links']:
                 cost = (link['txRate'] + link['rxRate']) / 2.0
-                graph.add_edge(node['name'],
-                               link['name'],
-                               weight=cost,
-                               tx_rate=link['txRate'],
-                               rx_rate=link['rxRate'])
+                graph.add_edge(
+                    node['name'],
+                    link['name'],
+                    weight=cost,
+                    tx_rate=link['txRate'],
+                    rx_rate=link['rxRate'],
+                )
         return graph
