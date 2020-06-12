@@ -42,7 +42,7 @@ class CnmlParser(BaseParser):
         for link in data.get_inner_links():
             if link.status != libcnml.libcnml.Status.WORKING:
                 continue
-            interface_a, interface_b = link.getLinkedInterfaces()
+            interface_a, interface_b = link.get_linked_interfaces()
             source = interface_a.ipv4
             dest = interface_b.ipv4
             # add link to Graph
