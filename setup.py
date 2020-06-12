@@ -52,13 +52,13 @@ setup(
     description="Python library for parsing network topology data (eg: dynamic "
     "routing protocols, NetJSON, CNML) and detect changes.",
     long_description=open('README.rst').read(),
-    author='Federico Capoano (nemesisdesign)',
-    author_email='ninux-dev@ml.ninux.org',
+    author='Federico Capoano',
+    author_email='federico.capoano@gmail.com',
     license='MIT',
     url='https://github.com/ninuxorg/netdiff',
     download_url='https://github.com/ninuxorg/netdiff/releases',
     keywords=['networking', 'mesh-network', 'netjson', 'olsr', 'batman', 'bmx'],
-    platforms=['Platform Indipendent'],
+    platforms=['Platform Independent'],
     packages=find_packages(exclude=['tests', 'tests.*', 'docs', 'docs.*']),
     zip_safe=False,
     classifiers=[
