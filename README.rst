@@ -395,6 +395,7 @@ Run tests with:
 .. code-block:: shell
 
     ./runtests.py
+    ./run-qa-checks
 
 Alternatively, you can use the ``nose2`` command (which has a ton of available options):
 
