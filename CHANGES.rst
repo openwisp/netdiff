@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.7.0 [15-01-2019]
+Version 0.7.0 [15-01-2020]
 --------------------------
 
 - Dropped support for python 2
