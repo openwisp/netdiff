@@ -11,33 +11,48 @@ netdiff
    :target: https://requires.io/github/openwisp/netdiff/requirements/?branch=master
    :alt: Requirements Status
 
+.. image:: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
+   :target: https://gitter.im/openwisp/general
+
 .. image:: https://badge.fury.io/py/netdiff.svg
    :target: http://badge.fury.io/py/netdiff
 
+.. image:: https://pepy.tech/badge/netdiff
+   :target: https://pepy.tech/project/netdiff
+   :alt: downloads
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://pypi.org/project/black/
+   :alt: code style: black
+
 ------------
 
-Netdiff is a simple Python library that provides utilities for parsing network topology
-data of open source dynamic routing protocols and detecting changes in these topologies.
+Netdiff is a simple abstraction layer for parsing network topology data of
+open source dynamic routing protocols or any other networking software which
+has knowledge about the topology of a network.
 
-**Current features**:
+Its goal is to allow applications like
+`openwisp-network-topology <https://github.com/openwisp/openwisp-network-topology>`_
+to collect, visualize and monitor network topology data without having to deal
+with the details of each networking software from which the data is retrieved.
+
+**Features**:
 
 * `parse different formats <https://github.com/openwisp/netdiff#parsers>`_
 * `detect changes in two topologies <https://github.com/openwisp/netdiff#basic-usage-example>`_
 * `return consistent NetJSON output <https://github.com/openwisp/netdiff#netjson-output>`_
 * uses the popular `networkx <https://networkx.github.io/>`_ library under the hood
 
-**Goals**:
+.. image:: https://raw.githubusercontent.com/openwisp/openwisp2-docs/master/assets/design/openwisp-logo-black.svg
+  :target: http://openwisp.org
 
-* provide an abstraction layer to facilitate parsing different network topology formats
-* add support for the most popular dynamic open source routing protocols
-* facilitate detecting changes in network topology for monitoring purposes
-* provide standard `NetJSON`_ output
-* keep the library small with as few dependencies as possible
+------------
 
-**Currently used by**
+.. contents:: **Table of Contents**:
+ :backlinks: none
+ :depth: 3
 
-* `django-netjsongraph <https://github.com/interop-dev/django-netjsongraph>`_
-* `nodeshot <https://github.com/openwisp/nodeshot>`_
+------------
 
 Install stable version from pypi
 --------------------------------
@@ -416,17 +431,19 @@ See test coverage with:
 Contributing
 ------------
 
-1. Join the `ninux-dev mailing list`_
-2. Fork this repo and install it
-3. Follow `PEP8, Style Guide for Python Code`_
-4. Write code
-5. Write tests for your code
-6. Ensure all tests pass
-7. Ensure test coverage is not under 90%
-8. Document your changes
-9. Send pull request
+Please refer to the `OpenWISP contributing guidelines <http://openwisp.io/docs/developer/contributing.html>`_.
 
-.. _PEP8, Style Guide for Python Code: http://www.python.org/dev/peps/pep-0008/
-.. _ninux-dev mailing list: http://ml.ninux.org/mailman/listinfo/ninux-dev
-.. _NetJSON NetworkGraph format: http://netjson.org/rfc.html#rfc.section.4
-.. _NetJSON: http://netjson.org
+Support
+-------
+
+See `OpenWISP Support Channels <http://openwisp.org/support.html>`_.
+
+Changelog
+---------
+
+See `CHANGES <https://github.com/openwisp/netdiff/blob/master/CHANGES.rst>`_.
+
+License
+-------
+
+See `LICENSE <https://github.com/openwisp/netdiff/blob/master/LICENSE>`_.
