@@ -12,7 +12,6 @@ topo2 = open('{0}/static/bmx6-1+1.json'.format(CURRENT_DIR)).read()
 
 
 class TestBmx6Parser(TestCase):
-
     def test_parse(self):
         p = Bmx6Parser(topo)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -71,15 +70,11 @@ class TestBmx6Parser(TestCase):
         self.assertEqual(len(result['removed']['links']), 1)
         self._test_expected_links(
             graph=result['added'],
-            expected_links=[
-                ('P9SFCiutatGranada73-68f5', 'P9SFDrTruetaa183-b715')
-            ]
+            expected_links=[('P9SFCiutatGranada73-68f5', 'P9SFDrTruetaa183-b715')],
         )
         self._test_expected_links(
             graph=result['removed'],
-            expected_links=[
-                ('P9SFCiutatGranada73-68f5', 'P9SFDrTruetaa183-b713')
-            ]
+            expected_links=[('P9SFCiutatGranada73-68f5', 'P9SFDrTruetaa183-b713')],
         )
 
     def test_no_changes(self):

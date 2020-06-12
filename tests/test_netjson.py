@@ -12,7 +12,6 @@ links3 = open('{0}/static/netjson-3-links.json'.format(CURRENT_DIR)).read()
 
 
 class TestNetJsonParser(TestCase):
-
     def test_parse(self):
         p = NetJsonParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -102,12 +101,17 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.3', p.graph.nodes())
         self.assertIn('10.150.0.2', p.graph.nodes())
         self.assertEqual(len(p.graph.edges()), 1)
-        self.assertEqual(len(p.graph.adj["10.150.0.3"]), 1,
-                         msg="10.150.0.3 should have an edge")
-        self.assertEqual(len(p.graph.adj["10.150.0.2"]), 0,
-                         msg="10.150.0.2 should have no edges")
-        self.assertEqual(p.graph.edges[("10.150.0.3", "10.150.0.2")]['weight'], 1.0,
-                         msg="Expected directed edge does not exist!")
+        self.assertEqual(
+            len(p.graph.adj["10.150.0.3"]), 1, msg="10.150.0.3 should have an edge"
+        )
+        self.assertEqual(
+            len(p.graph.adj["10.150.0.2"]), 0, msg="10.150.0.2 should have no edges"
+        )
+        self.assertEqual(
+            p.graph.edges[("10.150.0.3", "10.150.0.2")]['weight'],
+            1.0,
+            msg="Expected directed edge does not exist!",
+        )
 
     def test_parse_forward_backward_directed_string_graph3(self):
         """
@@ -146,10 +150,16 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.3', p.graph.nodes())
         self.assertIn('10.150.0.2', p.graph.nodes())
         self.assertEqual(len(p.graph.edges()), 2)
-        self.assertEqual(p.graph.edges[("10.150.0.3", "10.150.0.2")]['weight'], 1.0,
-                         msg="Forward edge weight was incorrectly overwritten!")
-        self.assertEqual(p.graph.edges[("10.150.0.2", "10.150.0.3")]['weight'], 99.0,
-                         msg="Backward edge weight was not correctly assigned!")
+        self.assertEqual(
+            p.graph.edges[("10.150.0.3", "10.150.0.2")]['weight'],
+            1.0,
+            msg="Forward edge weight was incorrectly overwritten!",
+        )
+        self.assertEqual(
+            p.graph.edges[("10.150.0.2", "10.150.0.3")]['weight'],
+            99.0,
+            msg="Backward edge weight was not correctly assigned!",
+        )
 
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
@@ -157,43 +167,42 @@ class TestNetJsonParser(TestCase):
 
     def test_parse_exception2(self):
         with self.assertRaises(ParserError):
-            NetJsonParser({
-                "type": "WRONG",
-                "protocol": "OLSR",
-                "version": "0.6.3",
-                "metric": "ETX",
-            })
+            NetJsonParser(
+                {
+                    "type": "WRONG",
+                    "protocol": "OLSR",
+                    "version": "0.6.3",
+                    "metric": "ETX",
+                }
+            )
 
     def test_parse_exception3(self):
         with self.assertRaises(ParserError):
-            NetJsonParser({
-                "type": "NetworkGraph",
-                "protocol": "OLSR",
-                "version": "0.6.3",
-                "metric": "ETX"
-            })
+            NetJsonParser(
+                {
+                    "type": "NetworkGraph",
+                    "protocol": "OLSR",
+                    "version": "0.6.3",
+                    "metric": "ETX",
+                }
+            )
 
     def test_parse_exception4(self):
         with self.assertRaises(ParserError):
-            NetJsonParser({
-                "type": "NetworkGraph",
-                "protocol": "OLSR",
-                "version": "0.6.3",
-                "metric": "ETX",
-                "nodes": [
-                    {"id": "10.150.0.3"},
-                    {"id": "10.150.0.2"},
-                    {"id": "10.150.0.4"}
-                ],
-                "links": [
-                    {
-                        "wrong": "10.150.0.3",
-                    },
-                    {
-                        "wrong": "10.150.0.3",
-                    }
-                ]
-            })
+            NetJsonParser(
+                {
+                    "type": "NetworkGraph",
+                    "protocol": "OLSR",
+                    "version": "0.6.3",
+                    "metric": "ETX",
+                    "nodes": [
+                        {"id": "10.150.0.3"},
+                        {"id": "10.150.0.2"},
+                        {"id": "10.150.0.4"},
+                    ],
+                    "links": [{"wrong": "10.150.0.3"}, {"wrong": "10.150.0.3"}],
+                }
+            )
 
     def test_json_dict(self):
         p = NetJsonParser(links2)

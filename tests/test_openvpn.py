@@ -13,7 +13,6 @@ links5_tap = open('{0}/static/openvpn-5-links-tap.txt'.format(CURRENT_DIR)).read
 
 
 class TestOpenvpnParser(TestCase):
-
     def test_parse(self):
         p = OpenvpnParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)

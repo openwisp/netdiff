@@ -29,10 +29,12 @@ class NetJsonParser(BaseParser):
 
         # create graph
         for node in data['nodes']:
-            graph.add_node(node['id'],
-                           label=node['label'] if 'label' in node else None,
-                           local_addresses=node.get('local_addresses', []),
-                           **node.get('properties', {}))
+            graph.add_node(
+                node['id'],
+                label=node['label'] if 'label' in node else None,
+                local_addresses=node.get('local_addresses', []),
+                **node.get('properties', {})
+            )
         for link in data['links']:
             try:
                 source = link["source"]

@@ -5,6 +5,7 @@ __all__ = ['TestCase']
 
 class TestCase(unittest.TestCase):
     """ netdiff TestCase """
+
     def _test_expected_links(self, graph, expected_links):
         """
         Ensures the contents of links is the same of expected_links,

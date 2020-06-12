@@ -15,31 +15,33 @@ class TestUtils(TestCase):
         See issue 36:
         https://github.com/ninuxorg/netdiff/issues/36
         """
-        old = NetJsonParser({
-            "type": "NetworkGraph",
-            "protocol": "OLSR",
-            "version": "0.6.6",
-            "revision": "5031a799fcbe17f61d57e387bc3806de",
-            "metric": "ETX",
-            "nodes": [
-                {
-                    "id": "10.150.0.3",
-                    "local_addresses": ["192.168.1.3"],
-                    "properties": {"hostname": "router.3nnx"}
-                },
-                {
-                    "id": "10.150.0.2",
-                    "local_addresses": ["192.168.1.2"],
-                    "properties": {"hostname": "router2.nnx"}
-                },
-                {
-                    "id": "10.150.0.4",
-                    "local_addresses": ["192.168.1.3"],
-                    "properties": {"hostname": "router4.nnx"}
-                }
-            ],
-            "links": []
-        })
+        old = NetJsonParser(
+            {
+                "type": "NetworkGraph",
+                "protocol": "OLSR",
+                "version": "0.6.6",
+                "revision": "5031a799fcbe17f61d57e387bc3806de",
+                "metric": "ETX",
+                "nodes": [
+                    {
+                        "id": "10.150.0.3",
+                        "local_addresses": ["192.168.1.3"],
+                        "properties": {"hostname": "router.3nnx"},
+                    },
+                    {
+                        "id": "10.150.0.2",
+                        "local_addresses": ["192.168.1.2"],
+                        "properties": {"hostname": "router2.nnx"},
+                    },
+                    {
+                        "id": "10.150.0.4",
+                        "local_addresses": ["192.168.1.3"],
+                        "properties": {"hostname": "router4.nnx"},
+                    },
+                ],
+                "links": [],
+            }
+        )
         new = NetJsonParser(links2)
         result = diff(old, new)
         self.assertIsNone(result['removed'])
@@ -53,32 +55,28 @@ class TestUtils(TestCase):
         See issue 36:
         https://github.com/ninuxorg/netdiff/issues/36
         """
-        old = NetJsonParser({
-            "type": "NetworkGraph",
-            "protocol": "OLSR",
-            "version": "0.6.6",
-            "revision": "5031a799fcbe17f61d57e387bc3806de",
-            "metric": "ETX",
-            "nodes": [
-                {"id": "10.150.0.3"},
-                {"id": "10.150.0.2"}
-            ],
-            "links": [
-                {"source": "10.150.0.3", "target": "10.150.0.2", "cost": 1}
-            ]
-        })
-        new = NetJsonParser({
-            "type": "NetworkGraph",
-            "protocol": "OLSR",
-            "version": "0.6.6",
-            "revision": "5031a799fcbe17f61d57e387bc3806de",
-            "metric": "ETX",
-            "nodes": [
-                {"id": "10.150.0.3"},
-                {"id": "10.150.0.2"}
-            ],
-            "links": []
-        })
+        old = NetJsonParser(
+            {
+                "type": "NetworkGraph",
+                "protocol": "OLSR",
+                "version": "0.6.6",
+                "revision": "5031a799fcbe17f61d57e387bc3806de",
+                "metric": "ETX",
+                "nodes": [{"id": "10.150.0.3"}, {"id": "10.150.0.2"}],
+                "links": [{"source": "10.150.0.3", "target": "10.150.0.2", "cost": 1}],
+            }
+        )
+        new = NetJsonParser(
+            {
+                "type": "NetworkGraph",
+                "protocol": "OLSR",
+                "version": "0.6.6",
+                "revision": "5031a799fcbe17f61d57e387bc3806de",
+                "metric": "ETX",
+                "nodes": [{"id": "10.150.0.3"}, {"id": "10.150.0.2"}],
+                "links": [],
+            }
+        )
         result = diff(old, new)
         self.assertIsNone(result['changed'])
         self.assertIsNone(result['added'])

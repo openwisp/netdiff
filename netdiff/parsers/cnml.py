@@ -13,6 +13,7 @@ except ImportError:
 
 class CnmlParser(BaseParser):
     """ CNML 0.1 parser """
+
     protocol = 'static'
     version = None
     metric = None

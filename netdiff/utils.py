@@ -21,31 +21,36 @@ def diff(old, new):
     # create netjson objects
     # or assign None if no changes
     if added_nodes.nodes() or added_edges.edges():
-        added = _netjson_networkgraph(protocol, version, revision, metric,
-                                      added_nodes.nodes(data=True),
-                                      added_edges.edges(data=True),
-                                      dict=True)
+        added = _netjson_networkgraph(
+            protocol,
+            version,
+            revision,
+            metric,
+            added_nodes.nodes(data=True),
+            added_edges.edges(data=True),
+            dict=True,
+        )
     else:
         added = None
     if removed_nodes.nodes() or removed_edges.edges():
-        removed = _netjson_networkgraph(protocol, version, revision, metric,
-                                        removed_nodes.nodes(data=True),
-                                        removed_edges.edges(data=True),
-                                        dict=True)
+        removed = _netjson_networkgraph(
+            protocol,
+            version,
+            revision,
+            metric,
+            removed_nodes.nodes(data=True),
+            removed_edges.edges(data=True),
+            dict=True,
+        )
     else:
         removed = None
     if changed_edges:
-        changed = _netjson_networkgraph(protocol, version, revision, metric,
-                                        [],
-                                        changed_edges,
-                                        dict=True)
+        changed = _netjson_networkgraph(
+            protocol, version, revision, metric, [], changed_edges, dict=True
+        )
     else:
         changed = None
-    return OrderedDict((
-        ('added', added),
-        ('removed', removed),
-        ('changed', changed)
-    ))
+    return OrderedDict((('added', added), ('removed', removed), ('changed', changed)))
 
 
 def _make_diff(old, new, both):
@@ -119,9 +124,9 @@ def _find_changed(old, new, both):
     return changed
 
 
-def _netjson_networkgraph(protocol, version, revision, metric,
-                          nodes, links,
-                          dict=False, **kwargs):
+def _netjson_networkgraph(
+    protocol, version, revision, metric, nodes, links, dict=False, **kwargs
+):
     # netjson format validity check
     if protocol is None:
         raise NetJsonError('protocol cannot be None')
@@ -151,24 +156,24 @@ def _netjson_networkgraph(protocol, version, revision, metric,
         # must copy properties dict to avoid modifying data
         properties = link[2].copy()
         cost = properties.pop('weight')
-        netjson_link = OrderedDict((
-            ('source', link[0]),
-            ('target', link[1]),
-            ('cost', cost)
-        ))
+        netjson_link = OrderedDict(
+            (('source', link[0]), ('target', link[1]), ('cost', cost))
+        )
         # append properties only if not empty
         if properties:
             netjson_link['properties'] = properties
         link_list.append(netjson_link)
-    data = OrderedDict((
-        ('type', 'NetworkGraph'),
-        ('protocol', protocol),
-        ('version', version),
-        ('revision', revision),
-        ('metric', metric),
-        ('nodes', node_list),
-        ('links', link_list)
-    ))
+    data = OrderedDict(
+        (
+            ('type', 'NetworkGraph'),
+            ('protocol', protocol),
+            ('version', version),
+            ('revision', revision),
+            ('metric', metric),
+            ('nodes', node_list),
+            ('links', link_list),
+        )
+    )
     if dict:
         return data
     return json.dumps(data, **kwargs)

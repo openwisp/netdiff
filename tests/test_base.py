@@ -39,15 +39,17 @@ class TestBaseParser(unittest.TestCase):
 
     @responses.activate
     def test_parse_http(self):
-        responses.add(responses.GET, 'http://localhost:9090',
-                      body=self._load_contents('tests/static/olsr-2-links.json'))
+        responses.add(
+            responses.GET,
+            'http://localhost:9090',
+            body=self._load_contents('tests/static/olsr-2-links.json'),
+        )
         p = BaseParser(url='http://localhost:9090')
         self.assertIsInstance(p.original_data, dict)
 
     @responses.activate
     def test_topology_retrieval_error_http_404(self):
-        responses.add(responses.GET, 'http://404.com',
-                      body='not found', status=404)
+        responses.add(responses.GET, 'http://404.com', body='not found', status=404)
         with self.assertRaises(TopologyRetrievalError):
             BaseParser(url='http://404.com')
 
@@ -55,8 +57,10 @@ class TestBaseParser(unittest.TestCase):
     def test_topology_retrieval_error_http(self):
         def request_callback(request):
             raise ConnectionError('test exception')
-        responses.add_callback(responses.GET, 'http://connectionerror.com',
-                               callback=request_callback)
+
+        responses.add_callback(
+            responses.GET, 'http://connectionerror.com', callback=request_callback
+        )
         with self.assertRaises(TopologyRetrievalError):
             BaseParser(url='http://connectionerror.com')
 
@@ -96,6 +100,7 @@ class TestBaseParser(unittest.TestCase):
     def test_parse_not_implemented(self):
         class MyParser(BaseParser):
             pass
+
         with self.assertRaises(NotImplementedError):
             MyParser(data='{}')
 

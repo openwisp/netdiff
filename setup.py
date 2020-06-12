@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 # avoid networkx ImportError
 sys.path.insert(0, 'netdiff')
 from info import get_version
+
 sys.path.remove('netdiff')
 
 
@@ -14,6 +15,7 @@ if sys.argv[-1] == 'setup.py':
 
 if sys.argv[-1] == 'publish':
     import os
+
     os.system('find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf')
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload -s dist/*")
@@ -32,7 +34,12 @@ def get_install_requires():
     requirements = []
     for line in open('requirements.txt').readlines():
         # skip to next iteration if comment or empty line
-        if line.startswith('#') or line == '' or line.startswith('http') or line.startswith('git'):
+        if (
+            line.startswith('#')
+            or line == ''
+            or line.startswith('http')
+            or line.startswith('git')
+        ):
             continue
         # add line to requirements
         requirements.append(line.replace('\n', ''))
@@ -43,19 +50,14 @@ setup(
     name='netdiff',
     version=get_version(),
     description="Python library for parsing network topology data (eg: dynamic "
-                "routing protocols, NetJSON, CNML) and detect changes.",
+    "routing protocols, NetJSON, CNML) and detect changes.",
     long_description=open('README.rst').read(),
     author='Federico Capoano (nemesisdesign)',
     author_email='ninux-dev@ml.ninux.org',
     license='MIT',
     url='https://github.com/ninuxorg/netdiff',
     download_url='https://github.com/ninuxorg/netdiff/releases',
-    keywords=['networking',
-              'mesh-network',
-              'netjson',
-              'olsr',
-              'batman',
-              'bmx'],
+    keywords=['networking', 'mesh-network', 'netjson', 'olsr', 'batman', 'bmx'],
     platforms=['Platform Indipendent'],
     packages=find_packages(exclude=['tests', 'tests.*', 'docs', 'docs.*']),
     zip_safe=False,
@@ -70,5 +72,5 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     install_requires=get_install_requires(),
-    test_suite='nose2.collector'
+    test_suite='nose2.collector',
 )

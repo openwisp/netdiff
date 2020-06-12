@@ -14,7 +14,7 @@ install:
   - pip install -r requirements-test.txt
 
 before_script:
-  - openwisp-utils-qa-checks --skip-checkmigrations --skip-checkmakemigrations
+  - openwisp-qa-check --skip-checkmigrations --skip-checkmakemigrations
 
 script:
   - nose2 --with-coverage --coverage=netdiff
