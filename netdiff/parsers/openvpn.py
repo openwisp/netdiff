@@ -61,10 +61,12 @@ class OpenvpnParser(BaseParser):
             ]
             if local_addresses:
                 client_properties['local_addresses'] = local_addresses
-            graph.add_node(str(client.real_address.host), **client_properties)
+            node_id = '{}:{}'.format(client.real_address.host, client.real_address.port)
+            graph.add_node(node_id, **client_properties)
         # add links in routing table to graph
         for link in links:
             if link.common_name == 'UNDEF':
                 continue
-            graph.add_edge(server, str(link.real_address.host), weight=1)
+            target_id = '{}:{}'.format(link.real_address.host, link.real_address.port)
+            graph.add_edge(server, str(target_id), weight=1)
         return graph

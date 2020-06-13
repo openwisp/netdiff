@@ -10,6 +10,7 @@ CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/openvpn-2-links.txt'.format(CURRENT_DIR)).read()
 links2undef = open('{0}/static/openvpn-2-links-undef.txt'.format(CURRENT_DIR)).read()
 links5_tap = open('{0}/static/openvpn-5-links-tap.txt'.format(CURRENT_DIR)).read()
+bug = open('{0}/static/openvpn-bug.txt'.format(CURRENT_DIR)).read()
 
 
 class TestOpenvpnParser(TestCase):
@@ -101,3 +102,40 @@ class TestOpenvpnParser(TestCase):
         self.assertIn('nodeC', labels)
         self.assertIn('nodeD', labels)
         self.assertIn('nodeE', labels)
+
+    def test_parse_bug(self):
+        p = OpenvpnParser(bug)
+        data = p.json(dict=True)
+        self.assertIsInstance(p.graph, networkx.Graph)
+
+        with self.subTest('Count nodes and links'):
+            self.assertEqual(len(data['nodes']), 7)
+            self.assertEqual(len(data['links']), 6)
+
+        labels = []
+        for node in data['nodes']:
+            if 'label' in node:
+                labels.append(node['label'])
+        expected = [
+            '60C5A8FFFE74CB6D',
+            '60c5a8fffe77606b',
+            '58a0cbeffe0176d4',
+            '60c5a8fffe77607a',
+            '60c5a8fffe77607a',
+            '58a0cbeffe0156b0',
+        ]
+        with self.subTest('Check contents of nodes'):
+            self.assertEqual(expected, labels)
+
+        targets = []
+        for link in data['links']:
+            targets.append(link['target'])
+        expected = [
+            '194.183.10.51:49794',
+            '185.211.160.87:53356',
+            '195.94.160.52:20086',
+            '185.211.160.5:56114',
+            '194.183.10.51:60003',
+            '217.72.97.67:59908',
+        ]
+        self.assertEqual(expected, targets)
