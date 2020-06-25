@@ -1,0 +1,52 @@
+{
+    "type": "NetworkGraph",
+    "protocol": "OLSR",
+    "version": "0.6.6",
+    "revision": "5031a799fcbe17f61d57e387bc3806de",
+    "metric": "ETX",
+    "nodes": [
+        {
+            "id": "10.150.0.3",
+            "label": "nodeA2",
+            "properties": {
+                "hostname": "router.2nnx",
+                "contact": "me@project.com",
+                "input_octets": 85331213,
+                "output_octets": 4358710
+            }
+        },
+        {
+            "id": "10.150.0.2"
+        },
+        {
+            "id": "10.150.0.4",
+            "local_addresses": [
+                "192.168.1.3"
+            ],
+            "properties": {
+                "hostname": "router4.nnx"
+            }
+        },
+        {
+            "id": "10.150.0.5",
+            "label": "node5"
+        }
+    ],
+    "links": [
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.2",
+            "cost": 28334,
+            "cost_text": "Fast link",
+            "properties": {
+                "custom_property": true,
+                "foo": "bar"
+            }
+        },
+        {
+            "source": "10.150.0.3",
+            "target": "10.150.0.4",
+            "cost": 1048
+        }
+    ]
+}

@@ -9,6 +9,8 @@ from netdiff.tests import TestCase
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/netjson-2-links.json'.format(CURRENT_DIR)).read()
 links3 = open('{0}/static/netjson-3-links.json'.format(CURRENT_DIR)).read()
+nodes1 = open('{0}/static/netjson-nodes-1.json'.format(CURRENT_DIR)).read()
+nodes2 = open('{0}/static/netjson-nodes-2.json'.format(CURRENT_DIR)).read()
 
 
 class TestNetJsonParser(TestCase):
@@ -230,9 +232,10 @@ class TestNetJsonParser(TestCase):
         for node in data['nodes']:
             if 'label' in node:
                 labels.append(node['label'])
-        self.assertEqual(len(labels), 2)
+        self.assertEqual(len(labels), 3)
         self.assertIn('nodeA', labels)
         self.assertIn('nodeB', labels)
+        self.assertIn('', labels)
 
     def test_json_string(self):
         p = NetJsonParser(links2)
@@ -272,8 +275,10 @@ class TestNetJsonParser(TestCase):
         # ensure correct node added
         self.assertIn('10.150.0.5', result['added']['nodes'][0].values())
         # ensure changed value is correct
-        self.assertIn('10.150.0.3', result['changed']['links'][0].values())
-        self.assertEqual(result['changed']['links'][0]['cost'], 1048)
+        link = result['changed']['links'][1]
+        self.assertEqual(link['source'], '10.150.0.3')
+        self.assertEqual(link['target'], '10.150.0.4')
+        self.assertEqual(link['cost'], 1048)
 
     def test_removed_1_link(self):
         old = NetJsonParser(links3)
@@ -291,3 +296,66 @@ class TestNetJsonParser(TestCase):
         self.assertIn('10.150.0.4', result['removed']['links'][0].values())
         # ensure correct node added
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
+
+    def test_added_1_node(self):
+        old = NetJsonParser(nodes1)
+        new = NetJsonParser(nodes2)
+        result = diff(old, new)
+        self.assertIsNone(result['removed'])
+        self.assertIsInstance(result, dict)
+        # ensure node addedly added with properties
+        self.assertEqual(len(result['added']['nodes']), 1)
+        node = result['added']['nodes'][0]
+        self.assertEqual(node['id'], '10.150.0.5')
+        self.assertEqual(node['label'], 'node5')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+        self.assertIn('10.150.0.5', result['added']['nodes'][0].values())
+
+    def test_changed_3_nodes(self):
+        old = NetJsonParser(nodes1)
+        new = NetJsonParser(nodes2)
+        result = diff(old, new)
+        # nodes whose properties have changed
+        self.assertEqual(len(result['changed']['nodes']), 3)
+        node = result['changed']['nodes'][0]
+        self.assertEqual(node['id'], '10.150.0.2')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+        node = result['changed']['nodes'][1]
+        self.assertEqual(node['id'], '10.150.0.3')
+        self.assertEqual(node['label'], 'nodeA2')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(
+            node['properties'],
+            {
+                'hostname': 'router.2nnx',
+                'contact': 'me@project.com',
+                'input_octets': 85331213,
+                'output_octets': 4358710,
+            },
+        )
+        node = result['changed']['nodes'][2]
+        self.assertEqual(node['id'], '10.150.0.4')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], ['192.168.1.3'])
+        self.assertEqual(node['properties'], {'hostname': 'router4.nnx'})
+
+    def test_changed_2_links(self):
+        old = NetJsonParser(nodes1)
+        new = NetJsonParser(nodes2)
+        result = diff(old, new)
+        self.assertEqual(len(result['changed']['links']), 2)
+        link = result['changed']['links'][0]
+        self.assertEqual(link['source'], '10.150.0.3')
+        self.assertEqual(link['target'], '10.150.0.2')
+        self.assertEqual(link['cost'], 28334)
+        self.assertEqual(link['cost_text'], 'Fast link')
+        self.assertEqual(link['properties'], {"custom_property": True, "foo": "bar"})
+        link = result['changed']['links'][1]
+        self.assertEqual(link['source'], '10.150.0.3')
+        self.assertEqual(link['target'], '10.150.0.4')
+        self.assertEqual(link['cost'], 1048)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(link['properties'], {})

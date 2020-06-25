@@ -96,8 +96,7 @@ class TestOlsrTxtinfoParser(TestCase):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
         result = diff(old, new)
-        self.assertIsNone(result['removed'])
-        self.assertIsNone(result['changed'])
+        self.assertEqual(result['changed']['links'], [])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
         self.assertEqual(len(result['added']['nodes']), 1)
@@ -112,7 +111,7 @@ class TestOlsrTxtinfoParser(TestCase):
         new = OlsrParser(links3)
         result = new - old
         self.assertIsNone(result['removed'])
-        self.assertIsNone(result['changed'])
+        self.assertEqual(result['changed']['links'], [])
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 1)
         self.assertEqual(len(result['added']['nodes']), 1)
@@ -127,7 +126,7 @@ class TestOlsrTxtinfoParser(TestCase):
         new = OlsrParser(links2)
         result = diff(old, new)
         self.assertIsNone(result['added'])
-        self.assertIsNone(result['changed'])
+        self.assertEqual(result['changed']['links'], [])
         self.assertIsInstance(result, dict)
         self.assertTrue(type(result['removed']['links']) is list)
         # ensure there are differences
@@ -139,11 +138,42 @@ class TestOlsrTxtinfoParser(TestCase):
         # ensure correct node removed
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
+    def test_changed_3_nodes(self):
+        old = OlsrParser(links2)
+        new = OlsrParser(links2_cost)
+        result = diff(old, new)
+        self.assertIsInstance(result['changed'], dict)
+        self.assertEqual(len(result['changed']['nodes']), 3)
+        node = result['changed']['nodes'][0]
+        self.assertEqual(node['id'], '10.150.0.2')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+        node = result['changed']['nodes'][1]
+        self.assertEqual(node['id'], '10.150.0.3')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+        node = result['changed']['nodes'][2]
+        self.assertEqual(node['id'], '10.150.0.4')
+        self.assertEqual(node['label'], '')
+        self.assertEqual(node['local_addresses'], [])
+        self.assertEqual(node['properties'], {})
+
     def test_simple_diff(self):
         old = OlsrParser(links3)
         new = OlsrParser(links5)
         result = diff(old, new)
-        self.assertIsNone(result['changed'])
+        self.assertEqual(result['changed']['nodes'], [])
+        self.assertEqual(len(result['changed']['links']), 1)
+        link = result['changed']['links'][0]
+        self.assertEqual(link['source'], '10.150.0.3')
+        self.assertEqual(link['target'], '10.150.0.2')
+        self.assertEqual(link['cost'], 27.669)
+        self.assertEqual(link['cost_text'], '')
+        self.assertEqual(
+            link['properties'], {'neighbor_link_quality': 0.184, 'link_quality': 0.195}
+        )
         # ensure there are differences
         self.assertEqual(len(result['added']['links']), 3)
         self.assertEqual(len(result['removed']['links']), 1)
@@ -169,10 +199,8 @@ class TestOlsrTxtinfoParser(TestCase):
     def test_cost(self):
         parser = OlsrParser(links2)
         graph = parser.json(dict=True)
-        a = graph['links'][0]['cost']
-        b = graph['links'][1]['cost']
-        self.assertIn(27.669, [a, b])
-        self.assertIn(1.0, [a, b])
+        self.assertEqual(27.669, graph['links'][0]['cost'])
+        self.assertEqual(1.0, graph['links'][1]['cost'])
 
     def test_diff_format(self):
         old = OlsrParser(links3)
@@ -194,6 +222,14 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertEqual(data['metric'], 'ETX')
         self.assertIsInstance(data['nodes'], list)
         self.assertIsInstance(data['links'], list)
+        data = result['changed']
+        self.assertEqual(data['type'], 'NetworkGraph')
+        self.assertEqual(data['protocol'], 'OLSR')
+        self.assertEqual(data['version'], '0.8')
+        self.assertEqual(data['revision'], None)
+        self.assertEqual(data['metric'], 'ETX')
+        self.assertIsInstance(data['nodes'], list)
+        self.assertIsInstance(data['links'], list)
 
     def test_cost_changes_1(self):
         old = OlsrParser(links2)
@@ -202,13 +238,13 @@ class TestOlsrTxtinfoParser(TestCase):
         self.assertIsNone(result['added'])
         self.assertIsNone(result['removed'])
         self.assertIsInstance(result['changed'], dict)
-        self.assertEqual(len(result['changed']['nodes']), 0)
+        self.assertEqual(len(result['changed']['nodes']), 3)
+        self.assertIsInstance(result['changed']['links'], list)
+        self.assertEqual(len(result['changed']['links']), 2)
         links = result['changed']['links']
-        self.assertTrue(type(links) is list)
-        self.assertEqual(len(links), 2)
         # ensure results are correct
-        self.assertTrue(1.302 in (links[0]['cost'], links[1]['cost']))
-        self.assertTrue(1.023 in (links[0]['cost'], links[1]['cost']))
+        self.assertTrue(links[0]['cost'], 1.302)
+        self.assertTrue(links[1]['cost'], 1.023)
 
     def test_link_with_infinite_cost(self):
         data = """Table: Topology
