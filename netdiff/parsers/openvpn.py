@@ -40,14 +40,23 @@ class OpenvpnParser(BaseParser):
         else:
             clients = data.client_list.values()
             links = data.routing_table.values()
+        real_addresses = []
+        special_cases = []
+        for client in clients:
+            address = client.real_address
+            if address.host in real_addresses:
+                special_cases.append(address.host)
+                continue
+            real_addresses.append(address.host)
         # add clients in graph as nodes
         for client in clients:
             if client.common_name == 'UNDEF':
                 continue
+            address = client.real_address
             client_properties = {
                 'label': client.common_name,
-                'real_address': str(client.real_address.host),
-                'port': int(client.real_address.port),
+                'real_address': str(address.host),
+                'port': int(address.port),
                 'connected_since': client.connected_since.strftime(
                     '%Y-%m-%dT%H:%M:%SZ'
                 ),
@@ -57,16 +66,25 @@ class OpenvpnParser(BaseParser):
             local_addresses = [
                 str(route.virtual_address)
                 for route in data.routing_table.values()
-                if route.real_address == client.real_address
+                if route.real_address == address
             ]
             if local_addresses:
                 client_properties['local_addresses'] = local_addresses
-            node_id = '{}:{}'.format(client.real_address.host, client.real_address.port)
+            # use host:port as node ID only when
+            # there are more nodes with the same address
+            if address.host in special_cases:
+                node_id = '{}:{}'.format(address.host, address.port)
+            else:
+                node_id = str(address.host)
             graph.add_node(node_id, **client_properties)
         # add links in routing table to graph
         for link in links:
             if link.common_name == 'UNDEF':
                 continue
-            target_id = '{}:{}'.format(link.real_address.host, link.real_address.port)
+            address = link.real_address
+            if address.host in special_cases:
+                target_id = '{}:{}'.format(address.host, address.port)
+            else:
+                target_id = str(address.host)
             graph.add_edge(server, str(target_id), weight=1)
         return graph

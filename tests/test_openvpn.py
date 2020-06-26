@@ -133,11 +133,11 @@ class TestOpenvpnParser(TestCase):
         for link in data['links']:
             targets.append(link['target'])
         expected = [
-            '185.211.160.5:56114',
-            '185.211.160.87:53356',
+            '185.211.160.5',
+            '185.211.160.87',
             '194.183.10.51:49794',
             '194.183.10.51:60003',
-            '195.94.160.52:20086',
-            '217.72.97.67:59908',
+            '195.94.160.52',
+            '217.72.97.67',
         ]
         self.assertEqual(expected, targets)
