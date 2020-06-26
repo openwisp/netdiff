@@ -117,7 +117,7 @@ The output will be an ordered dictionary with three keys:
 * removed
 * changed
 
-Each key will contain a dict compatible with the `NetJSON NetworkGraph format`_
+Each key will contain a dict compatible with the `NetJSON NetworkGraph`_ format
 representing respectively:
 
 * the nodes and links that have been added to the topology
@@ -239,7 +239,7 @@ The available parsers are:
   (supports also the legacy txtinfo format inherited from olsrd)
 * ``netdiff.Bmx6Parser``: parser for the BMX6 `b6m tool <http://dev.qmp.cat/projects/b6m>`_
 * ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://en.wiki.guifi.net/wiki/CNML>`_
-* ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph format`_
+* ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph`_ format
 * ``netdiff.OpenvpnParser``: parser for the `OpenVPN status file <https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage>`_
 
 Initialization arguments
@@ -293,7 +293,7 @@ HTTPS example with self-signed SSL certificate using ``verify=False``:
 NetJSON output
 --------------
 
-Netdiff parsers can return a valid `NetJSON`_ ``NetworkGraph`` object:
+Netdiff parsers can return a valid `NetJSON NetworkGraph`_ object:
 
 .. code-block:: python
 
@@ -379,7 +379,7 @@ NetJsonError
 ``netdiff.exceptions.NetJsonError``
 
 Raised when the ``json`` method of ``netdiff.parsers.BaseParser`` does not have enough data
-to be compliant with the `NetJSON NetworkGraph format`_ specification.
+to be compliant with the `NetJSON NetworkGraph`_ specification.
 
 TopologyRetrievalError
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -467,4 +467,4 @@ License
 
 See `LICENSE <https://github.com/openwisp/netdiff/blob/master/LICENSE>`_.
 
-.. _`NetJSON NetworkGraph format`: http://netjson.org/rfc.html#rfc.section.4
+.. _`NetJSON NetworkGraph`: http://netjson.org/rfc.html#rfc.section.4
