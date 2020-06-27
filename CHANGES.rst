@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.8.0 [unreleased]
+Version 0.8.0 [21-06-2020]
 --------------------------
 
 - Fix: fixed parsing issue in OpenVPN which caused some node and links to
@@ -15,6 +15,8 @@ Version 0.8.0 [unreleased]
   slightly from the previous versions.
   Applications using previous netdiff versions will likely need minor adjustments
   to their code
+- Documentation Improvements
+- Added support for openwisp-utils~=0.5.0
 
 Version 0.7.0 [15-01-2020]
 --------------------------
