@@ -40,14 +40,14 @@ class OpenvpnParser(BaseParser):
         else:
             clients = data.client_list.values()
             links = data.routing_table.values()
-        real_addresses = []
+        id_list = []
         special_cases = []
         for client in clients:
-            address = client.real_address
-            if address.host in real_addresses:
-                special_cases.append(address.host)
+            id_ = f'{client.common_name},{client.real_address.host}'
+            if id_ in id_list:
+                special_cases.append(id_)
                 continue
-            real_addresses.append(address.host)
+            id_list.append(id_)
         # add clients in graph as nodes
         for client in clients:
             if client.common_name == 'UNDEF':
@@ -70,21 +70,19 @@ class OpenvpnParser(BaseParser):
             ]
             if local_addresses:
                 client_properties['local_addresses'] = local_addresses
-            # use host:port as node ID only when
-            # there are more nodes with the same address
-            if address.host in special_cases:
-                node_id = '{}:{}'.format(address.host, address.port)
-            else:
-                node_id = str(address.host)
+            # if there are multiple nodes with the same common name
+            # and host address, add the port to the node ID
+            node_id = f'{client.common_name},{address.host}'
+            if node_id in special_cases:
+                node_id = f'{node_id}:{address.port}'
             graph.add_node(node_id, **client_properties)
         # add links in routing table to graph
         for link in links:
             if link.common_name == 'UNDEF':
                 continue
             address = link.real_address
-            if address.host in special_cases:
-                target_id = '{}:{}'.format(address.host, address.port)
-            else:
-                target_id = str(address.host)
+            target_id = f'{link.common_name},{address.host}'
+            if target_id in special_cases:
+                target_id = f'{target_id}:{address.port}'
             graph.add_edge(server, str(target_id), weight=1)
         return graph
