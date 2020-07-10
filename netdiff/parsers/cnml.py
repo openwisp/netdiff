@@ -8,7 +8,7 @@ from .base import BaseParser
 try:
     import urlparse
 except ImportError:
-    import urllib.parse as urlparse
+    from urllib import parse as urlparse
 
 
 class CnmlParser(BaseParser):

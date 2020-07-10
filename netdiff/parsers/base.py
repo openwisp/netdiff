@@ -10,7 +10,7 @@ from ..utils import _netjson_networkgraph, diff
 try:
     import urlparse
 except ImportError:  # pragma: no cover
-    import urllib.parse as urlparse  # pragma: no cover
+    from urllib import parse as urlparse  # pragma: no cover
 
 
 class BaseParser(object):
