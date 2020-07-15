@@ -107,7 +107,7 @@ class TestOpenvpnParser(TestCase):
         self.assertIn('nodeE', labels)
 
     def test_parse_bug(self):
-        p = OpenvpnParser(bug)
+        p = OpenvpnParser(bug, duplicate_cn=True)
         data = p.json(dict=True)
         self.assertIsInstance(p.graph, networkx.Graph)
 
@@ -143,14 +143,51 @@ class TestOpenvpnParser(TestCase):
         }
         self.assertEqual(expected, set(targets))
 
-    def test_parse_special_case(self):
+    def test_parse_bug_duplicate_cn(self):
+        p = OpenvpnParser(bug, duplicate_cn=True)
+        data = p.json(dict=True)
+        self.assertIsInstance(p.graph, networkx.Graph)
+
+        with self.subTest('Count nodes and links'):
+            self.assertEqual(len(data['nodes']), 7)
+            self.assertEqual(len(data['links']), 6)
+
+        labels = []
+        for node in data['nodes']:
+            labels.append(node['label'])
+        expected = {
+            '60c5a8fffe77607a',
+            '60c5a8fffe77606b',
+            '60C5A8FFFE74CB6D',
+            '60c5a8fffe77607a',
+            '58a0cbeffe0176d4',
+            '58a0cbeffe0156b0',
+            '',
+        }
+        with self.subTest('Check contents of nodes'):
+            self.assertEqual(expected, set(labels))
+
+        targets = []
+        for link in data['links']:
+            targets.append(link['target'])
+        expected = {
+            '60c5a8fffe77607a,185.211.160.5',
+            '60c5a8fffe77606b,185.211.160.87',
+            '60C5A8FFFE74CB6D,194.183.10.51',
+            '60c5a8fffe77607a,194.183.10.51',
+            '58a0cbeffe0176d4,195.94.160.52',
+            '58a0cbeffe0156b0,217.72.97.67',
+        }
+        self.assertEqual(expected, set(targets))
+
+    def test_parse_special_case_duplicate_cn(self):
         """
         Tests behavior when the topology contains
         nodes that have the same common name and same address
         (it can happen when allowing reusing the same certificate
          and multiple clients are connected behind the same public IP)
         """
-        p = OpenvpnParser(special_case)
+        p = OpenvpnParser(special_case, duplicate_cn=True)
         data = p.json(dict=True)
         self.assertIsInstance(p.graph, networkx.Graph)
         with self.subTest('Count nodes and links'):
@@ -188,9 +225,10 @@ class TestOpenvpnParser(TestCase):
         id_list = []
         for node in result['added']['nodes']:
             id_list.append(node['id'])
+            self.assertEqual(node['id'], node['properties']['common_name'])
         self.assertEqual(len(id_list), 5)
-        self.assertIn('nodeA,2.226.154.66', id_list)
-        self.assertIn('nodeB,93.40.230.50', id_list)
-        self.assertIn('nodeC,95.250.161.57', id_list)
-        self.assertIn('nodeD,79.18.21.144', id_list)
-        self.assertIn('nodeE,87.3.36.166', id_list)
+        self.assertIn('nodeA', id_list)
+        self.assertIn('nodeB', id_list)
+        self.assertIn('nodeC', id_list)
+        self.assertIn('nodeD', id_list)
+        self.assertIn('nodeE', id_list)

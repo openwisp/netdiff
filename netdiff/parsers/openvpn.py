@@ -11,8 +11,13 @@ class OpenvpnParser(BaseParser):
     protocol = 'OpenVPN Status Log'
     version = '1'
     metric = 'static'
+    duplicate_cn = False
     # for internal use only
     _server_common_name = 'openvpn-server'
+
+    def __init__(self, *args, **kwargs):
+        self.duplicate_cn = kwargs.pop('duplicate_cn', OpenvpnParser.duplicate_cn)
+        super().__init__(*args, **kwargs)
 
     def to_python(self, data):
         if not data:
@@ -40,14 +45,7 @@ class OpenvpnParser(BaseParser):
         else:
             clients = data.client_list.values()
             links = data.routing_table.values()
-        id_list = []
-        special_cases = []
-        for client in clients:
-            id_ = f'{client.common_name},{client.real_address.host}'
-            if id_ in id_list:
-                special_cases.append(id_)
-                continue
-            id_list.append(id_)
+        special_cases = self._find_special_cases(clients)
         # add clients in graph as nodes
         for client in clients:
             if client.common_name == 'UNDEF':
@@ -62,6 +60,7 @@ class OpenvpnParser(BaseParser):
                 ),
                 'bytes_received': int(client.bytes_received),
                 'bytes_sent': int(client.bytes_sent),
+                'common_name': client.common_name,
             }
             local_addresses = [
                 str(route.virtual_address)
@@ -70,19 +69,57 @@ class OpenvpnParser(BaseParser):
             ]
             if local_addresses:
                 client_properties['local_addresses'] = local_addresses
-            # if there are multiple nodes with the same common name
-            # and host address, add the port to the node ID
-            node_id = f'{client.common_name},{address.host}'
-            if node_id in special_cases:
-                node_id = f'{node_id}:{address.port}'
+            node_id = self.get_node_id(client, special_cases)
             graph.add_node(node_id, **client_properties)
         # add links in routing table to graph
         for link in links:
             if link.common_name == 'UNDEF':
                 continue
-            address = link.real_address
-            target_id = f'{link.common_name},{address.host}'
-            if target_id in special_cases:
-                target_id = f'{target_id}:{address.port}'
+            target_id = self.get_target_id(link, special_cases)
             graph.add_edge(server, str(target_id), weight=1)
         return graph
+
+    def get_node_id(self, client, special_cases):
+        """
+        when duplicate_cn is True
+            if there are multiple nodes with the same common name
+            and host address, add the port to the node ID
+        when self.duplicate_cn is False:
+            just use the common_name as node ID
+        """
+        if not self.duplicate_cn:
+            return client.common_name
+        address = client.real_address
+        node_id = f'{client.common_name},{address.host}'
+        if node_id in special_cases:
+            node_id = f'{node_id}:{address.port}'
+        return node_id
+
+    def get_target_id(self, link, special_cases):
+        """
+        when duplicate_cn is True
+            if there are multiple nodes with the same common name
+            and host address, add the port to the target ID
+        when self.duplicate_cn is False:
+            just use the common_name as target ID
+        """
+        if not self.duplicate_cn:
+            return link.common_name
+        address = link.real_address
+        target_id = f'{link.common_name},{address.host}'
+        if target_id in special_cases:
+            target_id = f'{target_id}:{address.port}'
+        return target_id
+
+    def _find_special_cases(self, clients):
+        if not self.duplicate_cn:
+            return []
+        id_list = []
+        special_cases = []
+        for client in clients:
+            id_ = f'{client.common_name},{client.real_address.host}'
+            if id_ in id_list:
+                special_cases.append(id_)
+                continue
+            id_list.append(id_)
+        return special_cases

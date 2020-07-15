@@ -389,6 +389,27 @@ TopologyRetrievalError
 Raised when it is not possible to retrieve the topology data
 (eg: the URL might be temporary unreachable).
 
+Specialized features
+--------------------
+
+OpenVPN
+~~~~~~~
+
+By default, the OpenVPN parser uses the common name to identify a client,
+this was chosen because if the public IP address is used, the same client
+will not be recognized if it connects with a different IP address
+(very probable since many ISPs use dynamic public IP addresses).
+
+This does not work when the vpn server configuration allows different clients
+to use the same common name (which is generally not recommended anyway).
+
+If you need to support legacy systems which are configured with the OpenVPN
+``duplicate-cn`` feature enabled, you can pass ``duplicate_cn=True`` during
+the initialization of ``OpenvpnParser``.
+This will change the behavior of the parser so that each client is identified
+by their common name and IP address (and additionally the port used if there
+are multiple clients with same common name and IP).
+
 Known Issues
 ------------
 
