@@ -1,10 +1,13 @@
 Changelog
 =========
 
-Version 0.9.0 [unreleased]
+Version 0.9.0 [28-07-2020]
 --------------------------
 
-WIP
+- **Backward incompatible change for OpenVPN Parser**:
+  switched to use common name as netjson ID to avoid duplicate nodes when
+  multiple nodes are behind the same public IP, for more information
+  see `Specialized features: OpenVPN <https://github.com/openwisp/netdiff#openvpn>`_
 
 Version 0.8.0 [28-06-2020]
 --------------------------
