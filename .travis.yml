@@ -12,8 +12,6 @@ branches:
 install:
   - python setup.py develop
   - pip install -r requirements-test.txt
-  # TODO: remove when openwisp-utils with isort 5 is released
-  - pip install -U https://github.com/openwisp/openwisp-utils/tarball/master#egg=openwisp_utils[qa]
 
 before_script:
   - ./run-qa-checks
