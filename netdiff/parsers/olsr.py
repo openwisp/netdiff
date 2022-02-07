@@ -31,7 +31,10 @@ class OlsrParser(BaseParser):
             raise ParserError('Parse error, "mid" key not found')
 
         # determine version and revision
-        if 'config' in data:
+        if 'version' in data:
+            self.version = data['version']['releaseVersion']
+            self.revision = data['version']['sourceHash']
+        elif 'config' in data:
             version_info = data['config']['olsrdVersion'].replace(' ', '').split('-')
             self.version = version_info[1]
             # try to get only the git hash
@@ -43,7 +46,10 @@ class OlsrParser(BaseParser):
         alias_dict = {}
         for node in data['mid']:
             local_addresses = [alias['ipAddress'] for alias in node['aliases']]
-            alias_dict[node['ipAddress']] = local_addresses
+            if 'main' in node:
+                alias_dict[node['main']['ipAddress']] = local_addresses
+            else:
+                alias_dict[node['ipAddress']] = local_addresses
 
         # loop over topology section and create networkx graph
         for link in data['topology']:
