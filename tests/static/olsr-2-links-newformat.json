@@ -1,0 +1,193 @@
+{
+    "topology": [
+        {
+            "lastHopIP": "10.150.0.2",
+            "destinationIP": "10.150.0.3",
+            "linkQuality": 0.195,
+            "neighborLinkQuality": 0.184,
+            "tcEdgeCost": 28334,
+            "validityTime": 284572
+        },
+        {
+            "lastHopIP": "10.150.0.3",
+            "destinationIP": "10.150.0.4",
+            "linkQuality": 1.0,
+            "neighborLinkQuality": 1.0,
+            "tcEdgeCost": 1024,
+            "validityTime": 284572
+        }
+    ],
+    "mid": [
+        {
+            "main": {
+                "ipAddress": "10.150.0.2",
+                "validityTime": 286445
+            },
+            "aliases": [
+                {
+                    "ipAddress": "172.16.192.2",
+                    "validityTime": 286445
+                },
+                {
+                    "ipAddress": "192.168.0.2",
+                    "validityTime": 286445
+                }
+            ]
+        },
+        {
+            "main": {
+                "ipAddress": "10.150.0.3",
+                "validityTime": 286445
+            },
+            "aliases": [
+                {
+                    "ipAddress": "172.16.192.3",
+                    "validityTime": 286445
+                }
+            ]
+        },
+        {
+            "main": {
+                "ipAddress": "10.150.0.4",
+                "validityTime": 286445
+            },
+            "aliases": [
+                {
+                    "ipAddress": "172.16.192.4",
+                    "validityTime": 286445
+                }
+            ]
+        }
+    ],
+    "version": {
+        "version": "olsr.org - 0.6.6-git_0000000-hash_5031a799fcbe17f61d57e387bc3806de",
+        "gitDescriptor": "",
+        "gitSha": "0000000000000000000000000000000000000000",
+        "releaseVersion": "0.6.6",
+        "sourceHash": "5031a799fcbe17f61d57e387bc3806de"
+    },
+    "config": {
+        "olsrPort":698,
+        "debugLevel":0,
+        "noFork":false,
+        "pidFile": "",
+        "hostEmulation":false,
+        "ipVersion":2,
+        "allowNoInt": true,
+        "tosValue": 192,
+        "rtProto":3,
+        "rtTable": {
+            "main": 222,
+            "default": 223,
+            "tunnel": 223,
+            "priority": -1,
+            "tunnelPriority": -1,
+            "defaultOlsrPriority": -1,
+            "defaultPriority": -1
+        },
+        "willingness": {
+            "willingness": 3,
+            "auto": false,
+            "updateInterval": 20
+        },
+        "brokenLinkCost":4194304,
+        "brokenRouteCost":-1,
+        "fib": {
+            "metric": "flat",
+            "metricDefault": "approx"
+        },
+        "hna": [
+            {
+                "destination":"10.176.0.128",
+                "genmask":25,
+                "gateway":"10.0.1.77",
+                "validityTime": 0
+            }
+        ],
+        "interfaceDefaults": {
+            "ipv4Broadcast": "255.255.255.255",
+            "ipv6Multicast": "ff02::6d",
+            "ipv4Source": "0.0.0.0",
+            "ipv6Source": "0.0.0.0",
+            "ipv6SourcePrefixLength": 0,
+            "mode": "mesh",
+            "weightValue": 0,
+            "weightFixed": false,
+            "hello": {
+              "emissionInterval": 5,
+              "validityTime": 100
+            },
+            "tc": {
+              "emissionInterval": 3,
+              "validityTime": 500
+            },
+            "mid": {
+              "emissionInterval": 30,
+              "validityTime": 500
+            },
+            "hna": {
+              "emissionInterval": 30,
+              "validityTime": 500
+            },
+            "linkQualityMultipliers": [],
+            "linkQualityMultipliersCount": 0,
+            "autoDetectChanges": true
+        },
+        "ipcConnectMaxConnections": 0,
+        "ipcConnectAllowed": [],
+        "pollRate":50,
+        "nicChgsPollInt": 2.5,
+        "clearScreen":true,
+        "tcRedundancy":2,
+        "mprCoverage":7,
+        "linkQuality": {
+            "level": 2,
+            "fishEye": true,
+            "aging": 0.05,
+            "algorithm": "(null)"
+        },
+        "minTCVTime": 0,
+        "setIpForward":true,
+        "lockFile":"(null)",
+        "useNiit":false,
+        "smartGateway": {
+            "enabled": false
+        },
+        "mainIp":"10.0.1.77",
+        "unicastSourceIpAddress":"10.0.1.77",
+        "srcIpRoutes":false,
+        "maxPrefixLength":32,
+        "ipSize":4,
+        "delgw":false,
+        "maxSendMessageJitter":2.000,
+        "exitValue":0,
+        "maxTcValidTime":5000,
+        "niit4to6InterfaceIndex":0,
+        "niit6to4InterfaceIndex":0,
+        "hasIpv4Gateway":false,
+        "hasIpv6Gateway":false,
+        "ioctlSocket":3,
+        "routeNetlinkSocket":4,
+        "routeMonitorSocket":5,
+        "linkQualityNatThreshold":1.000,
+        "os":"GNU/Linux",
+        "startTime":1430048863
+    },
+    "plugins": [
+        {
+            "plugin": "olsrd_jsoninfo.so.1.1",
+            "parameters": {
+              "accept": "0.0.0.0",
+              "port": "9090"
+            }
+        },      
+        {
+            "plugin": "olsrd_txtinfo.so.0.1",
+            "parameters": {
+              "accept": "0.0.0.0"
+            }
+        }
+    ],
+    "systemTime":1430572557,
+    "timeSinceStartup":523790030
+}
