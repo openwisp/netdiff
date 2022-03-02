@@ -6,11 +6,11 @@ netdiff
    :alt: CI build status
 
 .. image:: https://coveralls.io/repos/openwisp/netdiff/badge.svg
-  :target: https://coveralls.io/r/openwisp/netdiff
+   :target: https://coveralls.io/r/openwisp/netdiff
 
-.. image:: https://requires.io/github/openwisp/netdiff/requirements.svg?branch=master
-   :target: https://requires.io/github/openwisp/netdiff/requirements/?branch=master
-   :alt: Requirements Status
+.. image:: https://img.shields.io/librariesio/release/github/openwisp/netdiff
+   :target: https://libraries.io/github/openwisp/netdiff#repository_dependencies
+   :alt: Dependency monitoring
 
 .. image:: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square
    :target: https://gitter.im/openwisp/general
