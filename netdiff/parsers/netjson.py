@@ -3,7 +3,7 @@ from .base import BaseParser
 
 
 class NetJsonParser(BaseParser):
-    """ NetJSON (0.1) parser """
+    """NetJSON (0.1) parser"""
 
     def parse(self, data):
         """

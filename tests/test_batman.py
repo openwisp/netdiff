@@ -13,7 +13,7 @@ duplicated = open('{0}/static/batman-duplicated.json'.format(CURRENT_DIR)).read(
 
 
 class TestBatmanParser(TestCase):
-    """ tests for BatmanParser """
+    """tests for BatmanParser"""
 
     def test_parse(self):
         p = BatmanParser(iulinet)

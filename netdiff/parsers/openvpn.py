@@ -6,7 +6,7 @@ from .base import BaseParser
 
 
 class OpenvpnParser(BaseParser):
-    """ OpenVPN status log parser """
+    """OpenVPN status log parser"""
 
     protocol = 'OpenVPN Status Log'
     version = '1'

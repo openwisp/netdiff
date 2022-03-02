@@ -3,7 +3,7 @@ from .base import BaseParser
 
 
 class BatmanParser(BaseParser):
-    """ batman-adv parser """
+    """batman-adv parser"""
 
     protocol = 'batman-adv'
     version = '2015.0'

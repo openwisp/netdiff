@@ -3,7 +3,7 @@ from .base import BaseParser
 
 
 class OlsrParser(BaseParser):
-    """ OLSR 1 jsoninfo parser """
+    """OLSR 1 jsoninfo parser"""
 
     protocol = 'OLSR'
     version = '0.8'

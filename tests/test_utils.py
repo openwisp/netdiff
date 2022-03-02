@@ -8,7 +8,7 @@ links2 = open('{0}/static/netjson-2-links.json'.format(CURRENT_DIR)).read()
 
 
 class TestUtils(TestCase):
-    """ tests for netdiff.utils """
+    """tests for netdiff.utils"""
 
     def test_same_nodes_but_added_links(self):
         """

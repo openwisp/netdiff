@@ -17,7 +17,7 @@ except ImportError:
 
 
 class TestBaseParser(unittest.TestCase):
-    """ BaseParser tests """
+    """BaseParser tests"""
 
     def _load_contents(self, file):
         return open(os.path.abspath(file)).read()

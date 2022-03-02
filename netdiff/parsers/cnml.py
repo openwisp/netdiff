@@ -12,7 +12,7 @@ except ImportError:
 
 
 class CnmlParser(BaseParser):
-    """ CNML 0.1 parser """
+    """CNML 0.1 parser"""
 
     protocol = 'static'
     version = None

@@ -4,7 +4,7 @@ __all__ = ['TestCase']
 
 
 class TestCase(unittest.TestCase):
-    """ netdiff TestCase """
+    """netdiff TestCase"""
 
     def _test_expected_links(self, graph, expected_links):
         """

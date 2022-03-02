@@ -3,7 +3,7 @@ from .base import BaseParser
 
 
 class Bmx6Parser(BaseParser):
-    """ Bmx6_b6m parser """
+    """Bmx6_b6m parser"""
 
     protocol = 'BMX6_b6m'
     version = '0'

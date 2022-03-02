@@ -1,5 +1,5 @@
 class NetdiffException(Exception):
-    """ root netdiff exception """
+    """root netdiff exception"""
 
     pass
 
