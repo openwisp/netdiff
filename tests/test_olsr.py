@@ -1,8 +1,7 @@
 import os
 
-from parameterized import parameterized
-
 import networkx
+from parameterized import parameterized
 
 from netdiff import OlsrParser, diff
 from netdiff.exceptions import ParserError
@@ -10,7 +9,9 @@ from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 links2 = open('{0}/static/olsr-2-links.json'.format(CURRENT_DIR)).read()
-links2_newformat = open('{0}/static/olsr-2-links-newformat.json'.format(CURRENT_DIR)).read()
+links2_newformat = open(
+    '{0}/static/olsr-2-links-newformat.json'.format(CURRENT_DIR)
+).read()
 links2_cost = open(
     '{0}/static/olsr-2-links-cost-changed.json'.format(CURRENT_DIR)
 ).read()
@@ -21,8 +22,15 @@ links5_cost = open(
 ).read()
 
 
+def parameterized_test_name_func(testcase_func, param_num, param):
+    format = 'newformat' if 'version' in param[0][0] else 'oldformat'
+    return f'{testcase_func.__name__}_{param_num}_{format}'
+
+
 class TestOlsrParser(TestCase):
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_parse(self, links2):
         p = OlsrParser(links2)
         self.assertIsInstance(p.graph, networkx.Graph)
@@ -55,7 +63,9 @@ class TestOlsrParser(TestCase):
         with self.assertRaises(ParserError):
             OlsrParser('{ "topology": [], "missing_mid": [] }')
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_json_dict(self, links2):
         p = OlsrParser(links2)
         data = p.json(dict=True)
@@ -85,7 +95,9 @@ class TestOlsrParser(TestCase):
                 found = True
         self.assertTrue(found)
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_json_string(self, links2):
         p = OlsrParser(links2)
         data = p.json()
@@ -102,7 +114,9 @@ class TestOlsrParser(TestCase):
         self.assertIn('links', data)
         self.assertIn('nodes', data)
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_no_changes(self, links2):
         old = OlsrParser(links2)
         new = OlsrParser(links2)
@@ -112,7 +126,9 @@ class TestOlsrParser(TestCase):
         self.assertIsNone(result['removed'])
         self.assertIsNone(result['changed'])
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_added_1_link(self, links2):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
@@ -136,7 +152,9 @@ class TestOlsrParser(TestCase):
         # ensure correct node added
         self.assertIn('10.150.0.5', result['added']['nodes'][0].values())
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_added_1_link_sub(self, links2):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
@@ -151,7 +169,9 @@ class TestOlsrParser(TestCase):
         # ensure correct node added
         self.assertIn('10.150.0.5', result['added']['nodes'][0].values())
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_removed_1_link(self, links2):
         old = OlsrParser(links3)
         new = OlsrParser(links2)
@@ -177,7 +197,9 @@ class TestOlsrParser(TestCase):
         # ensure correct node removed
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_changed_links(self, links2):
         old = OlsrParser(links2)
         new = OlsrParser(links3)
@@ -192,7 +214,9 @@ class TestOlsrParser(TestCase):
             link['properties'], {'link_quality': 0.195, 'neighbor_link_quality': 0.184}
         )
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_changed_nodes(self, links2):
         old = OlsrParser(links2)
         new = OlsrParser(links2_cost)
@@ -242,7 +266,9 @@ class TestOlsrParser(TestCase):
         self.assertIn('10.150.0.7', added_nodes)
         self.assertIn('10.150.0.5', result['removed']['nodes'][0].values())
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_cost(self, links2):
         parser = OlsrParser(links2)
         graph = parser.json(dict=True)
@@ -272,7 +298,9 @@ class TestOlsrParser(TestCase):
         self.assertIsInstance(data['nodes'], list)
         self.assertIsInstance(data['links'], list)
 
-    @parameterized.expand([(links2), (links2_newformat)])
+    @parameterized.expand(
+        [(links2), (links2_newformat)], name_func=parameterized_test_name_func
+    )
     def test_cost_changes_1(self, links2):
         old = OlsrParser(links2)
         new = OlsrParser(links2_cost)
