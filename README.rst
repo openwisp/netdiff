@@ -1,8 +1,9 @@
 netdiff
 =======
 
-.. image:: https://travis-ci.org/openwisp/netdiff.svg
-   :target: https://travis-ci.org/openwisp/netdiff
+.. image:: https://github.com/openwisp/netdiff/workflows/OpenWISP%20CI%20Build/badge.svg?branch=master
+   :target: https://github.com/openwisp/netdiff/actions?query=workflow%3A%22OpenWISP+CI+Build%22
+   :alt: CI build status
 
 .. image:: https://coveralls.io/repos/openwisp/netdiff/badge.svg
   :target: https://coveralls.io/r/openwisp/netdiff
