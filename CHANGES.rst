@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.0.0 [28-04-2022]
+--------------------------
+
+- [deps] Updated dependencies and dependency monitoring badge
+- [change] Added compatibility for latest OLSRd1 jsoninfo format
+
 Version 0.9.0 [28-07-2020]
 --------------------------
 
