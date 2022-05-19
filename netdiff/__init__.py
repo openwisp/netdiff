@@ -5,4 +5,5 @@ from .parsers.cnml import CnmlParser  # noqa
 from .parsers.netjson import NetJsonParser  # noqa
 from .parsers.olsr import OlsrParser  # noqa
 from .parsers.openvpn import OpenvpnParser  # noqa
+from .parsers.wireguard import WireguardParser  # noqa
 from .utils import diff  # noqa
