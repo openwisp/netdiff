@@ -12,12 +12,12 @@ wg_dump_updated = open('{0}/static/wg-dump-2.txt'.format(CURRENT_DIR)).read()
 
 
 class TestWireguardParser(TestCase):
-    def setUp(self) -> None:
-        self.freezer = freeze_time("2022-06-06 17:03:38")
+    def setUp(self):
+        self.freezer = freeze_time('2022-06-06 17:03:38')
         self.freezer.start()
         return super().setUp()
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         self.freezer.stop()
         return super().tearDown()
 

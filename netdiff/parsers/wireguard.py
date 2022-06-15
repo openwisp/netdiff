@@ -19,11 +19,11 @@ class WireguardParser(BaseParser):
         except ConversionException as e:
             return self._wg_dump_to_python(e.data)
 
-    def __parse_none(self, value):
+    def __parse_value(self, value):
         return None if value == '(none)' else value
 
     def _wg_dump_to_python(self, data):
-        lines = map(lambda line: line.split('\t'), data.strip().split("\n"))
+        lines = map(lambda line: line.split('\t'), data.strip().split('\n'))
         try:
             parsed_lines = self._parse_lines(lines)
         except ValueError:
@@ -36,7 +36,7 @@ class WireguardParser(BaseParser):
         for device, *options in lines:
             if device != last_device:
                 last_device = device
-                _, public_key, listen_port, fwmark = map(self.__parse_none, options)
+                _, public_key, listen_port, fwmark = map(self.__parse_value, options)
                 parsed_lines.setdefault(
                     device,
                     {
@@ -56,11 +56,11 @@ class WireguardParser(BaseParser):
                     transfer_rx,
                     transfer_tx,
                     persistent_keepalive,
-                ) = map(self.__parse_none, options)
+                ) = map(self.__parse_value, options)
                 connected, latest_handshake = self._parse_latest_handshake(
                     latest_handshake
                 )
-                parsed_lines[device]["peers"].append(
+                parsed_lines[device]['peers'].append(
                     {
                         public_key: {
                             'presharedKey': preshared_key,
@@ -80,8 +80,9 @@ class WireguardParser(BaseParser):
 
     def _parse_latest_handshake(self, latest_handshake):
         """
-        Returns peer connection status and parsed
-        datetime object of latest_handshake
+        If the device hasn't handshaked for more than 5 minutes (by default)
+        or if it has never handshaked (handshake is zero) we assume the device
+        is not connected.
         """
         connection_time = datetime.fromtimestamp(int(latest_handshake))
         return (
