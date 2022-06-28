@@ -39,12 +39,12 @@ class WireguardParser(BaseParser):
                 _, public_key, listen_port, fwmark = map(self.__parse_value, options)
                 parsed_lines.setdefault(
                     device,
-                    {
-                        'publicKey': public_key,
-                        'listenPort': listen_port,
-                        'fwmark': fwmark,
-                        'peers': [],
-                    },
+                    dict(
+                        public_key=public_key,
+                        listen_port=listen_port,
+                        fwmark=fwmark,
+                        peers=[],
+                    ),
                 )
             else:
                 (
@@ -62,18 +62,18 @@ class WireguardParser(BaseParser):
                 )
                 parsed_lines[device]['peers'].append(
                     {
-                        public_key: {
-                            'presharedKey': preshared_key,
-                            'endpoint': endpoint,
-                            'latestHandshake': latest_handshake.strftime(
+                        public_key: dict(
+                            preshared_key=preshared_key,
+                            endpoint=endpoint,
+                            latest_handshake=latest_handshake.strftime(
                                 '%Y-%m-%dT%H:%M:%SZ'
                             ),
-                            'transferRx': transfer_rx,
-                            'transferTx': transfer_tx,
-                            'persistentKeepalive': persistent_keepalive,
-                            'allowedIps': allowed_ips.split(','),
-                            'connected': connected,
-                        }
+                            transfer_rx=transfer_rx,
+                            transfer_tx=transfer_tx,
+                            persistent_keepalive=persistent_keepalive,
+                            allowed_ips=allowed_ips.split(','),
+                            connected=connected,
+                        ),
                     }
                 )
         return parsed_lines
@@ -102,7 +102,7 @@ class WireguardParser(BaseParser):
                 peer_properties = peer[public_key]
                 if not peer_properties.get('connected'):
                     continue
-                allowed_ips = ', '.join(peer_properties.get('allowedIps', []))
+                allowed_ips = ', '.join(peer_properties.get('allowed_ips', []))
                 graph.add_node(public_key, label=allowed_ips, **peer_properties)
                 graph.add_edge(public_key, interface, weight=1)
         return graph

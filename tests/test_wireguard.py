@@ -27,19 +27,19 @@ class TestWireguardParser(TestCase):
         self.assertEqual(list(original_data.keys()), ['wg0', 'wg1'])
         self.assertEqual(
             list(original_data['wg0'].keys()),
-            ['publicKey', 'listenPort', 'fwmark', 'peers'],
+            ['public_key', 'listen_port', 'fwmark', 'peers'],
         )
         self.assertEqual(
             list(original_data['wg0']['peers'][0].values()),
             [
                 {
-                    'presharedKey': None,
+                    'preshared_key': None,
                     'endpoint': '192.168.200.210:41100',
-                    'latestHandshake': '2022-06-06T17:03:38Z',
-                    'transferRx': '37384',
-                    'transferTx': '35848',
-                    'persistentKeepalive': 'off',
-                    'allowedIps': ['10.254.0.2/32'],
+                    'latest_handshake': '2022-06-06T17:03:38Z',
+                    'transfer_rx': '37384',
+                    'transfer_tx': '35848',
+                    'persistent_keepalive': 'off',
+                    'allowed_ips': ['10.254.0.2/32'],
                     'connected': True,
                 }
             ],
