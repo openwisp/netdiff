@@ -242,6 +242,7 @@ The available parsers are:
 * ``netdiff.CnmlParser``: parser for `CNML 0.1 <http://en.wiki.guifi.net/wiki/CNML>`_
 * ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph`_ format
 * ``netdiff.OpenvpnParser``: parser for the `OpenVPN status file <https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage>`_
+* ``netdiff.WireguardParser``: parser for the Wireguard VPN (the command to use is ``wg show all dump``)
 
 Initialization arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~
