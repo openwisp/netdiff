@@ -1,0 +1,2 @@
+wg0	EoGivgii5RJOBbcsHVQ0Nd6dNxvObm3v/asGOyCLJzc=	hrJL+X2osu2IEnVXlp6Jko9F5FBukkfQnYrErU+kwn0=	51820	off
+wg0	pLj2T3b1YYugGIx238T+tD9WYRgtEIpcRSfW6kkJsnE=	(none)	192.168.200.210:41100	(none)	1654535018	37384	35848	off
