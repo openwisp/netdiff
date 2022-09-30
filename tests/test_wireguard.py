@@ -9,6 +9,9 @@ from netdiff.tests import TestCase
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 wg_dump = open('{0}/static/wg-dump.txt'.format(CURRENT_DIR)).read()
 wg_dump_updated = open('{0}/static/wg-dump-2.txt'.format(CURRENT_DIR)).read()
+wg_dump_no_allowed_ip = open(
+    '{0}/static/wg-dump-allowed-ip-absent.txt'.format(CURRENT_DIR)
+).read()
 
 
 class TestWireguardParser(TestCase):
@@ -54,6 +57,35 @@ class TestWireguardParser(TestCase):
     def test_parse_exception(self):
         with self.assertRaises(ParserError):
             WireguardParser('WRONG')
+
+    def test_parse_allowed_ips_absent(self):
+        p = WireguardParser(wg_dump_no_allowed_ip)
+        original_data = p.original_data
+        self.assertEqual(list(original_data.keys()), ['wg0'])
+        self.assertEqual(
+            list(original_data['wg0'].keys()),
+            ['public_key', 'listen_port', 'fwmark', 'peers'],
+        )
+        self.assertEqual(
+            list(original_data['wg0']['peers'][0].values()),
+            [
+                {
+                    'preshared_key': None,
+                    'endpoint': '192.168.200.210:41100',
+                    'latest_handshake': '2022-06-06T17:03:38Z',
+                    'transfer_rx': '37384',
+                    'transfer_tx': '35848',
+                    'persistent_keepalive': 'off',
+                    'allowed_ips': [],
+                    'connected': True,
+                }
+            ],
+        )
+        self.assertEqual(len(original_data['wg0']['peers']), 1)
+        graph = p.graph
+        self.assertIsNotNone(graph)
+        self.assertEqual(len(graph.nodes), 2)
+        self.assertEqual(len(graph.edges), 1)
 
     def test_empty_dict(self):
         WireguardParser(data={})

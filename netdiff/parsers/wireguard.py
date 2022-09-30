@@ -71,7 +71,7 @@ class WireguardParser(BaseParser):
                             transfer_rx=transfer_rx,
                             transfer_tx=transfer_tx,
                             persistent_keepalive=persistent_keepalive,
-                            allowed_ips=allowed_ips.split(','),
+                            allowed_ips=allowed_ips.split(',') if allowed_ips else [],
                             connected=connected,
                         ),
                     }
