@@ -1,0 +1,300 @@
+[
+    {
+     "address": "3504e2b2e2",
+     "isBonded": false,
+     "latency": 1,
+     "paths": [
+      {
+       "active": true,
+       "address": "192.168.56.3/9993",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869092208,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.3/9993",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869109504,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.3/9993",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869108304,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.1/44221",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869108304,
+       "preferred": true,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.1/44221",
+       "expired": false,
+       "lastReceive": 1691493308664,
+       "lastSend": 1691493325843,
+       "localSocket": 94434869092208,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.1/44221",
+       "expired": false,
+       "lastReceive": 1691493293653,
+       "lastSend": 1691493310824,
+       "localSocket": 94434869109504,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "fd60:8d57:65e9::1/9993",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869123504,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "fd60:8d57:65e9::1/9993",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869095936,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "fd60:8d57:65e9::1/9993",
+       "expired": false,
+       "lastReceive": 1691493325843,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869119488,
+       "preferred": false,
+       "trustedPathId": 0
+      }
+     ],
+     "role": "LEAF",
+     "tunneled": false,
+     "version": "1.10.3",
+     "versionMajor": 1,
+     "versionMinor": 10,
+     "versionRev": 3
+    },
+    {
+     "address": "4a9e1c6f14",
+     "isBonded": false,
+     "latency": 0,
+     "paths": [
+      {
+       "active": true,
+       "address": "192.168.56.2/9993",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869092208,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.2/9993",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869109504,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.2/9993",
+       "expired": false,
+       "lastReceive": 1691493323678,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869108304,
+       "preferred": true,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "fdcf:5771:404::1/9993",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869107632,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "fdcf:5771:404::1/9993",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869092560,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "fdcf:5771:404::1/9993",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869086096,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.1/53571",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869092208,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.1/53571",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869109504,
+       "preferred": false,
+       "trustedPathId": 0
+      },
+      {
+       "active": true,
+       "address": "192.168.56.1/53571",
+       "expired": false,
+       "lastReceive": 1691493318673,
+       "lastSend": 1691493318672,
+       "localSocket": 94434869108304,
+       "preferred": false,
+       "trustedPathId": 0
+      }
+     ],
+     "role": "LEAF",
+     "tunneled": false,
+     "version": "1.10.3",
+     "versionMajor": 1,
+     "versionMinor": 10,
+     "versionRev": 3
+    },
+    {
+     "address": "62f865ae71",
+     "isBonded": false,
+     "latency": 297,
+     "paths": [
+      {
+       "active": true,
+       "address": "50.7.252.138/9993",
+       "expired": false,
+       "lastReceive": 1691493263920,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869079296,
+       "preferred": true,
+       "trustedPathId": 0
+      }
+     ],
+     "role": "PLANET",
+     "tunneled": false,
+     "version": "-1.-1.-1",
+     "versionMajor": -1,
+     "versionMinor": -1,
+     "versionRev": -1
+    },
+    {
+     "address": "778cde7190",
+     "isBonded": false,
+     "latency": 276,
+     "paths": [
+      {
+       "active": true,
+       "address": "103.195.103.66/9993",
+       "expired": false,
+       "lastReceive": 1691493263899,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869085344,
+       "preferred": true,
+       "trustedPathId": 0
+      }
+     ],
+     "role": "PLANET",
+     "tunneled": false,
+     "version": "-1.-1.-1",
+     "versionMajor": -1,
+     "versionMinor": -1,
+     "versionRev": -1
+    },
+    {
+     "address": "cafe04eba9",
+     "isBonded": false,
+     "latency": 163,
+     "paths": [
+      {
+       "active": true,
+       "address": "84.17.53.155/9993",
+       "expired": false,
+       "lastReceive": 1691493263786,
+       "lastSend": 1691493327124,
+       "localSocket": 94434869086304,
+       "preferred": true,
+       "trustedPathId": 0
+      }
+     ],
+     "role": "PLANET",
+     "tunneled": false,
+     "version": "-1.-1.-1",
+     "versionMajor": -1,
+     "versionMinor": -1,
+     "versionRev": -1
+    },
+    {
+     "address": "cafe9efeb9",
+     "isBonded": false,
+     "latency": 241,
+     "paths": [
+      {
+       "active": true,
+       "address": "104.194.8.134/9993",
+       "expired": false,
+       "lastReceive": 1691493263864,
+       "lastSend": 1691493323677,
+       "localSocket": 94434869086304,
+       "preferred": true,
+       "trustedPathId": 0
+      }
+     ],
+     "role": "PLANET",
+     "tunneled": false,
+     "version": "-1.-1.-1",
+     "versionMajor": -1,
+     "versionMinor": -1,
+     "versionRev": -1
+    }
+   ]
