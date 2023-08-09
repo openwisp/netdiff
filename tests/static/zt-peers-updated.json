@@ -2,38 +2,8 @@
     {
      "address": "3504e2b2e2",
      "isBonded": false,
-     "latency": 1,
+     "latency": 9,
      "paths": [
-      {
-       "active": true,
-       "address": "192.168.56.3/9993",
-       "expired": false,
-       "lastReceive": 1691493323678,
-       "lastSend": 1691493323677,
-       "localSocket": 94434869092208,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.3/9993",
-       "expired": false,
-       "lastReceive": 1691493323678,
-       "lastSend": 1691493323677,
-       "localSocket": 94434869109504,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.3/9993",
-       "expired": false,
-       "lastReceive": 1691493323678,
-       "lastSend": 1691493323677,
-       "localSocket": 94434869108304,
-       "preferred": false,
-       "trustedPathId": 0
-      },
       {
        "active": true,
        "address": "192.168.56.1/44221",
@@ -42,26 +12,6 @@
        "lastSend": 1691493323677,
        "localSocket": 94434869108304,
        "preferred": true,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.1/44221",
-       "expired": false,
-       "lastReceive": 1691493308664,
-       "lastSend": 1691493325843,
-       "localSocket": 94434869092208,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.1/44221",
-       "expired": false,
-       "lastReceive": 1691493293653,
-       "lastSend": 1691493310824,
-       "localSocket": 94434869109504,
-       "preferred": false,
        "trustedPathId": 0
       },
       {
@@ -83,16 +33,6 @@
        "localSocket": 94434869095936,
        "preferred": false,
        "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "fd60:8d57:65e9::1/9993",
-       "expired": false,
-       "lastReceive": 1691493325843,
-       "lastSend": 1691493323677,
-       "localSocket": 94434869119488,
-       "preferred": false,
-       "trustedPathId": 0
       }
      ],
      "role": "LEAF",
@@ -103,13 +43,13 @@
      "versionRev": 3
     },
     {
-     "address": "4a9e1c6f14",
+     "address": "9a9e1c9f19",
      "isBonded": false,
      "latency": 0,
      "paths": [
       {
        "active": true,
-       "address": "192.168.56.2/9993",
+       "address": "192.168.56.6/9993",
        "expired": false,
        "lastReceive": 1691493318673,
        "lastSend": 1691493318672,
@@ -119,7 +59,7 @@
       },
       {
        "active": true,
-       "address": "192.168.56.2/9993",
+       "address": "192.168.56.1/9993",
        "expired": false,
        "lastReceive": 1691493318673,
        "lastSend": 1691493318672,
@@ -129,72 +69,12 @@
       },
       {
        "active": true,
-       "address": "192.168.56.2/9993",
+       "address": "172.168.56.9/9993",
        "expired": false,
        "lastReceive": 1691493323678,
        "lastSend": 1691493323677,
        "localSocket": 94434869108304,
        "preferred": true,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "fdcf:5771:404::1/9993",
-       "expired": false,
-       "lastReceive": 1691493318673,
-       "lastSend": 1691493318672,
-       "localSocket": 94434869107632,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "fdcf:5771:404::1/9993",
-       "expired": false,
-       "lastReceive": 1691493318673,
-       "lastSend": 1691493318672,
-       "localSocket": 94434869092560,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "fdcf:5771:404::1/9993",
-       "expired": false,
-       "lastReceive": 1691493318673,
-       "lastSend": 1691493318672,
-       "localSocket": 94434869086096,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.1/53571",
-       "expired": false,
-       "lastReceive": 1691493318673,
-       "lastSend": 1691493318672,
-       "localSocket": 94434869092208,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.1/53571",
-       "expired": false,
-       "lastReceive": 1691493318673,
-       "lastSend": 1691493318672,
-       "localSocket": 94434869109504,
-       "preferred": false,
-       "trustedPathId": 0
-      },
-      {
-       "active": true,
-       "address": "192.168.56.1/53571",
-       "expired": false,
-       "lastReceive": 1691493318673,
-       "lastSend": 1691493318672,
-       "localSocket": 94434869108304,
-       "preferred": false,
        "trustedPathId": 0
       }
      ],

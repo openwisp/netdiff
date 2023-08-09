@@ -1,24 +1,25 @@
-import json
-from copy import deepcopy
-
 from netdiff.parsers.base import BaseParser
 
 
 class ZeroTierParser(BaseParser):
-    protocol = 'ZeroTier Peers Information'
     version = '1'
     metric = 'static'
+    protocol = 'ZeroTier Controller Peers'
 
     def to_python(self, data):
-        if isinstance(data, list):
-            return data
         return super().to_python(data)
 
     def parse(self, data):
         graph = self._init_graph()
         for peer in data:
-            if peer.get('role') != 'LEAF':
+            # In the ZeroTier architecture, a 'LEAF' refers to a device
+            # that is a member of a ZeroTier virtual network.
+            # Therefore, we can skip peers with roles other than 'LEAF'
+            # or with latency -1 (indicating not reachable)
+            if peer.get('role') != 'LEAF' or peer.get('latency') == -1:
                 continue
+            # Similar to zerotier-cli peers command (PATH)
+            # We only select path that are active, preferred, and not expired
             for path in peer.get('paths'):
                 if (
                     not path.get('expired')
