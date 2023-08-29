@@ -15,7 +15,6 @@ class TestZeroTierParser(TestCase):
     _TEST_PATH_KEYS = [
         'weight',
         'active',
-        'address',
         'expired',
         'lastReceive',
         'lastSend',
@@ -23,7 +22,15 @@ class TestZeroTierParser(TestCase):
         'preferred',
         'trustedPathId',
     ]
-    _TEST_PEER_KEYS = ['label', 'address', 'role', 'version', 'tunneled', 'isBonded']
+    _TEST_PEER_KEYS = [
+        'label',
+        'address',
+        'ip_address',
+        'role',
+        'version',
+        'tunneled',
+        'isBonded',
+    ]
 
     def test_parse(self):
         p = ZeroTierParser(zt_peers)
@@ -119,10 +126,12 @@ class TestZeroTierParser(TestCase):
             changed = result.get('changed')
             nodes = changed.get('nodes')
             links = changed.get('links')
-            # Only link properties have been modified
-            self.assertEqual(len(nodes), 0)
+            # If the IP address of the active link changes,
+            # then the ip_address property of the
+            # node will also be modified accordingly
+            self.assertEqual(len(nodes), 1)
             self.assertEqual(len(links), 1)
             self.assertEqual(links[0].get('cost'), 9)
             self.assertEqual(
-                links[0].get('properties').get('address'), '192.168.56.1/44221'
+                nodes[0].get('properties').get('ip_address'), '192.168.56.1/44221'
             )

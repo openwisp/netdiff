@@ -30,6 +30,7 @@ class ZeroTierParser(BaseParser):
                     peer_properties = dict(
                         label=peer_address,
                         address=peer_address,
+                        ip_address=path.pop('address'),
                         role=peer.get('role'),
                         version=peer.get('version'),
                         tunneled=peer.get('tunneled'),
