@@ -243,6 +243,8 @@ The available parsers are:
 * ``netdiff.NetJsonParser``: parser for the `NetJSON NetworkGraph`_ format
 * ``netdiff.OpenvpnParser``: parser for the `OpenVPN status file <https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage>`_
 * ``netdiff.WireguardParser``: parser for the Wireguard VPN (the command to use is ``wg show all dump``)
+* ``netdiff.ZeroTierParser``: parser for ZeroTier VPN (the command to use is ``zerotier-cli peers -j`` or
+  access the peers information through the `ZeroTier Service API <https://docs.zerotier.com/service/v1/#operation/getPeers>`_)
 
 Initialization arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~
