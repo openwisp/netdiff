@@ -9,6 +9,9 @@ def get_version():
     if VERSION[3:] == ('alpha', 0):
         version = '%s pre-alpha' % version
     else:
-        if VERSION[3] != 'final':
-            version = '%s %s' % (version, VERSION[3])
+        try:
+            rev = VERSION[4]
+        except IndexError:
+            rev = 0
+        version = '%s%s%s' % (version, VERSION[3][0:1], rev)
     return version
