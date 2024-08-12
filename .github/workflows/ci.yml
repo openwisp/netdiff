@@ -13,8 +13,8 @@ on:
 jobs:
 
   build:
-    name: Python==${{ matrix.python-version }} | ${{ matrix.django-version }}
-    runs-on: ubuntu-20.04
+    name: Python==${{ matrix.python-version }}
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -29,41 +29,43 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: |
+          **/requirements*.txt
 
-    - name: Upgrade python system packages
-      run: pip install -U pip wheel
-
-    - name: Install test dependencies
-      run: pip install -r requirements-test.txt
-
-    - name: Install netdiff
-      run: pip install -e .
+    - name: Install Dependencies
+      id: deps
+      run: |
+        pip install -U pip wheel setuptools
+        pip install -U -r requirements-test.txt
+        pip install -U -e .
 
     - name: QA checks
       run: ./run-qa-checks
 
     - name: Tests
-      run: coverage run -a --source=netdiff runtests.py
+      if: ${{ !cancelled() && steps.deps.conclusion == 'success' }}
+      run: |
+        coverage run runtests.py
+        coverage xml
 
     - name: Upload Coverage
-      run: coveralls --service=github
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_FLAG_NAME: python-${{ matrix.python-version }}
-        COVERALLS_PARALLEL: true
+      if: ${{ success() }}
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel: true
+        format: cobertura
+        flag-name: python-${{ matrix.env.env }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
   coveralls:
-    name: Finish Coveralls
     needs: build
     runs-on: ubuntu-latest
-    container: python:3-slim
     steps:
-      - name: Finished
-        run: |
-          pip3 install --upgrade coveralls
-          coveralls --finish --service=github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
