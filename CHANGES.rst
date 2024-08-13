@@ -1,10 +1,23 @@
 Changelog
 =========
 
-Version 1.1.0 [unreleased]
+Version 1.1.0 [14-08-2024]
 --------------------------
 
-WIP
+Features
+~~~~~~~~
+
+- Added parser for WireGuard
+- Added parser for ZeroTier
+
+Changes
+~~~~~~~
+
+**Dependencies:**
+
+- Bumped ``networkx>=2.6,<3.4``
+- Added support for Python ``3.10``
+- Dropped support for Python ``3.7``
 
 Version 1.0.0 [28-04-2022]
 --------------------------
