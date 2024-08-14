@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   pypi-publish:
-    name: Upload release to PyPI
+    name: Release Python Package on Pypi.org
     runs-on: ubuntu-latest
     environment:
       name: pypi
