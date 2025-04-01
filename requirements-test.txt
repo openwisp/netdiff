@@ -1,5 +1,5 @@
 nose2[coverage_plugin]>=0.6.5
-responses~=0.25.6
+responses~=0.25.7
 openwisp-utils[qa] @ https://github.com/openwisp/openwisp-utils/tarball/1.2
 parameterized~=0.9.0
 freezegun==1.5.1
