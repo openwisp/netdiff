@@ -1,8 +1,8 @@
 import json
-import telnetlib
 
 import networkx
 import requests
+from Exscript.protocols import telnetlib
 
 from ..exceptions import ConversionException, TopologyRetrievalError
 from ..utils import _netjson_networkgraph, diff
