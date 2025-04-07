@@ -1,5 +1,4 @@
 import os
-import telnetlib
 import unittest
 
 import responses
@@ -64,13 +63,13 @@ class TestBaseParser(unittest.TestCase):
         with self.assertRaises(TopologyRetrievalError):
             BaseParser(url='http://connectionerror.com')
 
-    @mock.patch('telnetlib.Telnet')
+    @mock.patch('Exscript.protocols.telnetlib.Telnet')
     def test_telnet_retrieval_error(self, MockClass):
-        telnetlib.Telnet.side_effect = ValueError('testing exception')
+        MockClass.side_effect = ValueError('testing exception')
         with self.assertRaises(TopologyRetrievalError):
             BaseParser(url='telnet://wrong.com')
 
-    @mock.patch('telnetlib.Telnet')
+    @mock.patch('Exscript.protocols.telnetlib.Telnet')
     def test_telnet_retrieval(self, MockClass):
         with self.assertRaises(ConversionException):
             BaseParser(url='telnet://127.0.0.1')
