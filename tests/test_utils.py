@@ -4,7 +4,7 @@ from netdiff import NetJsonParser, diff
 from netdiff.tests import TestCase
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-links2 = open('{0}/static/netjson-2-links.json'.format(CURRENT_DIR)).read()
+links2 = open("{0}/static/netjson-2-links.json".format(CURRENT_DIR)).read()
 
 
 class TestUtils(TestCase):
@@ -44,12 +44,12 @@ class TestUtils(TestCase):
         )
         new = NetJsonParser(links2)
         result = diff(old, new)
-        self.assertIsNone(result['removed'])
-        self.assertEqual(len(result['changed']['nodes']), 2)
-        self.assertEqual(len(result['changed']['links']), 0)
-        self.assertIsNotNone(result['added'])
-        self.assertEqual(len(result['added']['links']), 2)
-        self.assertEqual(len(result['added']['nodes']), 0)
+        self.assertIsNone(result["removed"])
+        self.assertEqual(len(result["changed"]["nodes"]), 2)
+        self.assertEqual(len(result["changed"]["links"]), 0)
+        self.assertIsNotNone(result["added"])
+        self.assertEqual(len(result["added"]["links"]), 2)
+        self.assertEqual(len(result["added"]["nodes"]), 0)
 
     def test_same_nodes_but_removed_links(self):
         """
@@ -79,8 +79,8 @@ class TestUtils(TestCase):
             }
         )
         result = diff(old, new)
-        self.assertIsNone(result['changed'])
-        self.assertIsNone(result['added'])
-        self.assertIsNotNone(result['removed'])
-        self.assertEqual(len(result['removed']['nodes']), 0)
-        self.assertEqual(len(result['removed']['links']), 1)
+        self.assertIsNone(result["changed"])
+        self.assertIsNone(result["added"])
+        self.assertIsNotNone(result["removed"])
+        self.assertEqual(len(result["removed"]["nodes"]), 0)
+        self.assertEqual(len(result["removed"]["links"]), 1)
