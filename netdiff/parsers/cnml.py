@@ -14,7 +14,7 @@ except ImportError:
 class CnmlParser(BaseParser):
     """CNML 0.1 parser"""
 
-    protocol = 'static'
+    protocol = "static"
     version = None
     metric = None
 
@@ -22,14 +22,14 @@ class CnmlParser(BaseParser):
         if isinstance(data, str):
             up = urlparse.urlparse(data)
             # if it looks like a file path
-            if os.path.isfile(data) or up.scheme in ['http', 'https']:
+            if os.path.isfile(data) or up.scheme in ["http", "https"]:
                 return libcnml.CNMLParser(data)
             else:
-                raise ParserError('Could not decode CNML data')
+                raise ParserError("Could not decode CNML data")
         elif isinstance(data, libcnml.CNMLParser):
             return data
         else:
-            raise ParserError('Could not find valid data to parse')
+            raise ParserError("Could not find valid data to parse")
 
     def parse(self, data):
         """

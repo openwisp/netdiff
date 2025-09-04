@@ -51,7 +51,7 @@ def diff(old, new):
         )
     else:
         changed = None
-    return OrderedDict((('added', added), ('removed', removed), ('changed', changed)))
+    return OrderedDict((("added", added), ("removed", removed), ("changed", changed)))
 
 
 def _make_diff(old, new, both):
@@ -104,8 +104,8 @@ def _nodes_difference(graph, both):
         props = properties.copy()
         old_node = [ip]
         # wrap attributes in tuples so they will be recognizable
-        old_node.append(('label', popdefault(props, 'label', '')))
-        old_node.append(('local_addresses', props.pop('local_addresses', [])))
+        old_node.append(("label", popdefault(props, "label", "")))
+        old_node.append(("local_addresses", props.pop("local_addresses", [])))
         for name, value in props.items():
             old_node.append((name, value))
         nodes.append(old_node)
@@ -140,9 +140,9 @@ def _edges_difference(graph, both):
         if set((src, dst)) not in both:
             continue
         props = properties.copy()
-        old_edge = [('_src', src), ('_dst', dst)]
-        old_edge.append(('weight', props.pop('weight')))
-        old_edge.append(('cost_text', props.pop('cost_text', '')))
+        old_edge = [("_src", src), ("_dst", dst)]
+        old_edge.append(("weight", props.pop("weight")))
+        old_edge.append(("cost_text", props.pop("cost_text", "")))
         for name, value in props.items():
             old_edge.append((name, value))
         edges.append(set(old_edge))
@@ -163,8 +163,8 @@ def _find_changed_edges(old, new, both):
     for new_edge in new_edges:
         if new_edge not in old_edges:
             props = dict(new_edge)
-            src = props.pop('_src')
-            dst = props.pop('_dst')
+            src = props.pop("_src")
+            dst = props.pop("_dst")
             changed.append([src, dst, props])
     return changed
 
@@ -184,40 +184,40 @@ def _netjson_networkgraph(
 ):
     # netjson format validity check
     if protocol is None:
-        raise NetJsonError('protocol cannot be None')
-    if version is None and protocol != 'static':
+        raise NetJsonError("protocol cannot be None")
+    if version is None and protocol != "static":
         raise NetJsonError('version cannot be None except when protocol is "static"')
     # prepare nodes
     node_list = []
     for ip, properties in nodes:
-        netjson_node = OrderedDict({'id': ip})
+        netjson_node = OrderedDict({"id": ip})
         # must copy properties dict to avoid modifying data
         props = properties.copy()
-        netjson_node['label'] = popdefault(props, 'label', '')
-        netjson_node['local_addresses'] = popdefault(props, 'local_addresses', [])
-        netjson_node['properties'] = props
+        netjson_node["label"] = popdefault(props, "label", "")
+        netjson_node["local_addresses"] = popdefault(props, "local_addresses", [])
+        netjson_node["properties"] = props
         node_list.append(netjson_node)
-    node_list.sort(key=lambda d: d['id'])
+    node_list.sort(key=lambda d: d["id"])
     # prepare links
     link_list = []
     for source, target, properties in links:
         # must copy properties dict to avoid modifying data
         props = properties.copy()
-        netjson_link = OrderedDict((('source', source), ('target', target)))
-        netjson_link['cost'] = props.pop('weight')
-        netjson_link['cost_text'] = popdefault(props, 'cost_text', '')
-        netjson_link['properties'] = props
+        netjson_link = OrderedDict((("source", source), ("target", target)))
+        netjson_link["cost"] = props.pop("weight")
+        netjson_link["cost_text"] = popdefault(props, "cost_text", "")
+        netjson_link["properties"] = props
         link_list.append(netjson_link)
-    link_list.sort(key=lambda d: (d['source'], d['target']))
+    link_list.sort(key=lambda d: (d["source"], d["target"]))
     data = OrderedDict(
         (
-            ('type', 'NetworkGraph'),
-            ('protocol', protocol),
-            ('version', version),
-            ('revision', revision),
-            ('metric', metric),
-            ('nodes', node_list),
-            ('links', link_list),
+            ("type", "NetworkGraph"),
+            ("protocol", protocol),
+            ("version", version),
+            ("revision", revision),
+            ("metric", metric),
+            ("nodes", node_list),
+            ("links", link_list),
         )
     )
     if dict:

@@ -309,9 +309,7 @@ HTTPS example with self-signed SSL certificate using ``verify=False``:
 
     from netdiff import NetJsonParser
 
-    OlsrParser(
-        url="https://myserver.mydomain.com/topology.json", verify=False
-    )
+    OlsrParser(url="https://myserver.mydomain.com/topology.json", verify=False)
 
 NetJSON output
 --------------

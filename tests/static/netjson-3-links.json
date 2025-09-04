@@ -1,42 +1,42 @@
 {
-    "type": "NetworkGraph",
-    "protocol": "OLSR",
-    "version": "0.6.6",
-    "revision": "5031a799fcbe17f61d57e387bc3806de",
-    "metric": "ETX",
-    "nodes": [
-        {
-            "id": "10.150.0.3"
-        },
-        {
-            "id": "10.150.0.2"
-        },
-        {
-            "id": "10.150.0.5"
-        },
-        {
-            "id": "10.150.0.4"
-        }
-    ],
-    "links": [
-        {
-            "source": "10.150.0.3",
-            "target": "10.150.0.2",
-            "cost": 28334,
-            "properties": {
-                "custom_property": false,
-                "foo": "bar"
-            }
-        },
-        {
-            "source": "10.150.0.3",
-            "target": "10.150.0.4",
-            "cost": 1048
-        },
-        {
-            "source": "10.150.0.5",
-            "target": "10.150.0.4",
-            "cost": 1024
-        }
-    ]
+  "type": "NetworkGraph",
+  "protocol": "OLSR",
+  "version": "0.6.6",
+  "revision": "5031a799fcbe17f61d57e387bc3806de",
+  "metric": "ETX",
+  "nodes": [
+    {
+      "id": "10.150.0.3"
+    },
+    {
+      "id": "10.150.0.2"
+    },
+    {
+      "id": "10.150.0.5"
+    },
+    {
+      "id": "10.150.0.4"
+    }
+  ],
+  "links": [
+    {
+      "source": "10.150.0.3",
+      "target": "10.150.0.2",
+      "cost": 28334,
+      "properties": {
+        "custom_property": false,
+        "foo": "bar"
+      }
+    },
+    {
+      "source": "10.150.0.3",
+      "target": "10.150.0.4",
+      "cost": 1048
+    },
+    {
+      "source": "10.150.0.5",
+      "target": "10.150.0.4",
+      "cost": 1024
+    }
+  ]
 }

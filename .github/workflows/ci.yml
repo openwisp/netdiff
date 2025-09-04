@@ -11,7 +11,6 @@ on:
       - gsoc23
 
 jobs:
-
   build:
     name: Python==${{ matrix.python-version }}
     runs-on: ubuntu-22.04
@@ -26,42 +25,42 @@ jobs:
           - "3.13"
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip'
-        cache-dependency-path: |
-          **/requirements*.txt
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+          cache-dependency-path: |
+            **/requirements*.txt
 
-    - name: Install Dependencies
-      id: deps
-      run: |
-        pip install -U pip wheel setuptools
-        pip install -U -r requirements-test.txt
-        pip install -U -e .
+      - name: Install Dependencies
+        id: deps
+        run: |
+          pip install -U pip wheel setuptools
+          pip install -U -r requirements-test.txt
+          pip install -U -e .
 
-    - name: QA checks
-      run: ./run-qa-checks
+      - name: QA checks
+        run: ./run-qa-checks
 
-    - name: Tests
-      if: ${{ !cancelled() && steps.deps.conclusion == 'success' }}
-      run: |
-        coverage run runtests.py
-        coverage xml
+      - name: Tests
+        if: ${{ !cancelled() && steps.deps.conclusion == 'success' }}
+        run: |
+          coverage run runtests.py
+          coverage xml
 
-    - name: Upload Coverage
-      if: ${{ success() }}
-      uses: coverallsapp/github-action@v2
-      with:
-        parallel: true
-        format: cobertura
-        flag-name: python-${{ matrix.env.env }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Coverage
+        if: ${{ success() }}
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel: true
+          format: cobertura
+          flag-name: python-${{ matrix.env.env }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   coveralls:
     needs: build

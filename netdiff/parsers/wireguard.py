@@ -8,9 +8,9 @@ from .base import BaseParser
 class WireguardParser(BaseParser):
     """wireguard parser"""
 
-    protocol = 'Wireguard Status Log'
-    version = '1'
-    metric = 'static'
+    protocol = "Wireguard Status Log"
+    version = "1"
+    metric = "static"
     max_time_diff = timedelta(minutes=5)
 
     def to_python(self, data):
@@ -20,14 +20,14 @@ class WireguardParser(BaseParser):
             return self._wg_dump_to_python(e.data)
 
     def __parse_value(self, value):
-        return None if value == '(none)' else value
+        return None if value == "(none)" else value
 
     def _wg_dump_to_python(self, data):
-        lines = map(lambda line: line.split('\t'), data.strip().split('\n'))
+        lines = map(lambda line: line.split("\t"), data.strip().split("\n"))
         try:
             parsed_lines = self._parse_lines(lines)
         except ValueError:
-            raise ParserError('Unrecognized format')
+            raise ParserError("Unrecognized format")
         return parsed_lines
 
     def _parse_lines(self, lines):
@@ -60,18 +60,18 @@ class WireguardParser(BaseParser):
                 connected, latest_handshake = self._parse_latest_handshake(
                     latest_handshake
                 )
-                parsed_lines[device]['peers'].append(
+                parsed_lines[device]["peers"].append(
                     {
                         public_key: dict(
                             preshared_key=preshared_key,
                             endpoint=endpoint,
                             latest_handshake=latest_handshake.strftime(
-                                '%Y-%m-%dT%H:%M:%SZ'
+                                "%Y-%m-%dT%H:%M:%SZ"
                             ),
                             transfer_rx=transfer_rx,
                             transfer_tx=transfer_tx,
                             persistent_keepalive=persistent_keepalive,
-                            allowed_ips=allowed_ips.split(',') if allowed_ips else [],
+                            allowed_ips=allowed_ips.split(",") if allowed_ips else [],
                             connected=connected,
                         ),
                     }
@@ -95,14 +95,14 @@ class WireguardParser(BaseParser):
         graph = self._init_graph()
         data = deepcopy(data)
         for interface, interface_properties in data.items():
-            peers = interface_properties.pop('peers', [])
+            peers = interface_properties.pop("peers", [])
             graph.add_node(interface, **interface_properties)
             for peer in peers:
                 public_key = (*peer,)[0]
                 peer_properties = peer[public_key]
-                if not peer_properties.get('connected'):
+                if not peer_properties.get("connected"):
                     continue
-                allowed_ips = ', '.join(peer_properties.get('allowed_ips', []))
+                allowed_ips = ", ".join(peer_properties.get("allowed_ips", []))
                 graph.add_node(public_key, label=allowed_ips, **peer_properties)
                 graph.add_edge(public_key, interface, weight=1)
         return graph
