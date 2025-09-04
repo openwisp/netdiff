@@ -30,58 +30,58 @@ class TestBaseParser(unittest.TestCase):
 
     def test_parse_file(self):
         dir = os.path.dirname(os.path.realpath(__file__))
-        path = '{0}/static/olsr-2-links.json'.format(dir)
+        path = "{0}/static/olsr-2-links.json".format(dir)
         p = BaseParser(file=path)
         self.assertIsInstance(p.original_data, dict)
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser(file='../wrong.json')
+            BaseParser(file="../wrong.json")
 
     @responses.activate
     def test_parse_http(self):
         responses.add(
             responses.GET,
-            'http://localhost:9090',
-            body=self._load_contents('tests/static/olsr-2-links.json'),
+            "http://localhost:9090",
+            body=self._load_contents("tests/static/olsr-2-links.json"),
         )
-        p = BaseParser(url='http://localhost:9090')
+        p = BaseParser(url="http://localhost:9090")
         self.assertIsInstance(p.original_data, dict)
 
     @responses.activate
     def test_topology_retrieval_error_http_404(self):
-        responses.add(responses.GET, 'http://404.com', body='not found', status=404)
+        responses.add(responses.GET, "http://404.com", body="not found", status=404)
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser(url='http://404.com')
+            BaseParser(url="http://404.com")
 
     @responses.activate
     def test_topology_retrieval_error_http(self):
         def request_callback(request):
-            raise ConnectionError('test exception')
+            raise ConnectionError("test exception")
 
         responses.add_callback(
-            responses.GET, 'http://connectionerror.com', callback=request_callback
+            responses.GET, "http://connectionerror.com", callback=request_callback
         )
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser(url='http://connectionerror.com')
+            BaseParser(url="http://connectionerror.com")
 
-    @mock.patch('Exscript.protocols.telnetlib.Telnet')
+    @mock.patch("Exscript.protocols.telnetlib.Telnet")
     def test_telnet_retrieval_error(self, MockClass):
-        MockClass.side_effect = ValueError('testing exception')
+        MockClass.side_effect = ValueError("testing exception")
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser(url='telnet://wrong.com')
+            BaseParser(url="telnet://wrong.com")
 
-    @mock.patch('Exscript.protocols.telnetlib.Telnet')
+    @mock.patch("Exscript.protocols.telnetlib.Telnet")
     def test_telnet_retrieval(self, MockClass):
         with self.assertRaises(ConversionException):
-            BaseParser(url='telnet://127.0.0.1')
+            BaseParser(url="telnet://127.0.0.1")
 
     def test_topology_retrieval_error_file(self):
         with self.assertRaises(TopologyRetrievalError):
-            BaseParser(file='./tests/static/wrong.json')
+            BaseParser(file="./tests/static/wrong.json")
 
     def test_parse_json_string(self):
-        p = BaseParser(data='{}')
+        p = BaseParser(data="{}")
         self.assertIsInstance(p.original_data, dict)
-        p = BaseParser(data=u'{}')
+        p = BaseParser(data="{}")
         self.assertIsInstance(p.original_data, dict)
 
     def test_parse_dict(self):
@@ -90,7 +90,7 @@ class TestBaseParser(unittest.TestCase):
 
     def test_parse_conversion_exception(self):
         with self.assertRaises(ConversionException):
-            BaseParser(data='wrong [] ; .')
+            BaseParser(data="wrong [] ; .")
 
     def test_parse_error(self):
         with self.assertRaises(ConversionException):
@@ -101,10 +101,10 @@ class TestBaseParser(unittest.TestCase):
             pass
 
         with self.assertRaises(NotImplementedError):
-            MyParser(data='{}')
+            MyParser(data="{}")
 
     def test_json_not_implemented(self):
-        p = BaseParser(data='{}')
+        p = BaseParser(data="{}")
         with self.assertRaises(NotImplementedError):
             p.json()
 
@@ -112,4 +112,4 @@ class TestBaseParser(unittest.TestCase):
         with self.assertRaises(NetJsonError):
             _netjson_networkgraph(None, None, None, None, [], [])
         with self.assertRaises(NetJsonError):
-            _netjson_networkgraph('bgp', None, None, None, [], [])
+            _netjson_networkgraph("bgp", None, None, None, [], [])
