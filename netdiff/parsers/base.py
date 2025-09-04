@@ -66,8 +66,8 @@ class BaseParser(object):
             data = self._get_file(file)
         elif data is None and url is None and file is None:
             raise ValueError(
-                'no topology data supplied, on of the following arguments'
-                'must be supplied: data, url or file'
+                "no topology data supplied, on of the following arguments"
+                "must be supplied: data, url or file"
             )
         self.original_data = self.to_python(data)
         # avoid throwing NotImplementedError in tests
@@ -76,9 +76,9 @@ class BaseParser(object):
 
     def _get_url(self, url):
         url = urlparse.urlparse(url)
-        if url.scheme in ['http', 'https']:
+        if url.scheme in ["http", "https"]:
             return self._get_http(url)
-        if url.scheme == 'telnet':
+        if url.scheme == "telnet":
             return self._get_telnet(url)
 
     def __sub__(self, other):
@@ -102,7 +102,7 @@ class BaseParser(object):
                 return json.loads(data)
             except ValueError:
                 pass
-        raise ConversionException('Could not recognize format', data=data)
+        raise ConversionException("Could not recognize format", data=data)
 
     def _get_file(self, path):
         try:
@@ -118,7 +118,7 @@ class BaseParser(object):
         except Exception as e:
             raise TopologyRetrievalError(e)
         if response.status_code != 200:
-            msg = 'Expecting HTTP 200 ok, got {0}'.format(response.status_code)
+            msg = "Expecting HTTP 200 ok, got {0}".format(response.status_code)
             raise TopologyRetrievalError(msg)
         return response.content.decode()
 
@@ -127,8 +127,8 @@ class BaseParser(object):
             tn = telnetlib.Telnet(url.hostname, url.port, timeout=self.timeout)
         except Exception as e:
             raise TopologyRetrievalError(e)
-        tn.write(("\r\n").encode('ascii'))
-        data = tn.read_all().decode('ascii')
+        tn.write(("\r\n").encode("ascii"))
+        data = tn.read_all().decode("ascii")
         tn.close()
         return data
 

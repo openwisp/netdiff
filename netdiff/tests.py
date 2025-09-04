@@ -1,6 +1,6 @@
 import unittest
 
-__all__ = ['TestCase']
+__all__ = ["TestCase"]
 
 
 class TestCase(unittest.TestCase):
@@ -14,8 +14,8 @@ class TestCase(unittest.TestCase):
         """
         found = 0
         # loop over all links (the result got by netdiff)
-        for link in graph['links']:
-            tuple_link = (link['source'], link['target'])
+        for link in graph["links"]:
+            tuple_link = (link["source"], link["target"])
             # all expected links must be in links
             for expected_link in expected_links:
                 # use sets to ignore ordering

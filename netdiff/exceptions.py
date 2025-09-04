@@ -15,7 +15,7 @@ class ConversionException(NetdiffException):
     """
 
     def __init__(self, *args, **kwargs):
-        self.data = kwargs.pop('data')
+        self.data = kwargs.pop("data")
 
 
 class ParserError(NetdiffException):
