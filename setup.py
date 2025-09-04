@@ -63,7 +63,7 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*', 'docs', 'docs.*']),
     zip_safe=False,
     classifiers=[
-        'Development Status :: 5 - Production/Stable ',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
