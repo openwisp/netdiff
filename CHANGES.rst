@@ -1,10 +1,18 @@
 Changelog
 =========
 
-Version 1.2.0 [Unreleased]
+Version 1.2.0 [2025-10-24]
 --------------------------
 
-Work in progress.
+Changes
+~~~~~~~
+
+Dependencies
+++++++++++++
+
+- Bumped ``networkx>=2.6,<3.5``.
+- Added support for Python ``3.11``, ``3.12``, and ``3.13``.
+- Dropped support for Python ``3.8``.
 
 Version 1.1.0 [14-08-2024]
 --------------------------
