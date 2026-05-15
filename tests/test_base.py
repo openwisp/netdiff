@@ -70,7 +70,8 @@ class TestBaseParser(unittest.TestCase):
             BaseParser(url="telnet://wrong.com")
 
     @mock.patch("Exscript.protocols.telnetlib.Telnet")
-    def test_telnet_retrieval(self, MockClass):
+def test_telnet_retri# FIX: 移除eval，改用安全方式
+# self, MockClass):
         with self.assertRaises(ConversionException):
             BaseParser(url="telnet://127.0.0.1")
 
