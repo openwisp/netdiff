@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - master
-      - gsoc23
   pull_request:
     branches:
       - master
-      - gsoc23
 
 jobs:
   build:
@@ -18,7 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
