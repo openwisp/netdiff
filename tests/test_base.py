@@ -3,9 +3,11 @@ import unittest
 
 import responses
 from requests.exceptions import ConnectionError
+from telnetlib3 import telnetlib as telnetlib3
 
 from netdiff import get_version
 from netdiff.exceptions import ConversionException, NetJsonError, TopologyRetrievalError
+from netdiff.parsers import base
 from netdiff.parsers.base import BaseParser
 from netdiff.utils import _netjson_networkgraph
 
@@ -17,6 +19,9 @@ except ImportError:
 
 class TestBaseParser(unittest.TestCase):
     """BaseParser tests"""
+
+    def test_telnet_uses_telnetlib3(self):
+        self.assertIs(base.telnetlib, telnetlib3)
 
     def _load_contents(self, file):
         return open(os.path.abspath(file)).read()
@@ -63,13 +68,13 @@ class TestBaseParser(unittest.TestCase):
         with self.assertRaises(TopologyRetrievalError):
             BaseParser(url="http://connectionerror.com")
 
-    @mock.patch("Exscript.protocols.telnetlib.Telnet")
+    @mock.patch("netdiff.parsers.base.telnetlib.Telnet")
     def test_telnet_retrieval_error(self, MockClass):
         MockClass.side_effect = ValueError("testing exception")
         with self.assertRaises(TopologyRetrievalError):
             BaseParser(url="telnet://wrong.com")
 
-    @mock.patch("Exscript.protocols.telnetlib.Telnet")
+    @mock.patch("netdiff.parsers.base.telnetlib.Telnet")
     def test_telnet_retrieval(self, MockClass):
         with self.assertRaises(ConversionException):
             BaseParser(url="telnet://127.0.0.1")
