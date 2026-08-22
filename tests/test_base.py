@@ -78,9 +78,7 @@ class TestBaseParser(unittest.TestCase):
     def test_telnet_retrieval(self, MockClass):
         telnet = MockClass.return_value
         telnet.read_all.return_value = b"{}"
-
         parser = BaseParser(url="telnet://127.0.0.1:23")
-
         self.assertIsInstance(parser.original_data, dict)
         MockClass.assert_called_once_with("127.0.0.1", 23, timeout=None)
         telnet.write.assert_called_once_with(b"\r\n")
