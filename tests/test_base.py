@@ -76,8 +76,16 @@ class TestBaseParser(unittest.TestCase):
 
     @mock.patch("netdiff.parsers.base.telnetlib.Telnet")
     def test_telnet_retrieval(self, MockClass):
-        with self.assertRaises(ConversionException):
-            BaseParser(url="telnet://127.0.0.1")
+        telnet = MockClass.return_value
+        telnet.read_all.return_value = b"{}"
+
+        parser = BaseParser(url="telnet://127.0.0.1:23")
+
+        self.assertIsInstance(parser.original_data, dict)
+        MockClass.assert_called_once_with("127.0.0.1", 23, timeout=None)
+        telnet.write.assert_called_once_with(b"\r\n")
+        telnet.read_all.assert_called_once_with()
+        telnet.close.assert_called_once_with()
 
     def test_topology_retrieval_error_file(self):
         with self.assertRaises(TopologyRetrievalError):
