@@ -1,6 +1,24 @@
 Changelog
 =========
 
+Version 1.3.0 [2026-09-01]
+--------------------------
+
+Changes
+~~~~~~~
+
+Dependencies
+++++++++++++
+
+- Bumped ``openvpn-status`` from ``>=0.2,<0.3`` to `>=0.2.2,<0.3
+  <https://openvpn-status.readthedocs.io/en/latest/changes.html>`_.
+- Bumped ``networkx`` from ``>=2.6,<3.5`` to `>=3.4,<3.7
+  <https://networkx.org/documentation/stable/release/release_3.6.html>`_.
+- `Replaced Exscript with telnetlib3
+  <https://github.com/openwisp/netdiff/issues/166>`_, changing the
+  requirement from ``Exscript>=2.6.32`` to `telnetlib3>=5,<6
+  <https://github.com/jquast/telnetlib3/releases/tag/5.0.0>`_.
+
 Version 1.2.0 [2025-10-24]
 --------------------------
 
