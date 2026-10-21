@@ -60,6 +60,7 @@ setup(
     download_url="https://github.com/ninuxorg/netdiff/releases",
     keywords=["networking", "mesh-network", "netjson", "olsr", "batman", "bmx"],
     platforms=["Platform Independent"],
+    python_requires=">=3.11",
     packages=find_packages(exclude=["tests", "tests.*", "docs", "docs.*"]),
     zip_safe=False,
     classifiers=[
