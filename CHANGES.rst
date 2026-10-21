@@ -6,6 +6,33 @@ Version 1.4.0 [unreleased]
 
 Work in progress.
 
+Version 1.3.1 [2026-10-21]
+--------------------------
+
+Changes
+~~~~~~~
+
+Other changes
++++++++++++++
+
+- Dropped Python 3.10 (EOL, security risks).
+
+Dependencies
+++++++++++++
+
+- Bumped ``telnetlib3<6``.
+
+  Updates the requirements on `telnetlib3
+  <https://github.com/jquast/telnetlib3>`__ to permit the latest version.
+  - `Release notes <https://github.com/jquast/telnetlib3/releases>`__ -
+  `Changelog
+  <https://github.com/jquast/telnetlib3/blob/master/docs/history.rst>`__ -
+  `Commits <https://github.com/jquast/telnetlib3/compare/5.0.0...5.0.1>`__
+
+- Replaced `openvpn-status <https://github.com/tonyseek/openvpn-status>`_
+  with `openvpn-status-reader
+  <https://github.com/openwisp/openvpn-status-reader>`_.
+
 Version 1.3.0 [2026-09-01]
 --------------------------
 
