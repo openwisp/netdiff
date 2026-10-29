@@ -1,5 +1,5 @@
 requests<3.0
 libcnml<0.10.0
-openvpn-status-reader>=0.3,<0.4
+openvpn-status-reader @ https://github.com/openwisp/openvpn-status-reader/archive/refs/heads/fix/openvpn-status-peer-prefixes.tar.gz
 networkx>=3.6.1,<3.7
 telnetlib3>=5.0.1,<6
