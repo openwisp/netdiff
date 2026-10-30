@@ -1,4 +1,5 @@
 import json
+from urllib import parse as urlparse
 
 import networkx
 import requests
@@ -6,11 +7,6 @@ from telnetlib3 import telnetlib
 
 from ..exceptions import ConversionException, TopologyRetrievalError
 from ..utils import _netjson_networkgraph, diff
-
-try:
-    import urlparse
-except ImportError:  # pragma: no cover
-    from urllib import parse as urlparse  # pragma: no cover
 
 
 class BaseParser(object):
