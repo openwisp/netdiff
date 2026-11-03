@@ -1,5 +1,6 @@
 import os
 import unittest
+from unittest import mock
 
 import responses
 from requests.exceptions import ConnectionError
@@ -10,11 +11,6 @@ from netdiff.exceptions import ConversionException, NetJsonError, TopologyRetrie
 from netdiff.parsers import base
 from netdiff.parsers.base import BaseParser
 from netdiff.utils import _netjson_networkgraph
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 
 
 class TestBaseParser(unittest.TestCase):
