@@ -1,0 +1,16 @@
+OpenVPN CLIENT LIST
+Updated,2026-10-24 12:00:00
+Common Name,Real Address,Bytes Received,Bytes Sent,Connected Since
+udp4-client,udp4:181.126.36.3:1194,1,2,2026-10-24 11:00:00
+tcp4-client,tcp4:181.126.36.4:1194,3,4,2026-10-24 11:01:00
+udp6-client,udp6:[2001:db8::3]:1194,5,6,2026-10-24 11:02:00
+tcp6-client,tcp6:[2001:db8::4]:1194,7,8,2026-10-24 11:03:00
+ROUTING TABLE
+Virtual Address,Common Name,Real Address,Last Ref
+10.0.0.3,udp4-client,udp4:181.126.36.3:1194,2026-10-24 11:00:01
+10.0.0.4,tcp4-client,tcp4:181.126.36.4:1194,2026-10-24 11:01:01
+2001:db8:1::3,udp6-client,udp6:[2001:db8::3]:1194,2026-10-24 11:02:01
+2001:db8:1::4,tcp6-client,tcp6:[2001:db8::4]:1194,2026-10-24 11:03:01
+GLOBAL STATS
+Max bcast/mcast queue length,0
+END

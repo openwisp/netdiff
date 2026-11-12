@@ -12,6 +12,9 @@ links2undef = open("{0}/static/openvpn-2-links-undef.txt".format(CURRENT_DIR)).r
 links5_tap = open("{0}/static/openvpn-5-links-tap.txt".format(CURRENT_DIR)).read()
 bug = open("{0}/static/openvpn-bug.txt".format(CURRENT_DIR)).read()
 special_case = open("{0}/static/openvpn-special-case.txt".format(CURRENT_DIR)).read()
+transport_prefixes = open(
+    "{0}/static/openvpn-transport-prefixes.txt".format(CURRENT_DIR)
+).read()
 
 
 class TestOpenvpnParser(TestCase):
@@ -90,6 +93,25 @@ class TestOpenvpnParser(TestCase):
 
     def test_empty_string(self):
         OpenvpnParser(data="")
+
+    def test_transport_prefixed_peers(self):
+        data = OpenvpnParser(transport_prefixes).json(dict=True)
+        nodes = {
+            node["properties"]["common_name"]: node
+            for node in data["nodes"]
+            if "common_name" in node["properties"]
+        }
+
+        for common_name, address, port in [
+            ("udp4-client", "181.126.36.3", 1194),
+            ("tcp4-client", "181.126.36.4", 1194),
+            ("udp6-client", "2001:db8::3", 1194),
+            ("tcp6-client", "2001:db8::4", 1194),
+        ]:
+            with self.subTest(common_name=common_name):
+                properties = nodes[common_name]["properties"]
+                self.assertEqual(properties["real_address"], address)
+                self.assertEqual(properties["port"], port)
 
     def test_label_diff_added(self):
         old = OpenvpnParser({})
