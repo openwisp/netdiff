@@ -72,6 +72,8 @@ setup(
         "Programming Language :: Python",
         "Topic :: System :: Networking",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.14",
+        "Programming Language :: Python :: 3.15",
     ],
     install_requires=get_install_requires(),
     test_suite="nose2.collector",
