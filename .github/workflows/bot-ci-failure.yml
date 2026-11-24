@@ -2,7 +2,7 @@ name: CI Failure Bot
 
 on:
   workflow_run: # zizmor: ignore[dangerous-triggers] Privileged analysis follows failed PR CI and treats PR code and logs as data only.
-    workflows: ["OpenWISP CI Build"]
+    workflows: ["Netdiff CI Build"]
     types:
       - completed
 
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       github.repository == 'openwisp/netdiff' &&
-      github.event.workflow_run.name == 'OpenWISP CI Build' &&
+      github.event.workflow_run.path == '.github/workflows/ci.yml' &&
       github.event.workflow_run.conclusion == 'failure' &&
       github.event.workflow_run.event == 'pull_request'
     permissions:

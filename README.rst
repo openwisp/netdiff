@@ -479,8 +479,11 @@ Run tests with:
 
 .. code-block:: shell
 
-    ./runtests.py
+    ./runtests
     ./run-qa-checks
+
+For a focused run, pass a test label such as
+``tests.test_olsr.TestOlsrParser``.
 
 Alternatively, you can use the ``nose2`` command (which has a ton of
 available options):
@@ -497,7 +500,7 @@ See test coverage with:
 
 .. code-block:: shell
 
-    coverage run --source=netdiff runtests.py && coverage report
+    coverage run --source=netdiff ./runtests && coverage report
 
 Contributing
 ------------
