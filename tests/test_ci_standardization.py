@@ -62,3 +62,31 @@ class CiStandardizationTests(unittest.TestCase):
         self.assertEqual(valid.stdout.strip(), "tests.test_probe.TestProbe.test_ok|-v")
         self.assertEqual(invalid.returncode, 2)
         self.assertNotIn("test_bad", invalid.stdout)
+
+    def test_real_nose2_discovery_and_exit_status(self):
+        for label, failing in (
+            (None, False),
+            ("tests.test_probe", False),
+            ("tests.test_probe.TestProbe", False),
+            ("tests.test_probe.TestProbe.test_check", False),
+            ("tests.test_probe.TestProbe.test_check", True),
+        ):
+            with self.subTest(label=label, failing=failing):
+                with tempfile.TemporaryDirectory() as directory:
+                    root = Path(directory)
+                    shutil.copy2(ROOT / "runtests", root / "runtests")
+                    (root / "tests").mkdir()
+                    (root / "tests" / "__init__.py").touch()
+                    (root / "tests" / "test_probe.py").write_text(
+                        "import unittest\n"
+                        "class TestProbe(unittest.TestCase):\n"
+                        f"    def test_check(self): self.assertTrue({not failing})\n"
+                    )
+                    command = [str(root / "runtests")]
+                    if label:
+                        command.append(label)
+                    result = subprocess.run(
+                        command, cwd=root, capture_output=True, text=True
+                    )
+                self.assertEqual(result.returncode != 0, failing, result.stderr)
+                self.assertIn("Ran 1 test", result.stderr)
