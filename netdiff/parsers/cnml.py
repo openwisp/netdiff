@@ -1,14 +1,10 @@
 import os
+from urllib import parse as urlparse
 
 import libcnml
 
 from ..exceptions import ParserError
 from .base import BaseParser
-
-try:
-    import urlparse
-except ImportError:
-    from urllib import parse as urlparse
 
 
 class CnmlParser(BaseParser):
